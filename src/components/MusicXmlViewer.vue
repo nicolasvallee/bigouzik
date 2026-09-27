@@ -28,6 +28,7 @@ let removePlaybackListener: (() => void) | null = null
 let creditObserver: MutationObserver | null = null
 let pendingTimePosition: number | null = null
 let pendingPlayback = false
+let isWrappingLoop = false
 let hasRenderedAllTracks = false
 let layoutObserver: ResizeObserver | null = null
 let removeWindowResizeListener: (() => void) | null = null
@@ -52,7 +53,7 @@ onMounted(() => {
   })
   api = currentApi
   currentApi.masterVolume = 5
-  currentApi.isLooping = props.loop
+  currentApi.isLooping = false
 
   const pauseWhenAnotherTrackStarts = (event: Event) => {
     if ((event as CustomEvent<symbol>).detail !== viewerId) {
@@ -141,9 +142,17 @@ onMounted(() => {
       window.dispatchEvent(new CustomEvent(playbackEventName, { detail: viewerId }))
     }
   })
-  removePlayerPositionListener = currentApi.playerPositionChanged.on(({ currentTime: position, endTime }) => {
+  removePlayerPositionListener = currentApi.playerPositionChanged.on(({ currentTime: position, endTime, currentTick, endTick }) => {
     currentTime.value = position
     duration.value = endTime
+
+    const loopBoundary = endTick - 20
+    if (props.loop && isPlaying.value && !isWrappingLoop && currentTick >= loopBoundary) {
+      isWrappingLoop = true
+      currentApi.tickPosition = currentApi.playbackRange?.startTick ?? 0
+    } else if (currentTick < loopBoundary) {
+      isWrappingLoop = false
+    }
   })
 
   void loadMusicXml(currentApi)
