@@ -1,12 +1,6 @@
 <script setup lang="ts">
 import MusicXmlViewer from './MusicXmlViewer.vue'
-
-export interface MusicTrack {
-  title: string
-  src: string
-  image?: string
-  imageAlt?: string
-}
+import type { MusicTrack } from '@/data/trackGroups'
 
 defineProps<{
   id: string
@@ -21,9 +15,9 @@ const publicAsset = (path: string) => `${import.meta.env.BASE_URL}${path.replace
     <div
       v-for="track in tracks"
       :key="track.src"
-      class="flex w-full justify-start"
+      class="flex min-w-0 w-full justify-start"
     >
-      <div class="w-max max-w-full">
+      <div class="min-w-0 w-full max-w-6xl">
         <figure v-if="track.image" class="mb-4 flex justify-start">
           <img
             class="aspect-[4/3] w-64 max-w-full border border-border object-cover"
@@ -34,6 +28,7 @@ const publicAsset = (path: string) => `${import.meta.env.BASE_URL}${path.replace
         <MusicXmlViewer
           :title="track.title"
           :src="track.src"
+          :kick-velocity-scale="track.kickVelocityScale"
         />
       </div>
     </div>
