@@ -1,32 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { trackGroups } from '@/data/trackGroups'
 import MusicTrackGroup from './MusicTrackGroup.vue'
-
-const trackGroups = [
-  {
-    id: 'funk',
-    title: 'Funk',
-    tracks: [
-      { title: 'Funk', src: '/music/funk.musicxml', image: '/images/funk.png'
-},
-      { title: 'Funk avec 6', src: '/music/funk-avec-6.musicxml' },
-    ],
-  },
-  {
-    id: 'rock',
-    title: 'Rock',
-    tracks: [
-      { title: 'Rockito', src: '/music/rockito.musicxml' },
-    ],
-  },
-  {
-    id: 'clown',
-    title: 'Clown',
-    tracks: [
-      { title: 'Clown', src: '/music/clown.musicxml' },
-    ],
-  },
-]
 
 const selectedGroup = ref('funk')
 </script>
