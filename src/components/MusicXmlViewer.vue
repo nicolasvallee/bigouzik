@@ -51,6 +51,7 @@ onMounted(() => {
     },
   })
   api = currentApi
+  currentApi.masterVolume = 5
   currentApi.isLooping = props.loop
 
   const pauseWhenAnotherTrackStarts = (event: Event) => {
