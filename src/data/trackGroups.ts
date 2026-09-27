@@ -5,7 +5,7 @@ export interface MusicTrack {
   imageAlt?: string
   kickVelocityScale?: number
   sheetScale?: number
-  loop?: boolean
+  loop: boolean
 }
 
 export interface MusicTrackGroup {
@@ -19,15 +19,15 @@ export const trackGroups: MusicTrackGroup[] = [
     id: 'funk',
     title: 'Funk',
     tracks: [
-      { title: 'Funk', src: '/music/funk.musicxml', image: '/images/funk.png', sheetScale:0.7 },
-      { title: 'Funk avec 6', src: '/music/funk-avec-6.musicxml', sheetScale:0.6 },
+      { title: 'Funk', src: '/music/funk.musicxml', image: '/images/funk.png', sheetScale: 0.7, loop: true },
+      { title: 'Funk avec 6', src: '/music/funk-avec-6.musicxml', sheetScale: 0.6, loop: true },
     ],
   },
   {
     id: 'rock',
     title: 'Rock',
     tracks: [
-      { title: 'Rockito', src: '/music/rockito.musicxml',  image: '/images/rockito.png', sheetScale:0.6 },
+      { title: 'Rockito', src: '/music/rockito.musicxml', image: '/images/rockito.png', sheetScale: 0.6, loop: true },
     ],
   },
   
@@ -35,10 +35,8 @@ export const trackGroups: MusicTrackGroup[] = [
     id: 'clown',
     title: 'Clown',
     tracks: [
-      { title: 'Clown (sans intro)', src: '/music/clown.musicxml',   kickVelocityScale: 3,sheetScale:0.6
- },
-      { title: 'Intro Clown', src: '/music/intro-clown.musicxml', kickVelocityScale: 3, sheetScale:0.6, loop:false
- },
+      { title: 'Clown (sans intro)', src: '/music/clown.musicxml', kickVelocityScale: 3, sheetScale: 0.6, loop: true },
+      { title: 'Intro Clown', src: '/music/intro-clown.musicxml', kickVelocityScale: 3, sheetScale: 0.6, loop: false },
     ],
   },
 ]
