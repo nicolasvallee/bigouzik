@@ -1,9 +1,15 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
 import { trackGroups } from '@/data/trackGroups'
 import MusicTrackGroup from './MusicTrackGroup.vue'
 
-const selectedGroup = ref('rio')
+const route = useRoute()
+const defaultGroup = trackGroups[0]?.id ?? ''
+const selectedGroup = computed(() => {
+  const groupId = String(route.params.groupId || '')
+  return trackGroups.some((group) => group.id === groupId) ? groupId : defaultGroup
+})
 </script>
 
 <template>
@@ -11,19 +17,18 @@ const selectedGroup = ref('rio')
     <div class="mx-auto w-full max-w-6xl">
       <h2 id="batuk-title" class="max-w-[12ch] font-serif text-[clamp(2.75rem,7vw,5.5rem)] font-normal leading-[0.9]">Back to Batuk</h2>
       <div class="mt-12 border-y border-border" aria-label="Track groups" role="tablist">
-        <button
+        <RouterLink
           v-for="group in trackGroups"
           :key="group.id"
-            class="mr-6 inline-flex py-4 text-left text-base font-semibold capitalize transition-colors last:mr-0 sm:text-lg"
+          :to="`/back-to-batuk/${group.id}`"
+          class="mr-6 inline-flex py-4 text-left text-base font-semibold capitalize transition-colors last:mr-0 sm:text-lg"
           :class="selectedGroup === group.id ? 'text-foreground' : 'text-foreground/45 hover:text-foreground'"
-          type="button"
           role="tab"
           :aria-selected="selectedGroup === group.id"
           :aria-controls="`track-group-panel-${group.id}`"
-          @click="selectedGroup = group.id"
         >
           <span>{{ group.title }}</span>
-        </button>
+        </RouterLink>
       </div>
       <div v-if="selectedGroup" :id="`track-group-panel-${selectedGroup}`" class="mt-20">
         <template v-for="group in trackGroups" :key="group.id">
