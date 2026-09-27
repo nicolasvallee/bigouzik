@@ -3,12 +3,15 @@ import * as alphaTab from '@coderline/alphatab'
 import { onBeforeUnmount, onMounted, ref } from 'vue'
 import { normalizeMusicXml } from '@/lib/normalizeMusicXml'
 
+const PARENTHESIZED_SNARE_VELOCITY_SCALE = 0.25
+
 const props = defineProps<{
   src: string
   title: string
   kickVelocityScale?: number
   sideStickVelocityScale?: number
   sheetScale?: number
+  compound?: boolean
   loop: boolean
 }>()
 
@@ -29,6 +32,7 @@ let creditObserver: MutationObserver | null = null
 let pendingTimePosition: number | null = null
 let pendingPlayback = false
 let isWrappingLoop = false
+const parenthesizedSnareTicks = new Set<number>()
 let hasRenderedAllTracks = false
 let layoutObserver: ResizeObserver | null = null
 let removeWindowResizeListener: (() => void) | null = null
@@ -87,6 +91,15 @@ onMounted(() => {
       })
       track.staves.forEach((staff) => {
         staff.standardNotationLineCount = 1
+        staff.bars.forEach((bar) => {
+          bar.voices.forEach((voice) => {
+            voice.beats.forEach((beat) => {
+              if (beat.notes.some((note) => note.isPercussion && note.isGhost)) {
+                parenthesizedSnareTicks.add(beat.absolutePlaybackStart)
+              }
+            })
+          })
+        })
       })
     }
 
@@ -108,16 +121,20 @@ onMounted(() => {
             continue
           }
 
-          scalePercussionVelocity(noteEvent, kickVelocityScale, sideStickVelocityScale)
+          scalePercussionVelocity(noteEvent, kickVelocityScale, sideStickVelocityScale, event.tick)
         }
       })
-    } else if (kickVelocityScale !== 1 || sideStickVelocityScale !== 1) {
+    } else if (
+      kickVelocityScale !== 1
+      || sideStickVelocityScale !== 1
+      || parenthesizedSnareTicks.size > 0
+    ) {
       midi.tracks.forEach((track) => {
         track.events.forEach((event) => {
           if (!('noteKey' in event)) return
 
           const noteEvent = event as { noteKey: number; noteVelocity?: number }
-          scalePercussionVelocity(noteEvent, kickVelocityScale, sideStickVelocityScale)
+          scalePercussionVelocity(noteEvent, kickVelocityScale, sideStickVelocityScale, event.tick)
         })
       })
     }
@@ -161,7 +178,7 @@ onMounted(() => {
 async function loadMusicXml(currentApi: alphaTab.AlphaTabApi) {
   const response = await fetch(publicAsset(props.src))
   const xml = await response.text()
-  const normalizedXml = normalizeMusicXml(xml)
+  const normalizedXml = normalizeMusicXml(xml, { compoundTempo: props.compound })
   currentApi.load(new TextEncoder().encode(normalizedXml))
 }
 
@@ -234,10 +251,18 @@ function scalePercussionVelocity(
   noteEvent: { noteKey: number; noteVelocity?: number },
   kickScale: number,
   sideStickScale: number,
+  tick: number,
 ) {
   if (noteEvent.noteVelocity === undefined) return
 
-  const scale = noteEvent.noteKey === 36 ? kickScale : noteEvent.noteKey === 37 ? sideStickScale : 1
+  const parenthesizedSnareScale = noteEvent.noteKey === 38 && parenthesizedSnareTicks.has(tick)
+    ? PARENTHESIZED_SNARE_VELOCITY_SCALE
+    : 1
+  const scale = noteEvent.noteKey === 36
+    ? kickScale
+    : noteEvent.noteKey === 37
+      ? sideStickScale
+      : parenthesizedSnareScale
   if (scale !== 1) noteEvent.noteVelocity = scaleVelocity(noteEvent.noteVelocity, scale)
 }
 </script>

@@ -36,6 +36,7 @@ const publicAsset = (path: string) => `${import.meta.env.BASE_URL}${path.replace
           :kick-velocity-scale="track.kickVelocityScale"
           :side-stick-velocity-scale="track.sideStickVelocityScale"
           :sheet-scale="track.sheetScale"
+          :compound="track.compound"
           :loop="track.loop"
         />
       </div>

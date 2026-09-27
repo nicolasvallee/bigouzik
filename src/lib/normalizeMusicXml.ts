@@ -1,7 +1,8 @@
-export function normalizeMusicXml(xml: string) {
+export function normalizeMusicXml(xml: string, options: { compoundTempo?: boolean } = {}) {
   const document = new DOMParser().parseFromString(xml, 'application/xml')
   document.querySelectorAll('work-title').forEach((title) => title.remove())
   document.querySelectorAll('creator[type="composer"]').forEach((creator) => creator.remove())
+  if (options.compoundTempo) normalizeCompoundTempo(document)
   normalizeNoteDynamics(document)
   removeFinalRepeats(document)
   const scoreParts = Array.from(document.querySelectorAll('score-part'))
@@ -47,6 +48,23 @@ export function normalizeMusicXml(xml: string) {
   })
 
   return new XMLSerializer().serializeToString(document)
+}
+
+function normalizeCompoundTempo(document: XMLDocument) {
+  document.querySelectorAll('direction').forEach((direction) => {
+    const metronome = direction.querySelector('metronome')
+    const sound = direction.querySelector('sound[tempo]')
+    if (!metronome || !sound) return
+    if (metronome.querySelector('beat-unit')?.textContent?.trim() !== 'quarter') return
+    if (!metronome.querySelector('beat-unit-dot')) return
+
+    const quarterTempo = Number(sound.getAttribute('tempo'))
+    if (!Number.isFinite(quarterTempo)) return
+
+    metronome.querySelector('beat-unit-dot')?.remove()
+    metronome.querySelector('per-minute')?.replaceChildren(String(quarterTempo))
+    sound.remove()
+  })
 }
 
 function removeFinalRepeats(document: XMLDocument) {
