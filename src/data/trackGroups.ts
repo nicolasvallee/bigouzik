@@ -89,7 +89,7 @@ sheetScale: 0.6, loop: true },
     tracks: [
       { title: 'Maracatu', src: '/music/maracatu.musicxml',  images: ['/images/maracatu.png'],kickVelocityScale: 1, sheetScale: 0.6, loop: true },
       { title: 'Cut 2-2 dans Maracatu', src: '/music/2-2maracatu.musicxml', images: ['/images/2-2.png'],  kickVelocityScale: 1, sheetScale: 0.6, loop: false },
-      { title: 'Enchaînement des deux', src: '/music/maracatu-avec-cut22.musicxml', kickVelocityScale: 2, sheetScale: 0.6, loop: false },
+      { title: 'Enchaînement des deux', src: '/music/maracatu-avec-cut22.musicxml', kickVelocityScale: 2, sheetScale: 0.6, loop: true },
 
 
     ],
