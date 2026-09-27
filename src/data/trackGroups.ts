@@ -4,6 +4,8 @@ export interface MusicTrack {
   image?: string
   imageAlt?: string
   kickVelocityScale?: number
+  sheetScale?: number
+  loop?: boolean
 }
 
 export interface MusicTrackGroup {
@@ -17,8 +19,8 @@ export const trackGroups: MusicTrackGroup[] = [
     id: 'funk',
     title: 'Funk',
     tracks: [
-      { title: 'Funk', src: '/music/funk.musicxml', image: '/images/funk.png' },
-      { title: 'Funk avec 6', src: '/music/funk-avec-6.musicxml' },
+      { title: 'Funk', src: '/music/funk.musicxml', image: '/images/funk.png', sheetScale:1 },
+      { title: 'Funk avec 6', src: '/music/funk-avec-6.musicxml', sheetScale:1 },
     ],
   },
   {
@@ -35,7 +37,7 @@ export const trackGroups: MusicTrackGroup[] = [
     tracks: [
       { title: 'Clown (sans intro)', src: '/music/clown.musicxml',   kickVelocityScale: 3,
  },
-      { title: 'Intro Clown', src: '/music/intro-clown.musicxml', kickVelocityScale: 3,
+      { title: 'Intro Clown', src: '/music/intro-clown.musicxml', kickVelocityScale: 3, loop:false
  },
     ],
   },

@@ -7,6 +7,8 @@ const props = defineProps<{
   src: string
   title: string
   kickVelocityScale?: number
+  sheetScale?: number
+  loop?: boolean
 }>()
 
 const scoreElement = ref<HTMLElement | null>(null)
@@ -15,6 +17,7 @@ const isPlaying = ref(false)
 const currentTime = ref(0)
 const duration = ref(0)
 const selectedTrack = ref<'both' | 'snare' | 'kick'>('both')
+const isLooping = ref(props.loop ?? true)
 let api: alphaTab.AlphaTabApi | null = null
 let removePlayerReadyListener: (() => void) | null = null
 let removePlayerStateListener: (() => void) | null = null
@@ -38,7 +41,7 @@ onMounted(() => {
 
   const currentApi = new alphaTab.AlphaTabApi(scoreElement.value, {
     core: { engine: 'svg', fontDirectory: publicAsset('font/'), useWorkers: false },
-    display: { layoutMode: 'page', scale: 1, stretchForce: 0.5 },
+    display: { layoutMode: 'page', scale: props.sheetScale ?? 1, stretchForce: 0.5 },
     player: {
       soundFont: publicAsset('soundfont/GeneralUser-GS.sf2'),
       enableCursor: true,
@@ -48,6 +51,7 @@ onMounted(() => {
     },
   })
   api = currentApi
+  currentApi.isLooping = isLooping.value
 
   const pauseWhenAnotherTrackStarts = (event: Event) => {
     if ((event as CustomEvent<symbol>).detail !== viewerId) {
@@ -193,6 +197,11 @@ function togglePlayback() {
   api?.playPause()
 }
 
+function toggleLooping() {
+  isLooping.value = !isLooping.value
+  if (api) api.isLooping = isLooping.value
+}
+
 function selectTrack(track: 'both' | 'snare' | 'kick') {
   selectedTrack.value = track
   if (!api) return
@@ -248,6 +257,16 @@ function scaleVelocity(velocity: number, scale: number) {
           @click="selectTrack(track)"
         >
           {{ track === 'both' ? 'Tout' : track === 'snare' ? 'Caisse' : 'Surdo' }}
+        </button>
+        <button
+          class="h-8 rounded-full border px-3 text-xs font-semibold transition-colors"
+          :class="isLooping ? 'border-accent bg-accent text-accent-foreground' : 'border-border bg-transparent text-foreground/60 hover:border-foreground/50 hover:text-foreground'"
+          type="button"
+          role="switch"
+          :aria-checked="isLooping"
+          @click="toggleLooping"
+        >
+          {{ isLooping ? 'Infinite loop' : 'Listen once' }}
         </button>
       </div>
     </div>

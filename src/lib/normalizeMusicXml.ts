@@ -3,6 +3,7 @@ export function normalizeMusicXml(xml: string) {
   document.querySelectorAll('work-title').forEach((title) => title.remove())
   document.querySelectorAll('creator[type="composer"]').forEach((creator) => creator.remove())
   normalizeNoteDynamics(document)
+  removeFinalRepeats(document)
   const scoreParts = Array.from(document.querySelectorAll('score-part'))
 
   scoreParts.forEach((scorePart) => {
@@ -46,6 +47,14 @@ export function normalizeMusicXml(xml: string) {
   })
 
   return new XMLSerializer().serializeToString(document)
+}
+
+function removeFinalRepeats(document: XMLDocument) {
+  document.querySelectorAll('part').forEach((part) => {
+    const measures = part.querySelectorAll('measure')
+    const finalMeasure = measures[measures.length - 1]
+    finalMeasure?.querySelectorAll('repeat[direction="backward"]').forEach((repeat) => repeat.remove())
+  })
 }
 
 function normalizeNoteDynamics(document: XMLDocument) {
