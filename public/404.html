@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <script>
+      const base = '/bigouzik/'
+      const path = window.location.pathname.startsWith(base)
+        ? window.location.pathname.slice(base.length - 1)
+        : '/'
+      const destination = `${path}${window.location.search}${window.location.hash}`
+      window.location.replace(`${base}?p=${encodeURIComponent(destination)}`)
+    </script>
+  </head>
+  <body></body>
+</html>
