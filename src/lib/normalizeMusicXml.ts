@@ -81,6 +81,8 @@ function normalizeNoteDynamics(document: XMLDocument) {
     if (!Number.isFinite(value)) return
 
     note.removeAttribute('dynamics')
+    if (note.querySelector('notehead[parentheses="yes"]')) return
+
     const notations = Array.from(note.children).find((child) => child.localName === 'notations')
       ?? document.createElement('notations')
     const dynamics = document.createElement('dynamics')
