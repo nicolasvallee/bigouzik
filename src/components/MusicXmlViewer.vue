@@ -7,6 +7,7 @@ const props = defineProps<{
   src: string
   title: string
   kickVelocityScale?: number
+  sideStickVelocityScale?: number
   sheetScale?: number
   loop: boolean
 }>()
@@ -90,34 +91,31 @@ onMounted(() => {
     currentApi.renderTracks(score.tracks)
   })
   removeMidiLoadListener = currentApi.midiLoad.on((midi) => {
-    const noteKey = selectedTrack.value === 'snare' ? 38 : selectedTrack.value === 'kick' ? 36 : null
+    const noteKeys = selectedTrack.value === 'snare' ? [37, 38] : selectedTrack.value === 'kick' ? [36] : null
     const kickVelocityScale = props.kickVelocityScale ?? 1
-    if (noteKey !== null) {
+    const sideStickVelocityScale = props.sideStickVelocityScale ?? 1
+    if (noteKeys !== null) {
       midi.tracks.forEach((track) => {
         for (let index = track.events.length - 1; index >= 0; index -= 1) {
           const event = track.events[index]
           if (!('noteKey' in event)) continue
 
           const noteEvent = event as { noteKey: number; noteVelocity?: number }
-          if (noteEvent.noteKey !== noteKey) {
+          if (!noteKeys.includes(noteEvent.noteKey)) {
             track.events.splice(index, 1)
             continue
           }
 
-          if (noteEvent.noteKey === 36 && noteEvent.noteVelocity !== undefined) {
-            noteEvent.noteVelocity = scaleVelocity(noteEvent.noteVelocity, kickVelocityScale)
-          }
+          scalePercussionVelocity(noteEvent, kickVelocityScale, sideStickVelocityScale)
         }
       })
-    } else if (kickVelocityScale !== 1) {
+    } else if (kickVelocityScale !== 1 || sideStickVelocityScale !== 1) {
       midi.tracks.forEach((track) => {
         track.events.forEach((event) => {
           if (!('noteKey' in event)) return
 
           const noteEvent = event as { noteKey: number; noteVelocity?: number }
-          if (noteEvent.noteKey === 36 && noteEvent.noteVelocity !== undefined) {
-            noteEvent.noteVelocity = scaleVelocity(noteEvent.noteVelocity, kickVelocityScale)
-          }
+          scalePercussionVelocity(noteEvent, kickVelocityScale, sideStickVelocityScale)
         })
       })
     }
@@ -221,6 +219,17 @@ function formatTime(milliseconds: number) {
 function scaleVelocity(velocity: number, scale: number) {
   return Math.max(0, Math.min(127, Math.round(velocity * scale)))
 }
+
+function scalePercussionVelocity(
+  noteEvent: { noteKey: number; noteVelocity?: number },
+  kickScale: number,
+  sideStickScale: number,
+) {
+  if (noteEvent.noteVelocity === undefined) return
+
+  const scale = noteEvent.noteKey === 36 ? kickScale : noteEvent.noteKey === 37 ? sideStickScale : 1
+  if (scale !== 1) noteEvent.noteVelocity = scaleVelocity(noteEvent.noteVelocity, scale)
+}
 </script>
 
 <template>
@@ -255,20 +264,6 @@ function scaleVelocity(velocity: number, scale: number) {
       </div>
     </div>
     <div ref="scoreElement" class="alpha-tab min-h-32 min-w-0 overflow-hidden" aria-label="Rendered MusicXML score" />
-    <div class="mt-5 flex items-center gap-3 text-xs text-foreground/60">
-      <span class="w-9 shrink-0 text-right tabular-nums">{{ formatTime(currentTime) }}</span>
-      <input
-        class="h-1.5 min-w-0 flex-1 cursor-pointer accent-foreground disabled:cursor-not-allowed disabled:opacity-40"
-        type="range"
-        min="0"
-        :max="duration || 1"
-        :value="currentTime"
-        :disabled="audioState !== 'ready' || !duration"
-        aria-label="Track progress"
-        @input="seek"
-      />
-      <span class="w-9 shrink-0 tabular-nums">{{ formatTime(duration) }}</span>
-    </div>
   </div>
 </template>
 

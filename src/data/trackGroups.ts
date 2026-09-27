@@ -4,6 +4,7 @@ export interface MusicTrack {
   image?: string
   imageAlt?: string
   kickVelocityScale?: number
+  sideStickVelocityScale?: number
   sheetScale?: number
   loop: boolean
 }
@@ -27,8 +28,10 @@ export const trackGroups: MusicTrackGroup[] = [
     id: 'diablo',
     title: 'Diablo',
     tracks: [
-      { title: 'Diablo 1', src: '/music/diablo1.musicxml', image: '/images/diablo.png', sheetScale: 0.7, loop: true },
-      { title: 'Diablo 2', src: '/music/diablo2.musicxml', image: '/images/diablo.png', sheetScale: 0.6, loop: true },
+      { title: 'Diablo 1', src: '/music/diablo1.musicxml', image: '/images/diablo.png', kickVelocityScale: 3,   sideStickVelocityScale: 0.4,
+ sheetScale: 0.7, loop: true },
+      { title: 'Diablo 2', src: '/music/diablo2.musicxml', image: '/images/diablo.png',  kickVelocityScale: 3,   sideStickVelocityScale: 0.4,
+sheetScale: 0.6, loop: true },
     ],
   },
   {
@@ -46,8 +49,8 @@ export const trackGroups: MusicTrackGroup[] = [
     title: 'Rock',
     tracks: [
       { title: 'Rockito', src: '/music/rockito.musicxml', image: '/images/rockito.png', sheetScale: 0.6, loop: true },
-      { title: 'Rock 1', src: '/music/rock1.musicxml', image: '/images/rock.png', sheetScale: 0.6, loop: true },
-      { title: 'Rock 2', src: '/music/rock2.musicxml', image: '/images/rock.png', sheetScale: 0.6, loop: true },
+      { title: 'Rock 1', src: '/music/rock1.musicxml', image: '/images/rock.png', kickVelocityScale: 3,sheetScale: 0.6, loop: true },
+      { title: 'Rock 2', src: '/music/rock2.musicxml', image: '/images/rock.png', kickVelocityScale: 3,sheetScale: 0.6, loop: true },
 
 
     ],
@@ -65,7 +68,7 @@ export const trackGroups: MusicTrackGroup[] = [
     id: 'maracatu',
     title: 'Maracatu',
     tracks: [
-      { title: 'Maracatu', src: '/music/maracatu.musicxml',  image: '/images/maracatu.png',kickVelocityScale: 3, sheetScale: 0.6, loop: true },
+      { title: 'Maracatu', src: '/music/maracatu.musicxml',  image: '/images/maracatu.png',kickVelocityScale: 2, sheetScale: 0.6, loop: true },
     ],
   },
   {
@@ -86,7 +89,7 @@ export const trackGroups: MusicTrackGroup[] = [
     id: 'cut-arret',
     title: 'Cut et arrêt',
     tracks: [
-      { title: 'Cut 3 normal', src: '/music/cut3-normal.musicxml', kickVelocityScale: 3, sheetScale: 0.6, loop: true },
+      { title: 'Cut 3 normal', src: '/music/cut3-normal.musicxml', kickVelocityScale: 3, sheetScale: 0.6, loop: false },
       { title: 'Cut shuffle', src: '/music/cut-shuffle.musicxml',  image: '/images/shuffle.png', kickVelocityScale: 3, sheetScale: 0.6, loop: true },
 
     ],
