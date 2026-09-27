@@ -5,7 +5,7 @@ import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from 'vite'
 
 export default defineConfig(({ command }) => ({
-  base: command === 'build' ? '/bigoumuzik/' : '/',
+  base: command === 'build' ? '/bigouzik/' : '/',
   plugins: [alphaTab(), vue(), ...tailwindcss()],
   resolve: {
     alias: {
