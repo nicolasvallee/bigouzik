@@ -6,6 +6,7 @@ import { normalizeMusicXml } from '@/lib/normalizeMusicXml'
 const props = defineProps<{
   src: string
   title: string
+  kickVelocityScale?: number
 }>()
 
 const scoreElement = ref<HTMLElement | null>(null)
@@ -37,11 +38,12 @@ onMounted(() => {
 
   const currentApi = new alphaTab.AlphaTabApi(scoreElement.value, {
     core: { engine: 'svg', fontDirectory: publicAsset('font/'), useWorkers: false },
-    display: { layoutMode: 'horizontal', scale: 1, stretchForce: 0.5 },
+    display: { layoutMode: 'page', scale: 1, stretchForce: 0.5 },
     player: {
-      soundFont: publicAsset('soundfont/sonivox.sf2'),
+      soundFont: publicAsset('soundfont/GeneralUser-GS.sf2'),
       enableCursor: true,
       enableAnimatedBeatCursor: true,
+      scrollMode: alphaTab.ScrollMode.Off,
       playerMode: alphaTab.PlayerMode.EnabledSynthesizer,
     },
   })
@@ -86,14 +88,34 @@ onMounted(() => {
   })
   removeMidiLoadListener = currentApi.midiLoad.on((midi) => {
     const noteKey = selectedTrack.value === 'snare' ? 38 : selectedTrack.value === 'kick' ? 36 : null
+    const kickVelocityScale = props.kickVelocityScale ?? 1
     if (noteKey !== null) {
       midi.tracks.forEach((track) => {
         for (let index = track.events.length - 1; index >= 0; index -= 1) {
           const event = track.events[index]
-          if ('noteKey' in event && (event as { noteKey: number }).noteKey !== noteKey) {
+          if (!('noteKey' in event)) continue
+
+          const noteEvent = event as { noteKey: number; noteVelocity?: number }
+          if (noteEvent.noteKey !== noteKey) {
             track.events.splice(index, 1)
+            continue
+          }
+
+          if (noteEvent.noteKey === 36 && noteEvent.noteVelocity !== undefined) {
+            noteEvent.noteVelocity = scaleVelocity(noteEvent.noteVelocity, kickVelocityScale)
           }
         }
+      })
+    } else if (kickVelocityScale !== 1) {
+      midi.tracks.forEach((track) => {
+        track.events.forEach((event) => {
+          if (!('noteKey' in event)) return
+
+          const noteEvent = event as { noteKey: number; noteVelocity?: number }
+          if (noteEvent.noteKey === 36 && noteEvent.noteVelocity !== undefined) {
+            noteEvent.noteVelocity = scaleVelocity(noteEvent.noteVelocity, kickVelocityScale)
+          }
+        })
       })
     }
 
@@ -148,10 +170,11 @@ onBeforeUnmount(() => {
 function updateResponsiveLayout(currentApi: alphaTab.AlphaTabApi) {
   if (!scoreElement.value) return
 
-  const nextLayout = window.innerWidth < 720
-    ? alphaTab.LayoutMode.Page
-    : alphaTab.LayoutMode.Horizontal
-  if (currentApi.settings.display.layoutMode === nextLayout) return
+  const nextLayout = alphaTab.LayoutMode.Page
+  if (currentApi.settings.display.layoutMode === nextLayout) {
+    currentApi.render()
+    return
+  }
 
   currentApi.settings.display.layoutMode = nextLayout
   currentApi.updateSettings()
@@ -191,10 +214,16 @@ function formatTime(milliseconds: number) {
   const seconds = Math.floor(milliseconds / 1000)
   return `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, '0')}`
 }
+
+function scaleVelocity(velocity: number, scale: number) {
+  return Math.max(0, Math.min(127, Math.round(velocity * scale)))
+}
 </script>
 
 <template>
-  <div class="w-max max-w-full overflow-hidden rounded-2xl border border-border bg-white px-4 py-5 text-foreground shadow-2xl shadow-black/10 sm:px-6">
+  <div
+    class="min-w-0 w-full max-w-full overflow-hidden rounded-2xl border border-border bg-white px-4 py-5 text-foreground shadow-2xl shadow-black/10 sm:px-6"
+  >
     <div class="mb-5 flex flex-wrap items-center justify-between gap-4">
       <div class="flex items-center gap-4">
         <h2 class="font-serif text-2xl font-bold sm:text-3xl">{{ title }}</h2>
@@ -222,7 +251,7 @@ function formatTime(milliseconds: number) {
         </button>
       </div>
     </div>
-    <div ref="scoreElement" class="alpha-tab min-h-32 overflow-x-auto" aria-label="Rendered MusicXML score" />
+    <div ref="scoreElement" class="alpha-tab min-h-32 min-w-0 overflow-hidden" aria-label="Rendered MusicXML score" />
     <div class="mt-5 flex items-center gap-3 text-xs text-foreground/60">
       <span class="w-9 shrink-0 text-right tabular-nums">{{ formatTime(currentTime) }}</span>
       <input
@@ -243,8 +272,9 @@ function formatTime(milliseconds: number) {
 <style scoped>
 .alpha-tab :deep(svg) {
   display: block;
-  max-width: none;
-  width: auto;
+  max-width: 100%;
+  min-width: 0;
+  width: 100%;
 }
 
 .alpha-tab :deep(.at-cursor-beat) {
@@ -253,11 +283,4 @@ function formatTime(milliseconds: number) {
   opacity: 0.9;
 }
 
-@media (max-width: 719px) {
-  .alpha-tab :deep(svg) {
-    max-width: 100%;
-    min-width: 0;
-    width: 100%;
-  }
-}
 </style>
