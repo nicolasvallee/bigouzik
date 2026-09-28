@@ -33,7 +33,7 @@ export const trackGroups: MusicTrackGroup[] = [
  sheetScale: 0.7, loop: true },
       { title: 'Diablo 2', src: '/music/diablo2.musicxml', images: ['/images/diablo.png', '/images/2.png'],  kickVelocityScale: 1.5,   sideStickVelocityScale: 0.4,
 sheetScale: 0.6, loop: true },
-      { title: 'Arrêt 5', src: '/music/arret5.musicxml',  images: ['/images/arret5.png'], kickVelocityScale: 1.5, sheetScale: 0.6, loop: true },
+      { title: 'Arrêt 5', src: '/music/arret5.musicxml',  images: ['/images/arret5.png'], kickVelocityScale: 1.5, sheetScale: 0.6, loop: false },
 
       { title: 'Enchaînement Diablo 1 + Arrêt 5', src: '/music/diablo1-et-arret5.musicxml',   kickVelocityScale: 1.5,   sideStickVelocityScale: 0.4,
 sheetScale: 0.6, loop: true },
