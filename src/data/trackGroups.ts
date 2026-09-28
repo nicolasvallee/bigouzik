@@ -29,9 +29,9 @@ export const trackGroups: MusicTrackGroup[] = [
     id: 'diablo',
     title: 'Diablo',
     tracks: [
-      { title: 'Diablo 1', src: '/music/diablo1.musicxml', images: ['/images/diablo.png', '/images/1.png'], kickVelocityScale: 1.5,   sideStickVelocityScale: 0.4,
+      { title: 'Diablo 1', src: '/music/diablo1.musicxml', images: ['/images/diablo.png', '/images/1.png'], kickVelocityScale: 1.5,   sideStickVelocityScale: 0.3,
  sheetScale: 0.7, loop: true },
-      { title: 'Diablo 2', src: '/music/diablo2.musicxml', images: ['/images/diablo.png', '/images/2.png'],  kickVelocityScale: 1.5,   sideStickVelocityScale: 0.4,
+      { title: 'Diablo 2', src: '/music/diablo2.musicxml', images: ['/images/diablo.png', '/images/2.png'],  kickVelocityScale: 1.5,   sideStickVelocityScale: 0.3,
 sheetScale: 0.6, loop: true },
       { title: 'Arrêt 5', src: '/music/arret5.musicxml',  images: ['/images/arret5.png'], kickVelocityScale: 1.5, sheetScale: 0.6, loop: false },
 
@@ -72,14 +72,14 @@ sheetScale: 0.6, loop: true },
     title: 'Clown',
     tracks: [
       { title: 'Clown (sans intro)', src: '/music/clown.musicxml',  images: ['/images/clown.png'], kickVelocityScale: 2, sheetScale: 0.6, loop: true },
-      { title: 'Intro Clown', src: '/music/intro-clown.musicxml', kickVelocityScale: 2, sheetScale: 0.6, loop: false },
+      { title: 'Intro Clown', src: '/music/intro-clown.musicxml', kickVelocityScale: 2, sideStickVelocityScale: 0.5, sheetScale: 0.6, loop: false },
     ],
   },{
     id: 'ternaire',
     title: 'Ternaire',
     tracks: [
-      { title: 'Ternaire', src: '/music/ternaire.musicxml',  images: ['/images/ternaireA.png','/images/ternaireB.png' ],kickVelocityScale: 2, sideStickVelocityScale: 0.4, sheetScale: 0.6, compound: true, loop: true },
-      { title: 'Cut 3 ternaire', src: '/music/cut3-ternaire.musicxml',  images: ['/images/cut.png','/images/ternaireC.png' ],kickVelocityScale: 1, sideStickVelocityScale: 0.4, sheetScale: 0.6, compound: true, loop: false },
+      { title: 'Ternaire', src: '/music/ternaire.musicxml',  images: ['/images/ternaireA.png','/images/ternaireB.png' ],kickVelocityScale: 2, sideStickVelocityScale: 0.2, sheetScale: 0.6, compound: true, loop: true },
+      { title: 'Cut 3 ternaire', src: '/music/cut3-ternaire.musicxml',  images: ['/images/cut.png','/images/ternaireC.png' ],kickVelocityScale: 2, sheetScale: 0.6, compound: true, loop: false },
 
     ],
   },

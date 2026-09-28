@@ -3,7 +3,6 @@ export function normalizeMusicXml(xml: string, options: { compoundTempo?: boolea
   document.querySelectorAll('work-title').forEach((title) => title.remove())
   document.querySelectorAll('creator[type="composer"]').forEach((creator) => creator.remove())
   if (options.compoundTempo) normalizeCompoundTempo(document)
-  normalizeNoteDynamics(document)
   removeFinalRepeats(document)
   const scoreParts = Array.from(document.querySelectorAll('score-part'))
 
@@ -73,33 +72,4 @@ function removeFinalRepeats(document: XMLDocument) {
     const finalMeasure = measures[measures.length - 1]
     finalMeasure?.querySelectorAll('repeat[direction="backward"]').forEach((repeat) => repeat.remove())
   })
-}
-
-function normalizeNoteDynamics(document: XMLDocument) {
-  document.querySelectorAll('note[dynamics]').forEach((note) => {
-    const value = Number(note.getAttribute('dynamics'))
-    if (!Number.isFinite(value)) return
-
-    note.removeAttribute('dynamics')
-    if (note.querySelector('notehead[parentheses="yes"]')) return
-
-    const notations = Array.from(note.children).find((child) => child.localName === 'notations')
-      ?? document.createElement('notations')
-    const dynamics = document.createElement('dynamics')
-    const mark = document.createElement(dynamicMarkFor(value))
-    dynamics.append(mark)
-    notations.append(dynamics)
-
-    if (!notations.parentElement) note.append(notations)
-  })
-}
-
-function dynamicMarkFor(value: number) {
-  if (value <= 20) return 'ppp'
-  if (value <= 40) return 'pp'
-  if (value <= 55) return 'mp'
-  if (value <= 70) return 'mf'
-  if (value <= 90) return 'f'
-  if (value <= 105) return 'ff'
-  return 'fff'
 }

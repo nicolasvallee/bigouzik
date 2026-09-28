@@ -3,7 +3,7 @@ import * as alphaTab from '@coderline/alphatab'
 import { onBeforeUnmount, onMounted, ref } from 'vue'
 import { normalizeMusicXml } from '@/lib/normalizeMusicXml'
 
-const PARENTHESIZED_SNARE_VELOCITY_SCALE = 0.25
+const PARENTHESIZED_SNARE_VELOCITY_SCALE = 0.15
 
 const props = defineProps<{
   src: string
