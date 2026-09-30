@@ -80,6 +80,8 @@ sheetScale: 0.6, loop: true },
     tracks: [
       { title: 'Ternaire', src: '/music/ternaire.musicxml',  images: ['/images/ternaireA.png','/images/ternaireB.png' ],kickVelocityScale: 2, sideStickVelocityScale: 0.2, sheetScale: 0.6, compound: true, loop: true },
       { title: 'Cut 3 ternaire', src: '/music/cut3-ternaire.musicxml',  images: ['/images/cut.png','/images/ternaireC.png' ],kickVelocityScale: 2, sheetScale: 0.6, compound: true, loop: false },
+      { title: 'Enchaînement des deux', src: '/music/ternaire+cut3ternaire.musicxml',  images: ['/images/ternaireA.png','/images/ternaireB.png','/images/cut.png','/images/ternaireC.png' ],kickVelocityScale: 2, sheetScale: 0.6, compound: true, loop: true },
+
 
     ],
   },
@@ -106,7 +108,7 @@ sheetScale: 0.6, loop: true },
     id: 'indiens',
     title: 'Indiens',
     tracks: [
-      { title: 'Anges (en cours)', src: '', images: [], kickVelocityScale: 3, sheetScale: 0.6, loop: true },
+      { title: 'Anges (en cours)', src: '/music/anges.musicxml', images: ['images/anges.png'], kickVelocityScale: 3, sheetScale: 0.6, loop: true },
       { title: 'Indiens', src: '/music/indiens.musicxml',  images: ['/images/indiens.png'], kickVelocityScale: 1.5, sheetScale: 0.6, loop: true },
       { title: 'Cowboys (en cours)', src: '',  images: [], kickVelocityScale: 3, sheetScale: 0.6, loop: true },
 
@@ -116,7 +118,7 @@ sheetScale: 0.6, loop: true },
     id: 'dogfight',
     title: 'Dog fight',
     tracks: [
-            { title: 'Dog fight (en cours)', src: '', images: [], kickVelocityScale: 3, sheetScale: 0.6, loop: true },
+            { title: 'Dog fight (en cours)', src: '/music/dogfight.musicxml', images: [], kickVelocityScale: 3, sheetScale: 0.6, loop: true },
 
     ],
   },
