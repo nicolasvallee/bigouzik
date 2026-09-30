@@ -118,7 +118,7 @@ sheetScale: 0.6, loop: true },
     id: 'dogfight',
     title: 'Dog fight',
     tracks: [
-            { title: 'Dog fight (en cours)', src: '/music/dogfight.musicxml', images: [], kickVelocityScale: 3, sheetScale: 0.6, loop: true },
+            { title: 'Dog fight (en cours)', src: '/music/dogfight.musicxml', images: ['images/cutedog.jpg'], kickVelocityScale: 3, sheetScale: 0.6, loop: true },
 
     ],
   },
