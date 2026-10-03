@@ -123,7 +123,7 @@ sheetScale: 0.6, loop: true },
     id: 'indiens',
     title: 'Indiens',
     tracks: [
-      { title: 'Anges (en cours)', src: '/music/anges.musicxml', images: ['images/anges.png'], kickVelocityScale: 3, sheetScale: 0.6, loop: true },
+      { title: 'Anges (en cours)', src: '', images: ['images/anges.png'], kickVelocityScale: 3, sheetScale: 0.6, loop: true },
       { title: 'Indiens', src: '/music/indiens.musicxml',  images: ['/images/indiens.png'], kickVelocityScale: 1.5, sheetScale: 0.6, loop: true },
       { title: 'Cowboys (en cours)', src: '',  images: [], kickVelocityScale: 3, sheetScale: 0.6, loop: true },
 

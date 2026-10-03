@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import * as alphaTab from '@coderline/alphatab'
-import { onBeforeUnmount, onMounted, ref } from 'vue'
+import { nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { normalizeMusicXml } from '@/lib/normalizeMusicXml'
 
 const PARENTHESIZED_SNARE_VELOCITY_SCALE = 0.15
@@ -9,6 +9,7 @@ const props = defineProps<{
   src: string
   title: string
   description?: string
+  showSheet: boolean
   trackLink?: string
   kickVelocityScale?: number
   sideStickVelocityScale?: number
@@ -23,6 +24,7 @@ const isPlaying = ref(false)
 const currentTime = ref(0)
 const duration = ref(0)
 const selectedTrack = ref<'both' | 'snare' | 'kick'>('both')
+const isSlowMode = ref(false)
 let api: alphaTab.AlphaTabApi | null = null
 let removePlayerReadyListener: (() => void) | null = null
 let removePlayerStateListener: (() => void) | null = null
@@ -59,6 +61,7 @@ onMounted(() => {
   })
   api = currentApi
   currentApi.masterVolume = 5
+  currentApi.playbackSpeed = 1
   currentApi.isLooping = props.loop
 
   const pauseWhenAnotherTrackStarts = (event: Event) => {
@@ -223,6 +226,17 @@ function togglePlayback() {
   api?.playPause()
 }
 
+function updateSlowMode() {
+  if (api) api.playbackSpeed = isSlowMode.value ? 0.60 : 1
+}
+
+watch(() => props.showSheet, async (show) => {
+  if (!show || !api) return
+
+  await nextTick()
+  api.render()
+})
+
 function selectTrack(track: 'both' | 'snare' | 'kick') {
   selectedTrack.value = track
   if (!api) return
@@ -273,7 +287,10 @@ function scalePercussionVelocity(
   <div
     class="min-w-0 w-full max-w-full overflow-hidden rounded-2xl border border-border bg-white px-4 py-5 text-foreground shadow-2xl shadow-black/10 sm:px-6"
   >
-    <div class="mb-5 flex flex-wrap items-center justify-between gap-4">
+    <div
+      class="flex flex-wrap items-center justify-between gap-4"
+      :class="showSheet ? 'mb-5' : 'mb-0'"
+    >
       <div class="flex min-w-0 items-start gap-4">
         <div class="min-w-0">
           <h2 class="font-serif text-2xl font-bold sm:text-3xl">
@@ -291,16 +308,37 @@ function scalePercussionVelocity(
           </p>
         </div>
         <button
-          class="inline-flex h-11 items-center justify-center rounded-full bg-accent px-5 text-sm font-semibold text-accent-foreground shadow-lg shadow-accent/20 transition-transform hover:-translate-y-0.5 hover:bg-foreground hover:text-background disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0"
+          class="inline-flex h-11 items-center justify-center gap-2 rounded-full bg-accent px-5 text-sm font-semibold text-accent-foreground shadow-lg shadow-accent/20 transition-transform hover:-translate-y-0.5 hover:bg-foreground hover:text-background disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0"
           type="button"
           :disabled="audioState !== 'ready'"
           :aria-label="isPlaying ? `Pause ${title}` : `Play ${title}`"
           @click="togglePlayback"
         >
-          {{ audioState === 'ready' ? (isPlaying ? 'Pause' : 'Play') : 'Loading audio' }}
+          <span v-if="audioState === 'ready'" class="text-base leading-none" aria-hidden="true">
+            {{ isPlaying ? '⏸' : '▶' }}
+          </span>
+          <span>{{ audioState === 'ready' ? (isPlaying ? 'Pause' : 'Play') : 'Loading audio' }}</span>
         </button>
       </div>
       <div class="ml-auto flex flex-wrap items-center justify-end gap-2" aria-label="Track selector" role="group">
+        <label class="inline-flex h-8 cursor-pointer items-center gap-2 text-xs font-semibold text-foreground/70">
+          <span>Lent</span>
+          <input
+            v-model="isSlowMode"
+            class="peer sr-only"
+            type="checkbox"
+            :disabled="audioState !== 'ready'"
+            role="switch"
+            aria-label="Toggle slow mode"
+            @change="updateSlowMode"
+          />
+          <span
+            class="relative h-5 w-9 rounded-full bg-border transition-colors peer-checked:bg-foreground peer-checked:[&>span]:translate-x-4 peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-accent peer-disabled:cursor-not-allowed peer-disabled:opacity-40"
+            aria-hidden="true"
+          >
+            <span class="absolute left-0.5 top-0.5 h-4 w-4 rounded-full bg-white shadow transition-transform" />
+          </span>
+        </label>
         <button
           v-for="track in ['both', 'snare', 'kick'] as const"
           :key="track"
@@ -314,7 +352,22 @@ function scalePercussionVelocity(
         </button>
       </div>
     </div>
-    <div ref="scoreElement" class="alpha-tab min-h-32 min-w-0 overflow-hidden" aria-label="Rendered MusicXML score" />
+    <div v-if="!showSheet" class="flex min-h-12 items-center gap-3">
+      <span class="w-10 shrink-0 text-right text-xs tabular-nums text-foreground/55">{{ formatTime(currentTime) }}</span>
+      <input
+        class="min-w-0 w-full accent-accent"
+        type="range"
+        min="0"
+        step="10"
+        :max="duration || 1"
+        :value="currentTime"
+        :disabled="audioState !== 'ready' || duration === 0"
+        :aria-label="`Position dans ${title}`"
+        @input="seek"
+      />
+      <span class="w-10 shrink-0 text-xs tabular-nums text-foreground/55">{{ formatTime(duration) }}</span>
+    </div>
+    <div v-show="showSheet" ref="scoreElement" class="alpha-tab min-h-32 min-w-0 overflow-hidden" aria-label="Rendered MusicXML score" />
   </div>
 </template>
 
