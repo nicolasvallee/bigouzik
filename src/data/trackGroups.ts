@@ -1,5 +1,6 @@
 export interface MusicTrack {
   title: string
+  description?: string
   src: string
   images?: string[]
   imageAlt?: string
@@ -13,6 +14,7 @@ export interface MusicTrack {
 export interface MusicTrackGroup {
   id: string
   title: string
+  description?: string
   tracks: MusicTrack[]
 }
 
@@ -32,9 +34,11 @@ export const trackGroups: MusicTrackGroup[] = [
     id: 'rio',
     title: 'Rio',
     tracks: [
-      { title: 'Rio 1', src: '/music/rio1.musicxml', images: ['/images/rio.png', '/images/1.png'],kickVelocityScale: 2, sheetScale: 0.7, loop: true },
+      { title: 'Rio 1', description:"", 
+         src: '/music/rio1.musicxml', images: ['/images/rio.png', '/images/1.png'],kickVelocityScale: 2, sheetScale: 0.7, loop: true },
       { title: 'Rio 2', src: '/music/rio2.musicxml', images: ['/images/rio.png', '/images/2.png'], kickVelocityScale: 2,sheetScale: 0.6, loop: true },
     ],
+    description:""
   },
    {
     id: 'diablo',

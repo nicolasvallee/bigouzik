@@ -11,6 +11,8 @@ const selectedGroup = computed(() => {
   return trackGroups.some((group) => group.id === groupId) ? groupId : defaultGroup
 })
 
+const activeGroup = computed(() => trackGroups.find((group) => group.id === selectedGroup.value))
+
 const selectedTrack = computed(() => {
   const track = String(route.params.trackId || '')
   const group = trackGroups.find((item) => item.id === selectedGroup.value)
@@ -51,7 +53,10 @@ watch(
           <span>{{ group.title }}</span>
         </RouterLink>
       </div>
-      <div v-if="selectedGroup" :id="`track-group-panel-${selectedGroup}`" class="mt-20">
+      <p v-if="activeGroup?.description" class="mt-8 max-w-2xl text-base leading-relaxed text-foreground/65">
+        {{ activeGroup.description }}
+      </p>
+      <div v-if="selectedGroup" :id="`track-group-panel-${selectedGroup}`" class="mt-5">
         <template v-for="group in trackGroups" :key="group.id">
           <MusicTrackGroup
             v-if="selectedGroup === group.id"

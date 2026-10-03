@@ -33,6 +33,7 @@ const publicAsset = (path: string) => `${import.meta.env.BASE_URL}${path.replace
         </figure>
         <MusicXmlViewer
           :title="track.title"
+          :description="track.description"
           :src="track.src"
           :track-link="`/back-to-batuk/${id}/${trackId(track)}`"
           :kick-velocity-scale="track.kickVelocityScale"

@@ -8,6 +8,7 @@ const PARENTHESIZED_SNARE_VELOCITY_SCALE = 0.15
 const props = defineProps<{
   src: string
   title: string
+  description?: string
   trackLink?: string
   kickVelocityScale?: number
   sideStickVelocityScale?: number
@@ -273,17 +274,22 @@ function scalePercussionVelocity(
     class="min-w-0 w-full max-w-full overflow-hidden rounded-2xl border border-border bg-white px-4 py-5 text-foreground shadow-2xl shadow-black/10 sm:px-6"
   >
     <div class="mb-5 flex flex-wrap items-center justify-between gap-4">
-      <div class="flex items-center gap-4">
-        <h2 class="font-serif text-2xl font-bold sm:text-3xl">
-          <RouterLink
-            v-if="trackLink"
-            :to="trackLink"
-            class="transition-colors hover:text-accent"
-          >
-            {{ title }}
-          </RouterLink>
-          <template v-else>{{ title }}</template>
-        </h2>
+      <div class="flex min-w-0 items-start gap-4">
+        <div class="min-w-0">
+          <h2 class="font-serif text-2xl font-bold sm:text-3xl">
+            <RouterLink
+              v-if="trackLink"
+              :to="trackLink"
+              class="transition-colors hover:text-accent"
+            >
+              {{ title }}
+            </RouterLink>
+            <template v-else>{{ title }}</template>
+          </h2>
+          <p v-if="description" class="mt-1 max-w-2xl text-sm leading-relaxed text-foreground/65">
+            {{ description }}
+          </p>
+        </div>
         <button
           class="inline-flex h-11 items-center justify-center rounded-full bg-accent px-5 text-sm font-semibold text-accent-foreground shadow-lg shadow-accent/20 transition-transform hover:-translate-y-0.5 hover:bg-foreground hover:text-background disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0"
           type="button"
