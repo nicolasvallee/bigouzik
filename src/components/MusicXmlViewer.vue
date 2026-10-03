@@ -8,6 +8,7 @@ const PARENTHESIZED_SNARE_VELOCITY_SCALE = 0.15
 const props = defineProps<{
   src: string
   title: string
+  trackLink?: string
   kickVelocityScale?: number
   sideStickVelocityScale?: number
   sheetScale?: number
@@ -273,7 +274,16 @@ function scalePercussionVelocity(
   >
     <div class="mb-5 flex flex-wrap items-center justify-between gap-4">
       <div class="flex items-center gap-4">
-        <h2 class="font-serif text-2xl font-bold sm:text-3xl">{{ title }}</h2>
+        <h2 class="font-serif text-2xl font-bold sm:text-3xl">
+          <RouterLink
+            v-if="trackLink"
+            :to="trackLink"
+            class="transition-colors hover:text-accent"
+          >
+            {{ title }}
+          </RouterLink>
+          <template v-else>{{ title }}</template>
+        </h2>
         <button
           class="inline-flex h-11 items-center justify-center rounded-full bg-accent px-5 text-sm font-semibold text-accent-foreground shadow-lg shadow-accent/20 transition-transform hover:-translate-y-0.5 hover:bg-foreground hover:text-background disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0"
           type="button"

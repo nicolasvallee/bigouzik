@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import MusicXmlViewer from './MusicXmlViewer.vue'
-import type { MusicTrack } from '@/data/trackGroups'
+import { trackId, type MusicTrack } from '@/data/trackGroups'
 
 defineProps<{
   id: string
@@ -15,7 +15,8 @@ const publicAsset = (path: string) => `${import.meta.env.BASE_URL}${path.replace
     <div
       v-for="track in tracks"
       :key="track.src"
-      class="flex min-w-0 w-full justify-start"
+      :id="`track-${id}-${trackId(track)}`"
+      class="flex min-w-0 w-full scroll-mt-24 justify-start"
     >
       <div class="min-w-0 w-full max-w-6xl">
         <figure
@@ -33,6 +34,7 @@ const publicAsset = (path: string) => `${import.meta.env.BASE_URL}${path.replace
         <MusicXmlViewer
           :title="track.title"
           :src="track.src"
+          :track-link="`/back-to-batuk/${id}/${trackId(track)}`"
           :kick-velocity-scale="track.kickVelocityScale"
           :side-stick-velocity-scale="track.sideStickVelocityScale"
           :sheet-scale="track.sheetScale"

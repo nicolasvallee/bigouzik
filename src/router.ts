@@ -6,7 +6,7 @@ export const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     { path: '/', component: HomeSection },
-    { path: '/back-to-batuk/:groupId?', component: BackToBatukSection },
+    { path: '/back-to-batuk/:groupId?/:trackId?', component: BackToBatukSection },
   ],
-  scrollBehavior: () => ({ top: 0 }),
+  scrollBehavior: (to) => (to.params.trackId ? false : { top: 0 }),
 })

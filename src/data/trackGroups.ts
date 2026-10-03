@@ -16,6 +16,17 @@ export interface MusicTrackGroup {
   tracks: MusicTrack[]
 }
 
+export function trackId(track: Pick<MusicTrack, 'src' | 'title'>) {
+  const name = track.src.split('/').pop()?.replace(/\.musicxml$/i, '') || track.title
+
+  return name
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '')
+}
+
 export const trackGroups: MusicTrackGroup[] = [
   {
     id: 'rio',

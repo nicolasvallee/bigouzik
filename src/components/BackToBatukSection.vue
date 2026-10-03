@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, nextTick, watch } from 'vue'
 import { useRoute } from 'vue-router'
-import { trackGroups } from '@/data/trackGroups'
+import { trackGroups, trackId } from '@/data/trackGroups'
 import MusicTrackGroup from './MusicTrackGroup.vue'
 
 const route = useRoute()
@@ -10,6 +10,27 @@ const selectedGroup = computed(() => {
   const groupId = String(route.params.groupId || '')
   return trackGroups.some((group) => group.id === groupId) ? groupId : defaultGroup
 })
+
+const selectedTrack = computed(() => {
+  const track = String(route.params.trackId || '')
+  const group = trackGroups.find((item) => item.id === selectedGroup.value)
+
+  return group?.tracks.some((item) => trackId(item) === track) ? track : ''
+})
+
+watch(
+  [selectedGroup, selectedTrack],
+  async ([groupId, id]) => {
+    if (!id) return
+
+    await nextTick()
+    document.getElementById(`track-${groupId}-${id}`)?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start',
+    })
+  },
+  { immediate: true },
+)
 </script>
 
 <template>
