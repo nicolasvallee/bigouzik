@@ -56,7 +56,7 @@ watch(
       </div>
       <div class="mt-6 flex justify-start">
         <label class="inline-flex cursor-pointer items-center gap-3 text-sm font-semibold text-foreground/70">
-          <span>Afficher les partitions</span>
+          <span>Afficher les partoches</span>
           <input
             v-model="showMusicSheets"
             class="peer sr-only"

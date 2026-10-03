@@ -314,8 +314,9 @@ function scalePercussionVelocity(
           :aria-label="isPlaying ? `Pause ${title}` : `Play ${title}`"
           @click="togglePlayback"
         >
-          <span v-if="audioState === 'ready'" class="text-base leading-none" aria-hidden="true">
-            {{ isPlaying ? '⏸' : '▶' }}
+          <span v-if="audioState === 'ready'" class="playback-icon" aria-hidden="true">
+            <span v-if="isPlaying" class="pause-icon" />
+            <span v-else class="play-icon" />
           </span>
           <span>{{ audioState === 'ready' ? (isPlaying ? 'Pause' : 'Play') : 'Loading audio' }}</span>
         </button>
@@ -383,6 +384,36 @@ function scalePercussionVelocity(
   width: 3px;
   background: var(--accent);
   opacity: 0.9;
+}
+
+.playback-icon {
+  display: inline-flex;
+  width: 0.9rem;
+  height: 0.9rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.play-icon {
+  width: 0;
+  height: 0;
+  border-top: 0.3rem solid transparent;
+  border-bottom: 0.3rem solid transparent;
+  border-left: 0.5rem solid currentColor;
+}
+
+.pause-icon {
+  display: inline-flex;
+  width: 0.5rem;
+  height: 0.7rem;
+  gap: 0.15rem;
+}
+
+.pause-icon::before,
+.pause-icon::after {
+  content: '';
+  flex: 1;
+  background: currentColor;
 }
 
 </style>
