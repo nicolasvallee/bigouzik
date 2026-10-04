@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import * as alphaTab from '@coderline/alphatab'
-import { nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { onBeforeUnmount, onMounted, ref } from 'vue'
 import { normalizeMusicXml } from '@/lib/normalizeMusicXml'
 
 const PARENTHESIZED_SNARE_VELOCITY_SCALE = 0.15
@@ -9,7 +9,6 @@ const props = defineProps<{
   src: string
   title: string
   description?: string
-  showSheet: boolean
   trackLink?: string
   kickVelocityScale?: number
   sideStickVelocityScale?: number
@@ -22,7 +21,6 @@ const scoreElement = ref<HTMLElement | null>(null)
 const audioState = ref<'loading' | 'ready'>('loading')
 const isPlaying = ref(false)
 const currentTime = ref(0)
-const duration = ref(0)
 const selectedTrack = ref<'both' | 'snare' | 'kick'>('both')
 const isSlowMode = ref(false)
 let api: alphaTab.AlphaTabApi | null = null
@@ -164,9 +162,8 @@ onMounted(() => {
       window.dispatchEvent(new CustomEvent(playbackEventName, { detail: viewerId }))
     }
   })
-  removePlayerPositionListener = currentApi.playerPositionChanged.on(({ currentTime: position, endTime, currentTick, endTick }) => {
+  removePlayerPositionListener = currentApi.playerPositionChanged.on(({ currentTime: position, currentTick, endTick }) => {
     currentTime.value = position
-    duration.value = endTime
 
     const loopBoundary = endTick - 20
     if (props.loop && isPlaying.value && !isWrappingLoop && currentTick >= loopBoundary) {
@@ -230,13 +227,6 @@ function updateSlowMode() {
   if (api) api.playbackSpeed = isSlowMode.value ? 0.60 : 1
 }
 
-watch(() => props.showSheet, async (show) => {
-  if (!show || !api) return
-
-  await nextTick()
-  api.render()
-})
-
 function selectTrack(track: 'both' | 'snare' | 'kick') {
   selectedTrack.value = track
   if (!api) return
@@ -245,18 +235,6 @@ function selectTrack(track: 'both' | 'snare' | 'kick') {
   pendingPlayback = isPlaying.value
   isPlaying.value = false
   api.loadMidiForScore()
-}
-
-function seek(event: Event) {
-  if (!api) return
-  const value = Number((event.target as HTMLInputElement).value)
-  currentTime.value = value
-  api.timePosition = value
-}
-
-function formatTime(milliseconds: number) {
-  const seconds = Math.floor(milliseconds / 1000)
-  return `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, '0')}`
 }
 
 function scaleVelocity(velocity: number, scale: number) {
@@ -287,10 +265,7 @@ function scalePercussionVelocity(
   <div
     class="min-w-0 w-full max-w-full overflow-hidden rounded-2xl border border-border bg-white px-4 py-5 text-foreground shadow-2xl shadow-black/10 sm:px-6"
   >
-    <div
-      class="flex flex-wrap items-center justify-between gap-4"
-      :class="showSheet ? 'mb-5' : 'mb-0'"
-    >
+    <div class="mb-5 flex flex-wrap items-center justify-between gap-4">
       <div class="flex min-w-0 items-start gap-4">
         <div class="min-w-0">
           <h2 class="font-serif text-2xl font-bold sm:text-3xl">
@@ -353,22 +328,7 @@ function scalePercussionVelocity(
         </button>
       </div>
     </div>
-    <div v-if="!showSheet" class="flex min-h-12 items-center gap-3">
-      <span class="w-10 shrink-0 text-right text-xs tabular-nums text-foreground/55">{{ formatTime(currentTime) }}</span>
-      <input
-        class="min-w-0 w-full accent-accent"
-        type="range"
-        min="0"
-        step="10"
-        :max="duration || 1"
-        :value="currentTime"
-        :disabled="audioState !== 'ready' || duration === 0"
-        :aria-label="`Position dans ${title}`"
-        @input="seek"
-      />
-      <span class="w-10 shrink-0 text-xs tabular-nums text-foreground/55">{{ formatTime(duration) }}</span>
-    </div>
-    <div v-show="showSheet" ref="scoreElement" class="alpha-tab min-h-32 min-w-0 overflow-hidden" aria-label="Rendered MusicXML score" />
+    <div ref="scoreElement" class="alpha-tab min-h-32 min-w-0 overflow-hidden" aria-label="Rendered MusicXML score" />
   </div>
 </template>
 
