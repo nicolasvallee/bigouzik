@@ -8,7 +8,7 @@
     <creator type="composer">Composer / arranger</creator>
     <encoding>
       <software>MuseScore Studio 4.7.5</software>
-      <encoding-date>2026-09-27</encoding-date>
+      <encoding-date>2026-10-04</encoding-date>
       <supports element="accidental" type="yes"/>
       <supports element="beam" type="yes"/>
       <supports element="print" attribute="new-page" type="no"/>
@@ -411,7 +411,7 @@
     <measure number="1" width="895.05">
       <print>
         <staff-layout number="1">
-          <staff-distance>72.3</staff-distance>
+          <staff-distance>65.32</staff-distance>
           </staff-layout>
         </print>
       <attributes>
@@ -431,18 +431,19 @@
           <staff-lines>1</staff-lines>
           </staff-details>
         </attributes>
-      <note default-x="70.5" default-y="-112.3" dynamics="38.89">
-        <unpitched>
-          <display-step>E</display-step>
-          <display-octave>4</display-octave>
-          </unpitched>
+      <note default-x="70.5" default-y="-105.32">
+        <rest/>
         <duration>4</duration>
-        <instrument id="P2-I37"/>
         <voice>1</voice>
         <type>quarter</type>
-        <stem>up</stem>
         </note>
-      <note default-x="271.92" default-y="-112.3" dynamics="38.89">
+      <note default-x="271.92" default-y="-105.32">
+        <rest/>
+        <duration>1</duration>
+        <voice>1</voice>
+        <type>16th</type>
+        </note>
+      <note default-x="322.28" default-y="-105.32">
         <unpitched>
           <display-step>E</display-step>
           <display-octave>4</display-octave>
@@ -453,27 +454,9 @@
         <type>16th</type>
         <stem>up</stem>
         <beam number="1">begin</beam>
-        <beam number="2">begin</beam>
+        <beam number="2">forward hook</beam>
         </note>
-      <note default-x="322.28" default-y="-112.3">
-        <unpitched>
-          <display-step>E</display-step>
-          <display-octave>4</display-octave>
-          </unpitched>
-        <duration>1</duration>
-        <instrument id="P2-I37"/>
-        <voice>1</voice>
-        <type>16th</type>
-        <stem>up</stem>
-        <beam number="1">continue</beam>
-        <beam number="2">end</beam>
-        <notations>
-          <articulations>
-            <accent default-x="-0.72" default-y="-9.32"/>
-            </articulations>
-          </notations>
-        </note>
-      <note default-x="372.64" default-y="-112.3">
+      <note default-x="372.64" default-y="-105.32">
         <unpitched>
           <display-step>E</display-step>
           <display-octave>4</display-octave>
@@ -484,24 +467,20 @@
         <type>eighth</type>
         <stem>up</stem>
         <beam number="1">end</beam>
-        <notations>
-          <articulations>
-            <accent default-x="-0.72" default-y="-9.32"/>
-            </articulations>
-          </notations>
         </note>
-      <note default-x="473.35" default-y="-112.3" dynamics="38.89">
-        <unpitched>
-          <display-step>E</display-step>
-          <display-octave>4</display-octave>
-          </unpitched>
+      <note default-x="473.35" default-y="-105.32">
+        <rest/>
         <duration>4</duration>
-        <instrument id="P2-I37"/>
         <voice>1</voice>
         <type>quarter</type>
-        <stem>up</stem>
         </note>
-      <note default-x="674.77" default-y="-112.3" dynamics="38.89">
+      <note default-x="674.77" default-y="-105.32">
+        <rest/>
+        <duration>1</duration>
+        <voice>1</voice>
+        <type>16th</type>
+        </note>
+      <note default-x="725.12" default-y="-105.32">
         <unpitched>
           <display-step>E</display-step>
           <display-octave>4</display-octave>
@@ -512,27 +491,9 @@
         <type>16th</type>
         <stem>up</stem>
         <beam number="1">begin</beam>
-        <beam number="2">begin</beam>
+        <beam number="2">forward hook</beam>
         </note>
-      <note default-x="725.12" default-y="-112.3">
-        <unpitched>
-          <display-step>E</display-step>
-          <display-octave>4</display-octave>
-          </unpitched>
-        <duration>1</duration>
-        <instrument id="P2-I37"/>
-        <voice>1</voice>
-        <type>16th</type>
-        <stem>up</stem>
-        <beam number="1">continue</beam>
-        <beam number="2">end</beam>
-        <notations>
-          <articulations>
-            <accent default-x="-0.72" default-y="-9.32"/>
-            </articulations>
-          </notations>
-        </note>
-      <note default-x="775.48" default-y="-112.3">
+      <note default-x="775.48" default-y="-105.32">
         <unpitched>
           <display-step>E</display-step>
           <display-octave>4</display-octave>
@@ -543,11 +504,6 @@
         <type>eighth</type>
         <stem>up</stem>
         <beam number="1">end</beam>
-        <notations>
-          <articulations>
-            <accent default-x="-0.72" default-y="-9.32"/>
-            </articulations>
-          </notations>
         </note>
       <barline location="right">
         <bar-style>light-heavy</bar-style>

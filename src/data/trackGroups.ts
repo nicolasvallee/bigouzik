@@ -7,6 +7,8 @@ export interface MusicTrack {
   kickVelocityScale?: number
   sideStickVelocityScale?: number
   sheetScale?: number
+  showCircularView?: boolean
+  circularRhythm?: CircularRhythmSection[]
   compound?: boolean
   loop: boolean
 }
@@ -16,6 +18,12 @@ export interface MusicTrackGroup {
   title: string
   description?: string
   tracks: MusicTrack[]
+}
+
+export interface CircularRhythmSection {
+  fromMeasure: number
+  toMeasure: number
+  repeats?: number
 }
 
 export function trackId(track: Pick<MusicTrack, 'src' | 'title'>) {
@@ -46,14 +54,18 @@ export const trackGroups: MusicTrackGroup[] = [
     tracks: [
       { title: 'Diablo 1', src: '/music/diablo1.musicxml', images: ['/images/diablo.png', '/images/1.png'], kickVelocityScale: 1.5,   sideStickVelocityScale: 0.3,
  sheetScale: 0.7, loop: true },
-      { title: 'Diablo 2', src: '/music/diablo2.musicxml', images: ['/images/diablo.png', '/images/2.png'],  kickVelocityScale: 1.5,   sideStickVelocityScale: 0.3,
+      { title: 'Diablo 2', src: '/music/diablo2.musicxml', images: ['/images/diablo.png', '/images/2.png'], 
+        circularRhythm: [
+  { fromMeasure: 1, toMeasure: 3, repeats: 1 },
+  { fromMeasure: 4, toMeasure: 5, repeats: 1 },
+], kickVelocityScale: 1.5,   sideStickVelocityScale: 0.3,
 sheetScale: 0.6, loop: true },
       { title: 'Arrêt 5', src: '/music/arret5.musicxml',  images: ['/images/arret5.png'], kickVelocityScale: 1.5, sheetScale: 0.6, loop: false },
 
-      { title: 'Enchaînement Diablo 1 + Arrêt 5', src: '/music/diablo1-et-arret5.musicxml',   kickVelocityScale: 1.5,   sideStickVelocityScale: 0.4,
+      { title: 'Enchaînement Diablo 1 + Arrêt 5', src: '/music/diablo1-et-arret5.musicxml', showCircularView: false,   kickVelocityScale: 1.5,   sideStickVelocityScale: 0.4,
 sheetScale: 0.6, loop: true },
 
-      { title: 'Enchaînement Diablo 2 + Arrêt 5', src: '/music/diablo2-et-arret5.musicxml', kickVelocityScale: 1.5,   sideStickVelocityScale: 0.4,
+      { title: 'Enchaînement Diablo 2 + Arrêt 5', src: '/music/diablo2-et-arret5.musicxml', showCircularView: false, kickVelocityScale: 1.5,   sideStickVelocityScale: 0.4,
 sheetScale: 0.6, loop: true },
 
     ],
@@ -65,7 +77,10 @@ sheetScale: 0.6, loop: true },
       { title: 'Funk', src: '/music/funk.musicxml', images: ['/images/funk.png'], sheetScale: 0.7, loop: true },
       { title: 'Funk avec 6', src: '/music/funk-avec-6.musicxml', sheetScale: 0.6, loop: true },
       { title: 'Cut 2-2 dans Funk', src: '/music/2-2.musicxml', images: ['/images/2-2.png'],  kickVelocityScale: 1, sheetScale: 0.6, loop: false },
-      { title: 'Enchaînement des deux', src: '/music/funk-avec-6-et-cut22.musicxml', images: ['/images/2-2.png'],  kickVelocityScale: 1, sheetScale: 0.6, loop: true },
+      { title: 'Enchaînement des deux', src: '/music/funk-avec-6-et-cut22.musicxml', circularRhythm: [
+  { fromMeasure: 1, toMeasure: 2, repeats: 1 },
+  { fromMeasure: 3, toMeasure: 3, repeats: 1 },
+],images: ['/images/2-2.png'],  kickVelocityScale: 1, sheetScale: 0.6, loop: true },
 
 
     ],
@@ -74,8 +89,14 @@ sheetScale: 0.6, loop: true },
     id: 'rock',
     title: 'Rock',
     tracks: [
-      { title: 'Rockito', src: '/music/rockito.musicxml', images: ['/images/rockito.png'], sheetScale: 0.6, loop: true },
-      { title: 'Rock 1', src: '/music/rock1.musicxml', images: ['/images/rock.png', '/images/1.png'], kickVelocityScale: 3,sheetScale: 0.6, loop: true },
+      { title: 'Rockito', src: '/music/rockito.musicxml',  circularRhythm: [
+  { fromMeasure: 1, toMeasure: 1, repeats: 2 },
+  { fromMeasure: 3, toMeasure: 3, repeats: 2 },
+],   images: ['/images/rockito.png'], sheetScale: 0.6, loop: true },
+      { title: 'Rock 1', src: '/music/rock1.musicxml', circularRhythm: [
+  { fromMeasure: 1, toMeasure: 1, repeats: 3 },
+  { fromMeasure: 4, toMeasure: 4, repeats: 1 },
+], images: ['/images/rock.png', '/images/1.png'], kickVelocityScale: 3,sheetScale: 0.6, loop: true },
       { title: 'Rock 2', src: '/music/rock2.musicxml', images: ['/images/rock.png', '/images/2.png'], kickVelocityScale: 3,sheetScale: 0.6, loop: true },
 
 
@@ -87,15 +108,21 @@ sheetScale: 0.6, loop: true },
     title: 'Clown',
     tracks: [
       { title: 'Clown (sans intro)', src: '/music/clown.musicxml',  images: ['/images/clown.png'], kickVelocityScale: 2, sheetScale: 0.6, loop: true },
-      { title: 'Intro Clown', src: '/music/intro-clown.musicxml', kickVelocityScale: 2, sideStickVelocityScale: 0.5, sheetScale: 0.6, loop: false },
+      { title: 'Intro Clown', src: '/music/intro-clown.musicxml',showCircularView: false,  kickVelocityScale: 2, sideStickVelocityScale: 0.5, sheetScale: 0.6, loop: false },
     ],
   },{
     id: 'ternaire',
     title: 'Ternaire',
     tracks: [
-      { title: 'Ternaire', src: '/music/ternaire.musicxml',  images: ['/images/ternaireA.png','/images/ternaireB.png' ],kickVelocityScale: 2, sideStickVelocityScale: 0.2, sheetScale: 0.6, compound: true, loop: true },
+      { title: 'Ternaire', src: '/music/ternaire.musicxml',  circularRhythm: [
+  { fromMeasure: 1, toMeasure: 1, repeats: 3 },
+  { fromMeasure: 4, toMeasure: 4, repeats: 1 },
+],  images: ['/images/ternaireA.png','/images/ternaireB.png' ],kickVelocityScale: 2, sideStickVelocityScale: 0.2, sheetScale: 0.6, compound: true, loop: true },
       { title: 'Cut 3 ternaire', src: '/music/cut3-ternaire.musicxml',  images: ['/images/cut.png','/images/ternaireC.png' ],kickVelocityScale: 2, sheetScale: 0.6, compound: true, loop: false },
-      { title: 'Enchaînement des deux', src: '/music/ternaire+cut3ternaire.musicxml',  images: ['/images/ternaireA.png','/images/ternaireB.png','/images/cut.png','/images/ternaireC.png' ],kickVelocityScale: 2, sheetScale: 0.6, compound: true, loop: true },
+      { title: 'Enchaînement des deux', src: '/music/ternaire+cut3ternaire.musicxml', circularRhythm: [
+  { fromMeasure: 1, toMeasure: 1, repeats: 3 },
+  { fromMeasure: 4, toMeasure: 4, repeats: 1 },
+  { fromMeasure: 5, toMeasure: 5, repeats: 1 }], images: ['/images/ternaireA.png','/images/ternaireB.png','/images/cut.png','/images/ternaireC.png' ], sideStickVelocityScale: 0.2,kickVelocityScale: 2, sheetScale: 0.6, compound: true, loop: true },
 
 
     ],

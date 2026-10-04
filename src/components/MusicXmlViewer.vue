@@ -2,6 +2,8 @@
 import * as alphaTab from '@coderline/alphatab'
 import { onBeforeUnmount, onMounted, ref } from 'vue'
 import { normalizeMusicXml } from '@/lib/normalizeMusicXml'
+import type { CircularRhythmSection } from '@/data/trackGroups'
+import CircularRhythmViewer from './CircularRhythmViewer.vue'
 
 const PARENTHESIZED_SNARE_VELOCITY_SCALE = 0.15
 
@@ -13,6 +15,8 @@ const props = defineProps<{
   kickVelocityScale?: number
   sideStickVelocityScale?: number
   sheetScale?: number
+  showCircularView: boolean
+  circularRhythm?: CircularRhythmSection[]
   compound?: boolean
   loop: boolean
 }>()
@@ -21,6 +25,8 @@ const scoreElement = ref<HTMLElement | null>(null)
 const audioState = ref<'loading' | 'ready'>('loading')
 const isPlaying = ref(false)
 const currentTime = ref(0)
+const currentTick = ref(0)
+const endTick = ref(0)
 const selectedTrack = ref<'both' | 'snare' | 'kick'>('both')
 const isSlowMode = ref(false)
 let api: alphaTab.AlphaTabApi | null = null
@@ -76,7 +82,10 @@ onMounted(() => {
   window.addEventListener('resize', updateLayoutOnResize)
   removeWindowResizeListener = () => window.removeEventListener('resize', updateLayoutOnResize)
 
-  creditObserver = new MutationObserver(hideAlphaTabCredit)
+  creditObserver = new MutationObserver(() => {
+    hideAlphaTabCredit()
+    updatePercussionLabels()
+  })
   creditObserver.observe(scoreElement.value, { childList: true, subtree: true })
 
   removePlayerReadyListener = currentApi.playerReady.on(() => {
@@ -162,14 +171,16 @@ onMounted(() => {
       window.dispatchEvent(new CustomEvent(playbackEventName, { detail: viewerId }))
     }
   })
-  removePlayerPositionListener = currentApi.playerPositionChanged.on(({ currentTime: position, currentTick, endTick }) => {
+  removePlayerPositionListener = currentApi.playerPositionChanged.on(({ currentTime: position, currentTick: tick, endTick: finalTick }) => {
     currentTime.value = position
+    currentTick.value = tick
+    endTick.value = finalTick
 
-    const loopBoundary = endTick - 20
-    if (props.loop && isPlaying.value && !isWrappingLoop && currentTick >= loopBoundary) {
+    const loopBoundary = finalTick - 20
+    if (props.loop && isPlaying.value && !isWrappingLoop && tick >= loopBoundary) {
       isWrappingLoop = true
       currentApi.tickPosition = currentApi.playbackRange?.startTick ?? 0
-    } else if (currentTick < loopBoundary) {
+    } else if (tick < loopBoundary) {
       isWrappingLoop = false
     }
   })
@@ -216,6 +227,19 @@ function hideAlphaTabCredit() {
     if (text.textContent?.trim() !== 'rendered by alphaTab') return
 
     text.setAttribute('visibility', 'hidden')
+  })
+}
+
+function updatePercussionLabels() {
+  scoreElement.value?.querySelectorAll('svg text').forEach((text) => {
+    const label = text.textContent?.trim()
+    if (label === 'SD') {
+      text.textContent = 'caisse'
+      text.setAttribute('fill', 'var(--accent)')
+    } else if (label === 'BD') {
+      text.textContent = 'surdo'
+      text.setAttribute('fill', '#111111')
+    }
   })
 }
 
@@ -329,6 +353,14 @@ function scalePercussionVelocity(
       </div>
     </div>
     <div ref="scoreElement" class="alpha-tab min-h-32 min-w-0 overflow-hidden" aria-label="Rendered MusicXML score" />
+    <CircularRhythmViewer
+      :src="src"
+      :show-circle="showCircularView"
+      :circular-rhythm="circularRhythm"
+      :current-tick="currentTick"
+      :end-tick="endTick"
+      :selected-track="selectedTrack"
+    />
   </div>
 </template>
 
