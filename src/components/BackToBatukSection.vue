@@ -84,13 +84,13 @@ watch(
           </div>
         </div>
       </div>
-      <div class="border-b border-border" aria-label="Track groups" role="tablist">
+      <div class="flex flex-wrap gap-2 border-b border-border py-3" aria-label="Track groups" role="tablist">
         <RouterLink
           v-for="group in trackGroups"
           :key="group.id"
           :to="`/back-to-batuk/${group.id}`"
-          class="mr-6 inline-flex py-4 text-left text-base font-semibold capitalize transition-colors last:mr-0 sm:text-lg"
-          :class="selectedGroup === group.id ? 'text-foreground' : 'text-foreground/45 hover:text-foreground'"
+          class="inline-flex h-9 items-center rounded-full border px-4 text-left text-sm font-semibold capitalize transition-colors"
+          :class="selectedGroup === group.id ? 'border-foreground bg-foreground text-background' : 'border-border text-foreground/65 hover:border-foreground/50 hover:text-foreground'"
           role="tab"
           :aria-selected="selectedGroup === group.id"
           :aria-controls="`track-group-panel-${group.id}`"

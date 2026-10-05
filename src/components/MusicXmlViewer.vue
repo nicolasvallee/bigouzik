@@ -45,6 +45,7 @@ let pendingPlayback = false
 let isWrappingLoop = false
 const parenthesizedSnareTicks = new Set<number>()
 let hasRenderedAllTracks = false
+let scoreTracks: alphaTab.model.Track[] = []
 let layoutObserver: ResizeObserver | null = null
 let removeWindowResizeListener: (() => void) | null = null
 
@@ -118,7 +119,8 @@ onMounted(() => {
       })
     }
 
-    currentApi.renderTracks(score.tracks)
+    scoreTracks = score.tracks
+    renderSelectedTracks(currentApi)
   })
   removeMidiLoadListener = currentApi.midiLoad.on((midi) => {
     const noteKeys = selectedTrack.value === 'snare' ? [37, 38] : selectedTrack.value === 'kick' ? [36] : null
@@ -266,15 +268,39 @@ function selectTrack(track: 'both' | 'snare' | 'kick') {
   selectedTrack.value = track
   if (!api) return
 
+  renderSelectedTracks(api)
   pendingTimePosition = currentTime.value
   pendingPlayback = isPlaying.value
   isPlaying.value = false
   api.loadMidiForScore()
 }
 
+function renderSelectedTracks(currentApi: alphaTab.AlphaTabApi) {
+  const tracks = selectedTrack.value === 'both'
+    ? scoreTracks
+    : scoreTracks.filter((track) => scoreTrackKind(track) === selectedTrack.value)
+
+  currentApi.renderTracks(tracks)
+}
+
+function scoreTrackKind(track: alphaTab.model.Track): Exclude<typeof selectedTrack.value, 'both'> | 'other' {
+  const name = `${track.name} ${track.shortName}`.toLowerCase()
+
+  if (name.includes('snare') || name.includes('caisse')) return 'snare'
+  if (name.includes('bass drum') || name.includes('kick') || name.includes('surdo') || name.split(/\s+/).includes('bd')) return 'kick'
+  return 'other'
+}
+
 function seek(event: Event) {
   if (!api) return
   api.timePosition = Number((event.target as HTMLInputElement).value)
+}
+
+function formatTime(milliseconds: number) {
+  const seconds = Math.max(0, Math.round(milliseconds / 1000))
+  const minutes = Math.floor(seconds / 60)
+
+  return `${minutes}:${String(seconds % 60).padStart(2, '0')}`
 }
 
 function scaleVelocity(velocity: number, scale: number) {
@@ -379,18 +405,21 @@ function scalePercussionVelocity(
       :end-tick="endTick"
       :selected-track="selectedTrack"
     />
-    <input
-      v-if="!showSheet && !showCircle"
-      class="mt-2 w-full accent-accent"
-      type="range"
-      min="0"
-      step="10"
-      :max="duration || 1"
-      :value="currentTime"
-      :disabled="audioState !== 'ready' || duration === 0"
-      :aria-label="`Position dans ${title}`"
-      @input="seek"
-    />
+    <div v-if="!showSheet && !showCircle" class="mt-2 flex items-center gap-3 text-xs tabular-nums text-foreground/60">
+      <span>{{ formatTime(currentTime) }}</span>
+      <input
+        class="w-full accent-accent"
+        type="range"
+        min="0"
+        step="10"
+        :max="duration || 1"
+        :value="currentTime"
+        :disabled="audioState !== 'ready' || duration === 0"
+        :aria-label="`Position dans ${title}`"
+        @input="seek"
+      >
+      <span>{{ formatTime(duration) }}</span>
+    </div>
   </div>
 </template>
 

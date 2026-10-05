@@ -23,6 +23,8 @@ export interface MusicTrackGroup {
 export interface CircularRhythmSection {
   fromMeasure: number
   toMeasure: number
+  fromBeat?: number
+  toBeat?: number
   repeats?: number
 }
 
@@ -61,7 +63,9 @@ kickVelocityScale: 2,sheetScale: 0.6, loop: true },
  sheetScale: 0.7, loop: true },
       { title: 'Diablo 2', src: '/music/diablo2.musicxml', images: ['/images/diablo.png', '/images/2.png'], 
         circularRhythm: [
-  { fromMeasure: 1, toMeasure: 3, repeats: 1 },
+  { fromMeasure: 1, toMeasure: 2, repeats: 1 },
+    { fromMeasure: 3, toMeasure: 3, repeats: 1 },
+
   { fromMeasure: 4, toMeasure: 5, repeats: 1 },
 ], kickVelocityScale: 1.5,   sideStickVelocityScale: 0.3,
 sheetScale: 0.6, loop: true },
@@ -112,7 +116,12 @@ sheetScale: 0.6, loop: true },
     id: 'clown',
     title: 'Clown',
     tracks: [
-      { title: 'Clown (sans intro)', src: '/music/clown.musicxml',  images: ['/images/clown.png'], kickVelocityScale: 2, sheetScale: 0.6, loop: true },
+      { title: 'Clown (sans intro)', src: '/music/clown.musicxml', 
+         images: ['/images/clown.png'], 
+         circularRhythm: [
+  { fromMeasure: 1, toMeasure: 2, repeats: 1 },
+  { fromMeasure: 3, toMeasure: 4, repeats: 1 },
+], kickVelocityScale: 2, sheetScale: 0.6, loop: true },
       { title: 'Intro Clown', src: '/music/intro-clown.musicxml',showCircularView: false,  kickVelocityScale: 2, sideStickVelocityScale: 0.5, sheetScale: 0.6, loop: false },
     ],
   },{
@@ -138,7 +147,11 @@ sheetScale: 0.6, loop: true },
     tracks: [
       { title: 'Maracatu', src: '/music/maracatu.musicxml',  images: ['/images/maracatu.png'],kickVelocityScale: 1, sheetScale: 0.6, loop: true },
       { title: 'Cut 2-2 dans Maracatu', src: '/music/2-2maracatu.musicxml', images: ['/images/2-2.png'],  kickVelocityScale: 1, sheetScale: 0.6, loop: false },
-      { title: 'Enchaînement des deux', src: '/music/maracatu-avec-cut22.musicxml', kickVelocityScale: 2, sheetScale: 0.6, loop: true },
+      { title: 'Enchaînement des deux', src: '/music/maracatu-avec-cut22.musicxml', 
+        circularRhythm: [
+  { fromMeasure: 1, toMeasure: 1, repeats: 1 },
+  { fromMeasure: 2, toMeasure: 2, repeats: 1 }],
+   kickVelocityScale: 2, sheetScale: 0.6, loop: true },
 
 
     ],
@@ -147,7 +160,10 @@ sheetScale: 0.6, loop: true },
     id: 'riboy',
     title: 'Riboy',
     tracks: [
-      { title: 'Riboy', src: '/music/riboy.musicxml',  images: ['/images/riboy.png'], kickVelocityScale: 3, sheetScale: 0.6, loop: true },
+      { title: 'Riboy', src: '/music/riboy.musicxml', circularRhythm: [
+        { fromMeasure: 1, toMeasure: 1, fromBeat: 1, toBeat: 2, repeats: 3 },
+        { fromMeasure: 2, toMeasure: 2, fromBeat: 3, toBeat: 4, repeats: 1 },
+      ], images: ['/images/riboy.png'], kickVelocityScale: 3, sheetScale: 0.6, loop: true },
 
     ],
   },
@@ -156,8 +172,13 @@ sheetScale: 0.6, loop: true },
     title: 'Indiens',
     tracks: [
       { title: 'Anges (en cours)', src: '', images: ['images/anges.png'], kickVelocityScale: 3, sheetScale: 0.6, loop: true },
-      { title: 'Indiens', src: '/music/indiens.musicxml',  images: ['/images/indiens.png'], kickVelocityScale: 1.5, sheetScale: 0.6, loop: true },
-      { title: 'Cowboys (en cours)', src: '',  images: [], kickVelocityScale: 3, sheetScale: 0.6, loop: true },
+      { title: 'Indiens', src: '/music/indiens.musicxml',  images: ['/images/indiens.png'],
+        
+         circularRhythm: [
+  { fromMeasure: 1, toMeasure: 1, repeats: 1 },
+  { fromMeasure: 2, toMeasure: 2, repeats: 1 }], kickVelocityScale: 1.5, sheetScale: 0.6, loop: true },
+      { title: 'Cowboys (en cours)', src: '',  images: [],
+   kickVelocityScale: 3, sheetScale: 0.6, loop: true },
 
     ],
   },
@@ -173,7 +194,13 @@ sheetScale: 0.6, loop: true },
     id: 'depart-rapide',
     title: 'Départ rapide',
     tracks: [
-      { title: 'Départ rapide', src: '/music/depart-rapide.musicxml', kickVelocityScale: 3, sheetScale: 0.6, loop: true },
+      { title: 'Départ rapide', src: '/music/depart-rapide.musicxml',
+        
+         circularRhythm: [
+  { fromMeasure: 1, toMeasure: 1, repeats: 1 },
+  { fromMeasure: 2, toMeasure: 2, repeats: 1 },
+  { fromMeasure: 3, toMeasure: 3, repeats: 1 },
+  { fromMeasure: 4, toMeasure: 4, repeats: 1 }], kickVelocityScale: 3, sheetScale: 0.6, loop: true },
     ],
   },
    {
@@ -181,7 +208,11 @@ sheetScale: 0.6, loop: true },
     title: 'Cut et arrêt',
     tracks: [
       { title: 'Cut 3 normal', src: '/music/cut3-normal.musicxml',  images: ['/images/cut.png','/images/3.png' ], kickVelocityScale: 1, sheetScale: 0.6, loop: false },
-      { title: 'Cut shuffle', src: '/music/cut-shuffle.musicxml',  images: ['/images/shuffle.png'], kickVelocityScale: 3, sheetScale: 0.6, loop: true },
+      { title: 'Cut shuffle', src: '/music/cut-shuffle.musicxml',  images: ['/images/shuffle.png'],
+          circularRhythm: [
+  { fromMeasure: 1, toMeasure: 1, repeats: 3 },
+  { fromMeasure: 4, toMeasure: 4, repeats: 1 }],
+   kickVelocityScale: 3, sheetScale: 0.6, loop: true },
 
     ],
   },

@@ -47,10 +47,12 @@ const props = defineProps<{
 
 const sections = ref<CircleSection[]>([])
 const cycleDuration = ref(0)
+const hasCompoundMeter = ref(false)
 const publicAsset = (path: string) => `${import.meta.env.BASE_URL}${path.replace(/^\/+/, '')}`
 
 const progress = computed(() => props.endTick > 0 ? props.currentTick / props.endTick : 0)
 const currentQuarter = computed(() => progress.value * cycleDuration.value)
+const isCompound = computed(() => props.compound || hasCompoundMeter.value)
 
 function visibleRings(section: CircleSection) {
   return section.rings.filter(
@@ -59,11 +61,17 @@ function visibleRings(section: CircleSection) {
 }
 
 function beatCount(section: CircleSection) {
-  return Math.max(1, Math.min(Math.ceil(section.sourceDuration), 32))
+  const beatDuration = mainBeatDuration()
+
+  return Math.max(1, Math.min(Math.round(section.sourceDuration / beatDuration), 32))
+}
+
+function mainBeatDuration() {
+  return isCompound.value ? 1.5 : 1
 }
 
 function offBeatCount() {
-  return props.compound ? 2 : 1
+  return isCompound.value ? 2 : 1
 }
 
 function offBeatProgress(offBeat: number, section: CircleSection) {
@@ -117,6 +125,12 @@ onMounted(async () => {
   const response = await fetch(publicAsset(props.src))
   const xml = await response.text()
   const document = new DOMParser().parseFromString(xml, 'application/xml')
+  hasCompoundMeter.value = Array.from(document.querySelectorAll('time')).some((time) => {
+    const beats = Number(time.querySelector('beats')?.textContent)
+    const beatType = Number(time.querySelector('beat-type')?.textContent)
+
+    return beatType === 8 && beats >= 6 && beats % 3 === 0
+  })
   const names = new Map(
     Array.from(document.querySelectorAll('score-part')).map((part) => [
       part.getAttribute('id') ?? '',
@@ -155,33 +169,50 @@ function buildSections(rings: ParsedRing[], structure?: CircularRhythmSection[])
 
   const referenceMeasures = rings[0]?.measures ?? []
   let playbackMeasure = 0
+  let playbackTime = 0
 
   return structure.map((definition, index) => {
     const from = Math.max(1, definition.fromMeasure) - 1
     const to = Math.max(from + 1, definition.toMeasure)
-    const sourceStart = referenceMeasures[from]?.start ?? 0
+    const measureStart = referenceMeasures[from]?.start ?? 0
     const sourceEndMeasure = referenceMeasures[to - 1]
+    const measureEnd = (sourceEndMeasure?.start ?? measureStart) + (sourceEndMeasure?.duration ?? 1)
+    const hasBeatRange = definition.fromBeat !== undefined || definition.toBeat !== undefined
+    const sourceStart = hasBeatRange
+      ? measureStart + (Math.max(1, definition.fromBeat ?? 1) - 1) * mainBeatDuration()
+      : measureStart
     const sourceDuration = Math.max(
-      (sourceEndMeasure?.start ?? sourceStart) + (sourceEndMeasure?.duration ?? 1) - sourceStart,
+      definition.toBeat !== undefined
+        ? (sourceEndMeasure?.start ?? measureStart) + Math.max(1, definition.toBeat) * mainBeatDuration() - sourceStart
+        : measureEnd - sourceStart,
       0.25,
     )
+    const sourceEnd = sourceStart + sourceDuration
     const repeats = Math.max(1, definition.repeats ?? 1)
-    const writtenMeasureCount = (to - from) * repeats
-    const playbackStart = referenceMeasures[playbackMeasure]?.start ?? sourceStart
-    const playbackEndMeasure = referenceMeasures[playbackMeasure + writtenMeasureCount - 1]
-    const playbackDuration = Math.max(
-      (playbackEndMeasure?.start ?? playbackStart) + (playbackEndMeasure?.duration ?? sourceDuration) - playbackStart,
-      sourceDuration * repeats,
-    )
-    playbackMeasure += writtenMeasureCount
+    let playbackStart: number
+    let playbackDuration: number
+
+    if (hasBeatRange) {
+      playbackStart = playbackTime
+      playbackDuration = sourceDuration * repeats
+    } else {
+      const writtenMeasureCount = (to - from) * repeats
+      playbackStart = referenceMeasures[playbackMeasure]?.start ?? sourceStart
+      const playbackEndMeasure = referenceMeasures[playbackMeasure + writtenMeasureCount - 1]
+      playbackDuration = Math.max(
+        (playbackEndMeasure?.start ?? playbackStart) + (playbackEndMeasure?.duration ?? sourceDuration) - playbackStart,
+        sourceDuration * repeats,
+      )
+      playbackMeasure += writtenMeasureCount
+    }
+    playbackTime = playbackStart + playbackDuration
 
     return {
       id: `circle-${index}`,
       rings: rings.map((ring) => ({
         ...ring,
-        hits: ring.measures
-          .slice(from, to)
-          .flatMap((measure) => measure.hits)
+        hits: ring.hits
+          .filter((hit) => hit.time >= sourceStart && hit.time < sourceEnd)
           .map((hit) => ({ ...hit, time: hit.time - sourceStart })),
       })),
       sourceDuration,

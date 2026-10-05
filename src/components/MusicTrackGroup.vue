@@ -23,7 +23,7 @@ const publicAsset = (path: string) => `${import.meta.env.BASE_URL}${path.replace
       <div class="min-w-0 w-full max-w-6xl">
         <figure
           v-if="track.images?.length"
-          class="mb-4 flex flex-wrap justify-start gap-3"
+          class="mb-4 flex flex-wrap justify-center gap-3"
         >
           <img
             v-for="image in track.images"
