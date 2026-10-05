@@ -46,7 +46,7 @@ watch(
           <div class="flex flex-wrap gap-2" aria-label="Options d'affichage" role="group">
           <button
             class="inline-flex h-9 items-center gap-2 rounded-full border px-4 text-sm font-semibold transition-colors"
-            :class="showSheets ? 'border-foreground bg-foreground text-background' : 'border-border text-foreground/65 hover:border-foreground/50 hover:text-foreground'"
+            :class="showSheets ? 'border-foreground bg-foreground text-background' : 'border-foreground text-foreground hover:bg-foreground/5'"
             type="button"
             :aria-pressed="showSheets"
             @click="showSheets = !showSheets"
@@ -67,7 +67,7 @@ watch(
           </button>
           <button
             class="inline-flex h-9 items-center gap-2 rounded-full border px-4 text-sm font-semibold transition-colors"
-            :class="showCircles ? 'border-foreground bg-foreground text-background' : 'border-border text-foreground/65 hover:border-foreground/50 hover:text-foreground'"
+            :class="showCircles ? 'border-foreground bg-foreground text-background' : 'border-foreground text-foreground hover:bg-foreground/5'"
             type="button"
             :aria-pressed="showCircles"
             @click="showCircles = !showCircles"
@@ -90,7 +90,7 @@ watch(
           :key="group.id"
           :to="`/back-to-batuk/${group.id}`"
           class="inline-flex h-9 items-center rounded-full border px-4 text-left text-sm font-semibold capitalize transition-colors"
-          :class="selectedGroup === group.id ? 'border-foreground bg-foreground text-background' : 'border-border text-foreground/65 hover:border-foreground/50 hover:text-foreground'"
+          :class="selectedGroup === group.id ? 'border-foreground bg-foreground text-background' : 'border-foreground text-foreground hover:bg-foreground/5'"
           role="tab"
           :aria-selected="selectedGroup === group.id"
           :aria-controls="`track-group-panel-${group.id}`"
