@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import * as alphaTab from '@coderline/alphatab'
-import { onBeforeUnmount, onMounted, ref } from 'vue'
+import { nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { normalizeMusicXml } from '@/lib/normalizeMusicXml'
 import type { CircularRhythmSection } from '@/data/trackGroups'
 import CircularRhythmViewer from './CircularRhythmViewer.vue'
@@ -15,7 +15,8 @@ const props = defineProps<{
   kickVelocityScale?: number
   sideStickVelocityScale?: number
   sheetScale?: number
-  showCircularView: boolean
+  showSheet: boolean
+  showCircle: boolean
   circularRhythm?: CircularRhythmSection[]
   compound?: boolean
   loop: boolean
@@ -27,8 +28,10 @@ const isPlaying = ref(false)
 const currentTime = ref(0)
 const currentTick = ref(0)
 const endTick = ref(0)
+const duration = ref(0)
 const selectedTrack = ref<'both' | 'snare' | 'kick'>('both')
-const isSlowMode = ref(false)
+const playbackSpeed = ref(1)
+const playbackSpeedOptions = [0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2]
 let api: alphaTab.AlphaTabApi | null = null
 let removePlayerReadyListener: (() => void) | null = null
 let removePlayerStateListener: (() => void) | null = null
@@ -65,7 +68,7 @@ onMounted(() => {
   })
   api = currentApi
   currentApi.masterVolume = 5
-  currentApi.playbackSpeed = 1
+  currentApi.playbackSpeed = playbackSpeed.value
   currentApi.isLooping = props.loop
 
   const pauseWhenAnotherTrackStarts = (event: Event) => {
@@ -171,10 +174,11 @@ onMounted(() => {
       window.dispatchEvent(new CustomEvent(playbackEventName, { detail: viewerId }))
     }
   })
-  removePlayerPositionListener = currentApi.playerPositionChanged.on(({ currentTime: position, currentTick: tick, endTick: finalTick }) => {
+  removePlayerPositionListener = currentApi.playerPositionChanged.on(({ currentTime: position, endTime, currentTick: tick, endTick: finalTick }) => {
     currentTime.value = position
     currentTick.value = tick
     endTick.value = finalTick
+    duration.value = endTime
 
     const loopBoundary = finalTick - 20
     if (props.loop && isPlaying.value && !isWrappingLoop && tick >= loopBoundary) {
@@ -247,9 +251,16 @@ function togglePlayback() {
   api?.playPause()
 }
 
-function updateSlowMode() {
-  if (api) api.playbackSpeed = isSlowMode.value ? 0.60 : 1
+function updatePlaybackSpeed() {
+  if (api) api.playbackSpeed = playbackSpeed.value
 }
+
+watch(() => props.showSheet, async (show) => {
+  if (!show || !api) return
+
+  await nextTick()
+  api.render()
+})
 
 function selectTrack(track: 'both' | 'snare' | 'kick') {
   selectedTrack.value = track
@@ -259,6 +270,11 @@ function selectTrack(track: 'both' | 'snare' | 'kick') {
   pendingPlayback = isPlaying.value
   isPlaying.value = false
   api.loadMidiForScore()
+}
+
+function seek(event: Event) {
+  if (!api) return
+  api.timePosition = Number((event.target as HTMLInputElement).value)
 }
 
 function scaleVelocity(velocity: number, scale: number) {
@@ -321,22 +337,23 @@ function scalePercussionVelocity(
         </button>
       </div>
       <div class="ml-auto flex flex-wrap items-center justify-end gap-2" aria-label="Track selector" role="group">
-        <label class="inline-flex h-8 cursor-pointer items-center gap-2 text-xs font-semibold text-foreground/70">
-          <span>Lent</span>
-          <input
-            v-model="isSlowMode"
-            class="peer sr-only"
-            type="checkbox"
-            :disabled="audioState !== 'ready'"
-            role="switch"
-            aria-label="Toggle slow mode"
-            @change="updateSlowMode"
-          />
-          <span
-            class="relative h-5 w-9 rounded-full bg-border transition-colors peer-checked:bg-foreground peer-checked:[&>span]:translate-x-4 peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-accent peer-disabled:cursor-not-allowed peer-disabled:opacity-40"
-            aria-hidden="true"
-          >
-            <span class="absolute left-0.5 top-0.5 h-4 w-4 rounded-full bg-white shadow transition-transform" />
+        <label class="inline-flex h-8 items-center gap-2 text-xs font-semibold text-foreground/70">
+          <span>Vitesse</span>
+          <span class="relative">
+            <select
+              v-model.number="playbackSpeed"
+              class="h-8 appearance-none rounded-full border border-border bg-background px-2 pr-6 text-xs font-semibold text-foreground outline-none transition-colors hover:border-foreground/50 focus-visible:border-accent focus-visible:ring-2 focus-visible:ring-accent/30 disabled:cursor-not-allowed disabled:opacity-40"
+              :disabled="audioState !== 'ready'"
+              aria-label="Vitesse de lecture"
+              @change="updatePlaybackSpeed"
+            >
+              <option v-for="speed in playbackSpeedOptions" :key="speed" :value="speed">
+                {{ speed.toFixed(1) }}x
+              </option>
+            </select>
+            <svg class="pointer-events-none absolute right-1.5 top-1/2 h-3 w-3 -translate-y-1/2 text-foreground/60" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+              <path d="m3 4.5 3 3 3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
           </span>
         </label>
         <button
@@ -352,14 +369,27 @@ function scalePercussionVelocity(
         </button>
       </div>
     </div>
-    <div ref="scoreElement" class="alpha-tab min-h-32 min-w-0 overflow-hidden" aria-label="Rendered MusicXML score" />
+    <div v-show="showSheet" ref="scoreElement" class="alpha-tab relative z-0 min-h-32 min-w-0 overflow-hidden" aria-label="Rendered MusicXML score" />
     <CircularRhythmViewer
       :src="src"
-      :show-circle="showCircularView"
+      :show-circle="showCircle"
       :circular-rhythm="circularRhythm"
+      :compound="compound"
       :current-tick="currentTick"
       :end-tick="endTick"
       :selected-track="selectedTrack"
+    />
+    <input
+      v-if="!showSheet && !showCircle"
+      class="mt-2 w-full accent-accent"
+      type="range"
+      min="0"
+      step="10"
+      :max="duration || 1"
+      :value="currentTime"
+      :disabled="audioState !== 'ready' || duration === 0"
+      :aria-label="`Position dans ${title}`"
+      @input="seek"
     />
   </div>
 </template>
@@ -376,6 +406,7 @@ function scalePercussionVelocity(
   width: 3px;
   background: var(--accent);
   opacity: 0.9;
+  z-index: 1 !important;
 }
 
 .playback-icon {

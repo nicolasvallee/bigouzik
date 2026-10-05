@@ -5,6 +5,8 @@ import { trackId, type MusicTrack } from '@/data/trackGroups'
 defineProps<{
   id: string
   tracks: MusicTrack[]
+  showSheets: boolean
+  showCircles: boolean
 }>()
 
 const publicAsset = (path: string) => `${import.meta.env.BASE_URL}${path.replace(/^\/+/, '')}`
@@ -35,7 +37,8 @@ const publicAsset = (path: string) => `${import.meta.env.BASE_URL}${path.replace
           :title="track.title"
           :description="track.description"
           :src="track.src"
-          :show-circular-view="track.showCircularView !== false"
+          :show-sheet="showSheets"
+          :show-circle="showCircles && track.showCircularView !== false"
           :circular-rhythm="track.circularRhythm"
           :track-link="`/back-to-batuk/${id}/${trackId(track)}`"
           :kick-velocity-scale="track.kickVelocityScale"

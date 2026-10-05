@@ -44,7 +44,12 @@ export const trackGroups: MusicTrackGroup[] = [
     tracks: [
       { title: 'Rio 1', description:"", 
          src: '/music/rio1.musicxml', images: ['/images/rio.png', '/images/1.png'],kickVelocityScale: 2, sheetScale: 0.7, loop: true },
-      { title: 'Rio 2', src: '/music/rio2.musicxml', images: ['/images/rio.png', '/images/2.png'], kickVelocityScale: 2,sheetScale: 0.6, loop: true },
+      { title: 'Rio 2', src: '/music/rio2.musicxml', images: ['/images/rio.png', '/images/2.png'], 
+         circularRhythm: [
+  { fromMeasure: 1, toMeasure: 1, repeats: 1 },
+  { fromMeasure: 2, toMeasure: 2, repeats: 1 },
+], 
+kickVelocityScale: 2,sheetScale: 0.6, loop: true },
     ],
     description:""
   },

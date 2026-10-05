@@ -39,6 +39,7 @@ const props = defineProps<{
   src: string
   showCircle: boolean
   circularRhythm?: CircularRhythmSection[]
+  compound?: boolean
   currentTick: number
   endTick: number
   selectedTrack: TrackSelection
@@ -58,7 +59,20 @@ function visibleRings(section: CircleSection) {
 }
 
 function beatCount(section: CircleSection) {
-  return Math.min(Math.ceil(section.sourceDuration), 32)
+  return Math.max(1, Math.min(Math.ceil(section.sourceDuration), 32))
+}
+
+function offBeatCount() {
+  return props.compound ? 2 : 1
+}
+
+function offBeatProgress(offBeat: number, section: CircleSection) {
+  const beats = beatCount(section)
+  const subdivisions = offBeatCount() + 1
+  const beat = Math.floor((offBeat - 1) / offBeatCount())
+  const subdivision = ((offBeat - 1) % offBeatCount()) + 1
+
+  return (beat + (subdivision / subdivisions)) / beats
 }
 
 function pointAt(progressValue: number, radius: number) {
@@ -100,8 +114,6 @@ function stickSize(hit: RhythmHit, section: CircleSection) {
 }
 
 onMounted(async () => {
-  if (!props.showCircle) return
-
   const response = await fetch(publicAsset(props.src))
   const xml = await response.text()
   const document = new DOMParser().parseFromString(xml, 'application/xml')
@@ -270,6 +282,15 @@ function rhythmKind(label: string): RhythmKind {
             :y2="pointAt((beat - 1) / beatCount(section), radiusFor(0, visibleRings(section).length)).y"
             class="rhythm-grid"
           />
+          <line
+            v-for="offBeat in beatCount(section) * offBeatCount()"
+            :key="`offbeat-${offBeat}`"
+            x1="160"
+            y1="160"
+            :x2="pointAt(offBeatProgress(offBeat, section), radiusFor(0, visibleRings(section).length)).x"
+            :y2="pointAt(offBeatProgress(offBeat, section), radiusFor(0, visibleRings(section).length)).y"
+            class="rhythm-offbeat-grid"
+          />
           <circle
             v-for="(ring, index) in visibleRings(section)"
             :key="ring.id"
@@ -330,15 +351,20 @@ function rhythmKind(label: string): RhythmKind {
 .rhythm-ring,
 .rhythm-grid {
   fill: none;
-  stroke: color-mix(in srgb, currentColor 16%, transparent);
+  stroke: color-mix(in srgb, currentColor 28%, transparent);
 }
 
 .rhythm-grid {
-  stroke-width: 1;
+  stroke-width: 2.5;
+}
+
+.rhythm-offbeat-grid {
+  stroke: color-mix(in srgb, currentColor 18%, transparent);
+  stroke-width: 0.75;
 }
 
 .rhythm-ring {
-  stroke-width: 2;
+  stroke-width: 2.5;
 }
 
 .rhythm-cursor {
