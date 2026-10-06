@@ -8,7 +8,7 @@
     <creator type="composer">Composer / arranger</creator>
     <encoding>
       <software>MuseScore Studio 4.7.5</software>
-      <encoding-date>2026-09-30</encoding-date>
+      <encoding-date>2026-10-06</encoding-date>
       <supports element="accidental" type="yes"/>
       <supports element="beam" type="yes"/>
       <supports element="print" attribute="new-page" type="no"/>
@@ -849,24 +849,11 @@
           <display-step>E</display-step>
           <display-octave>4</display-octave>
           </unpitched>
-        <duration>2</duration>
+        <duration>4</duration>
         <instrument id="P2-I37"/>
         <voice>1</voice>
-        <type>eighth</type>
+        <type>quarter</type>
         <stem>up</stem>
-        <beam number="1">begin</beam>
-        </note>
-      <note default-x="351.28" default-y="-116.22">
-        <unpitched>
-          <display-step>E</display-step>
-          <display-octave>4</display-octave>
-          </unpitched>
-        <duration>2</duration>
-        <instrument id="P2-I37"/>
-        <voice>1</voice>
-        <type>eighth</type>
-        <stem>up</stem>
-        <beam number="1">end</beam>
         </note>
       <barline location="right">
         <bar-style>light-heavy</bar-style>

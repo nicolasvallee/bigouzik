@@ -2,7 +2,7 @@
 import * as alphaTab from '@coderline/alphatab'
 import { nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { normalizeMusicXml } from '@/lib/normalizeMusicXml'
-import type { CircularRhythmSection } from '@/data/trackGroups'
+import type { CircularRhythmSection, SurdoVariant } from '@/data/trackGroups'
 import CircularRhythmViewer from './CircularRhythmViewer.vue'
 
 const PARENTHESIZED_SNARE_VELOCITY_SCALE = 0.15
@@ -14,6 +14,7 @@ const props = defineProps<{
   trackLink?: string
   kickVelocityScale?: number
   sideStickVelocityScale?: number
+  surdoVariants?: SurdoVariant[]
   sheetScale?: number
   showSheet: boolean
   showCircle: boolean
@@ -46,6 +47,7 @@ let isWrappingLoop = false
 const parenthesizedSnareTicks = new Set<number>()
 let hasRenderedAllTracks = false
 let scoreTracks: alphaTab.model.Track[] = []
+let surdoVariantRanges: Array<{ startTick: number; endTick: number; midiNote: number }> = []
 let layoutObserver: ResizeObserver | null = null
 let removeWindowResizeListener: (() => void) | null = null
 
@@ -120,6 +122,8 @@ onMounted(() => {
     }
 
     scoreTracks = score.tracks
+    surdoVariantRanges = getSurdoVariantRanges()
+    colorSurdoVariants()
     renderSelectedTracks(currentApi)
   })
   removeMidiLoadListener = currentApi.midiLoad.on((midi) => {
@@ -140,6 +144,7 @@ onMounted(() => {
 
           scalePercussionVelocity(noteEvent, kickVelocityScale, sideStickVelocityScale, event.tick)
         }
+        applySurdoVariants(track.events)
       })
     } else if (
       kickVelocityScale !== 1
@@ -153,6 +158,7 @@ onMounted(() => {
           const noteEvent = event as { noteKey: number; noteVelocity?: number }
           scalePercussionVelocity(noteEvent, kickVelocityScale, sideStickVelocityScale, event.tick)
         })
+        applySurdoVariants(track.events)
       })
     }
 
@@ -291,6 +297,88 @@ function scoreTrackKind(track: alphaTab.model.Track): Exclude<typeof selectedTra
   return 'other'
 }
 
+function getSurdoVariantRanges() {
+  if (!props.surdoVariants?.length) return []
+
+  const bars = scoreTracks.find((track) => scoreTrackKind(track) === 'kick')?.staves[0]?.bars ?? []
+
+  return props.surdoVariants.flatMap((variant) => {
+    const bar = bars[variant.measure - 1]
+    const barStart = Math.min(...(bar?.voices.flatMap((voice) => voice.beats.map((beat) => beat.absolutePlaybackStart)) ?? []))
+    if (!bar || !Number.isFinite(barStart)) return []
+
+    const { timeSignatureNumerator: numerator, timeSignatureDenominator: denominator } = bar.masterBar
+    const beatsInBar = denominator === 8 && numerator >= 6 && numerator % 3 === 0
+      ? numerator / 3
+      : numerator
+    const beatDuration = bar.calculateDuration() / beatsInBar
+    const beat = Math.max(1, variant.beat ?? 1)
+    const startTick = barStart + (beat - 1) * beatDuration
+    const duration = Number.isInteger(beat) ? beatDuration : beatDuration / 4
+
+    return [{ startTick, endTick: startTick + duration, midiNote: variant.midiNote }]
+  })
+}
+
+function colorSurdoVariants() {
+  const colors = new Map([
+    [41, new alphaTab.model.Color(220, 38, 38)],
+    [43, new alphaTab.model.Color(22, 163, 74)],
+  ])
+  scoreTracks
+    .filter((track) => scoreTrackKind(track) === 'kick')
+    .forEach((track) => {
+      track.staves.forEach((staff) => {
+        staff.bars.forEach((bar) => {
+          bar.voices.forEach((voice) => {
+            voice.beats.forEach((beat) => {
+              let color: alphaTab.model.Color | undefined
+              for (let index = surdoVariantRanges.length - 1; index >= 0; index -= 1) {
+                const variant = surdoVariantRanges[index]
+                if (beat.absolutePlaybackStart >= variant.startTick && beat.absolutePlaybackStart < variant.endTick) {
+                  color = colors.get(variant.midiNote)
+                  break
+                }
+              }
+              if (!color) return
+
+              beat.notes.forEach((note) => {
+                note.style ??= new alphaTab.model.NoteStyle()
+                note.style.colors.set(alphaTab.model.NoteSubElement.StandardNotationNoteHead, color)
+              })
+            })
+          })
+        })
+      })
+    })
+}
+
+function applySurdoVariants(events: Array<{ tick: number; type: alphaTab.midi.MidiEventType; noteKey?: number }>) {
+  const activeNotes: number[] = []
+
+  for (const event of events) {
+    if (event.noteKey !== 36) continue
+
+    if (event.type === alphaTab.midi.MidiEventType.NoteOn) {
+      let midiNote = 36
+
+      for (let index = surdoVariantRanges.length - 1; index >= 0; index -= 1) {
+        const variant = surdoVariantRanges[index]
+        if (event.tick >= variant.startTick && event.tick < variant.endTick) {
+          midiNote = variant.midiNote
+          break
+        }
+      }
+
+      event.noteKey = midiNote
+      activeNotes.push(midiNote)
+    } else if (event.type === alphaTab.midi.MidiEventType.NoteOff) {
+      const midiNote = activeNotes.shift()
+      if (midiNote !== undefined) event.noteKey = midiNote
+    }
+  }
+}
+
 function seek(event: Event) {
   if (!api) return
   api.timePosition = Number((event.target as HTMLInputElement).value)
@@ -400,6 +488,7 @@ function scalePercussionVelocity(
       :src="src"
       :show-circle="showCircle"
       :circular-rhythm="circularRhythm"
+      :surdo-variants="surdoVariants"
       :compound="compound"
       :current-tick="currentTick"
       :end-tick="endTick"

@@ -43,6 +43,7 @@ const publicAsset = (path: string) => `${import.meta.env.BASE_URL}${path.replace
           :track-link="`/back-to-batuk/${id}/${trackId(track)}`"
           :kick-velocity-scale="track.kickVelocityScale"
           :side-stick-velocity-scale="track.sideStickVelocityScale"
+          :surdo-variants="track.surdoVariants"
           :sheet-scale="track.sheetScale"
           :compound="track.compound"
           :loop="track.loop"

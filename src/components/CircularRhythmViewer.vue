@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
-import type { CircularRhythmSection } from '@/data/trackGroups'
+import type { CircularRhythmSection, SurdoVariant } from '@/data/trackGroups'
 
 type TrackSelection = 'both' | 'snare' | 'kick'
 type RhythmKind = Exclude<TrackSelection, 'both'> | 'other'
@@ -9,12 +9,15 @@ interface RhythmHit {
   time: number
   parenthesized: boolean
   drumStick: boolean
+  surdoMidiNote?: number
 }
 
 interface RhythmMeasure {
   start: number
   duration: number
   hits: RhythmHit[]
+  numerator: number
+  denominator: number
 }
 
 interface ParsedRing {
@@ -39,6 +42,7 @@ const props = defineProps<{
   src: string
   showCircle: boolean
   circularRhythm?: CircularRhythmSection[]
+  surdoVariants?: SurdoVariant[]
   compound?: boolean
   currentTick: number
   endTick: number
@@ -147,8 +151,17 @@ onMounted(async () => {
     const id = part.getAttribute('id') ?? ''
     const label = names.get(id) ?? 'Percussion'
     const parsed = parsePart(part, instrumentNames)
+    const kind = rhythmKind(label)
 
-    return { id, label, kind: rhythmKind(label), ...parsed }
+    return {
+      id,
+      label,
+      kind,
+      ...parsed,
+      hits: kind === 'kick'
+        ? parsed.hits.map((hit) => ({ ...hit, surdoMidiNote: surdoVariantAt(hit.time, parsed.measures) }))
+        : parsed.hits,
+    }
   }).filter((ring) => ring.hits.length > 0)
 
   cycleDuration.value = Math.max(...parsedRings.map((ring) => ring.duration), 0)
@@ -228,6 +241,8 @@ function parsePart(part: Element, instrumentNames: Map<string, string>) {
   const measures: RhythmMeasure[] = []
   let divisions = 1
   let timeline = 0
+  let numerator = 4
+  let denominator = 4
 
   part.querySelectorAll(':scope > measure').forEach((measure) => {
     let cursor = 0
@@ -238,6 +253,10 @@ function parsePart(part: Element, instrumentNames: Map<string, string>) {
       if (element.tagName === 'attributes') {
         const nextDivisions = Number(element.querySelector('divisions')?.textContent)
         if (Number.isFinite(nextDivisions) && nextDivisions > 0) divisions = nextDivisions
+        const nextNumerator = Number(element.querySelector('time > beats')?.textContent)
+        const nextDenominator = Number(element.querySelector('time > beat-type')?.textContent)
+        if (Number.isFinite(nextNumerator) && nextNumerator > 0) numerator = nextNumerator
+        if (Number.isFinite(nextDenominator) && nextDenominator > 0) denominator = nextDenominator
         return
       }
 
@@ -271,6 +290,8 @@ function parsePart(part: Element, instrumentNames: Map<string, string>) {
       start: timeline,
       duration: measureDuration,
       hits: measureHits.map((hit) => ({ ...hit, time: hit.time + timeline })),
+      numerator,
+      denominator,
     }
     measures.push(parsedMeasure)
     hits.push(...parsedMeasure.hits)
@@ -278,6 +299,24 @@ function parsePart(part: Element, instrumentNames: Map<string, string>) {
   })
 
   return { hits, measures, duration: timeline }
+}
+
+function surdoVariantAt(time: number, measures: RhythmMeasure[]) {
+  for (let index = (props.surdoVariants?.length ?? 0) - 1; index >= 0; index -= 1) {
+    const variant = props.surdoVariants![index]
+    const measure = measures[variant.measure - 1]
+    if (!measure) continue
+
+    const beats = measure.denominator === 8 && measure.numerator >= 6 && measure.numerator % 3 === 0
+      ? measure.numerator / 3
+      : measure.numerator
+    const beatDuration = measure.duration / beats
+    const beat = Math.max(1, variant.beat ?? 1)
+    const start = measure.start + (beat - 1) * beatDuration
+    const duration = Number.isInteger(beat) ? beatDuration : beatDuration / 4
+
+    if (time >= start && time < start + duration) return variant.midiNote
+  }
 }
 
 function rhythmKind(label: string): RhythmKind {
@@ -359,7 +398,11 @@ function rhythmKind(label: string): RhythmKind {
                 :cy="pointAt(hit.time / section.sourceDuration, radiusFor(index, visibleRings(section).length)).y"
                 :r="hitSize(hit, section)"
                 class="rhythm-hit"
-                :class="ring.kind === 'snare' ? 'rhythm-hit--snare' : ''"
+                :class="[
+                  ring.kind === 'snare' ? 'rhythm-hit--snare' : '',
+                  hit.surdoMidiNote === 41 ? 'rhythm-hit--surdo-41' : '',
+                  hit.surdoMidiNote === 43 ? 'rhythm-hit--surdo-43' : '',
+                ]"
               />
             </template>
           </g>
@@ -410,6 +453,14 @@ function rhythmKind(label: string): RhythmKind {
 
 .rhythm-hit--snare {
   fill: var(--accent);
+}
+
+.rhythm-hit--surdo-41 {
+  fill: #dc2626;
+}
+
+.rhythm-hit--surdo-43 {
+  fill: #16a34a;
 }
 
 .rhythm-stick-hit line {
