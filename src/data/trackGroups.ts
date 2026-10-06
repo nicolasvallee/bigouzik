@@ -152,6 +152,16 @@ sheetScale: 0.6, loop: true },
   { fromMeasure: 1, toMeasure: 1, repeats: 1 },
   { fromMeasure: 2, toMeasure: 2, repeats: 1 }],
    kickVelocityScale: 2, sheetScale: 0.6, loop: true },
+         { title: 'Cut rock', src: '/music/cut-rock-pour-maracatu.musicxml', images: [],  kickVelocityScale: 1, sheetScale: 0.6, loop: false },
+                  { title: 'Enchaînement des deux', src: '/music/maracatu-avec-cut-rock.musicxml', images: [],  kickVelocityScale: 1, sheetScale: 0.6, loop: true },
+                     { title: 'Cut 4', src: '/music/cut4-pour-maracatu.musicxml', images: [],  kickVelocityScale: 1, sheetScale: 0.6, loop: false },
+                  { title: 'Enchaînement des deux', src: '/music/maracatu-avec-cut4.musicxml', images: [],  kickVelocityScale: 1, sheetScale: 0.6, loop: true },
+                   { title: 'Cut 7', src: '/music/cut7-pour-maracatu.musicxml', images: [],  kickVelocityScale: 1, sheetScale: 0.6, loop: false },
+                  { title: 'Enchaînement des deux', src: '/music/maracatu-avec-cut7.musicxml', images: [],  kickVelocityScale: 1, sheetScale: 0.6, loop: true },
+                    { title: 'Cut 10', src: '/music/cut10-pour-maracatu.musicxml', images: [],  kickVelocityScale: 1, sheetScale: 0.6, loop: false },
+                  { title: 'Enchaînement des deux', src: '/music/maracatu-avec-cut10.musicxml', images: [],  kickVelocityScale: 1, sheetScale: 0.6, loop: true },
+
+
 
 
     ],
