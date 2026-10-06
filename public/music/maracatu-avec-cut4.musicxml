@@ -117,7 +117,7 @@
     <part-group type="stop" number="1"/>
     </part-list>
   <part id="P1">
-    <measure number="1" width="635.81">
+    <measure number="1" width="476.53">
       <print>
         <system-layout>
           <system-margins>
@@ -171,7 +171,7 @@
             </articulations>
           </notations>
         </note>
-      <note default-x="105.72" default-y="0" dynamics="22.22">
+      <note default-x="95.27" default-y="0" dynamics="22.22">
         <unpitched>
           <display-step>E</display-step>
           <display-octave>4</display-octave>
@@ -185,7 +185,7 @@
         <beam number="1">continue</beam>
         <beam number="2">continue</beam>
         </note>
-      <note default-x="140.94" default-y="0" dynamics="22.22">
+      <note default-x="120.04" default-y="0" dynamics="22.22">
         <unpitched>
           <display-step>E</display-step>
           <display-octave>4</display-octave>
@@ -199,7 +199,7 @@
         <beam number="1">continue</beam>
         <beam number="2">continue</beam>
         </note>
-      <note default-x="176.16" default-y="0">
+      <note default-x="144.81" default-y="0">
         <unpitched>
           <display-step>E</display-step>
           <display-octave>4</display-octave>
@@ -217,7 +217,7 @@
             </articulations>
           </notations>
         </note>
-      <note default-x="211.38" default-y="0">
+      <note default-x="169.57" default-y="0">
         <unpitched>
           <display-step>E</display-step>
           <display-octave>4</display-octave>
@@ -235,7 +235,7 @@
             </articulations>
           </notations>
         </note>
-      <note default-x="246.6" default-y="0" dynamics="22.22">
+      <note default-x="194.34" default-y="0" dynamics="22.22">
         <unpitched>
           <display-step>E</display-step>
           <display-octave>4</display-octave>
@@ -249,7 +249,7 @@
         <beam number="1">continue</beam>
         <beam number="2">continue</beam>
         </note>
-      <note default-x="281.82" default-y="0" dynamics="22.22">
+      <note default-x="219.11" default-y="0" dynamics="22.22">
         <unpitched>
           <display-step>E</display-step>
           <display-octave>4</display-octave>
@@ -263,7 +263,7 @@
         <beam number="1">continue</beam>
         <beam number="2">continue</beam>
         </note>
-      <note default-x="317.04" default-y="0" dynamics="22.22">
+      <note default-x="243.88" default-y="0" dynamics="22.22">
         <unpitched>
           <display-step>E</display-step>
           <display-octave>4</display-octave>
@@ -277,7 +277,7 @@
         <beam number="1">end</beam>
         <beam number="2">end</beam>
         </note>
-      <note default-x="352.26" default-y="0" dynamics="22.22">
+      <note default-x="268.64" default-y="0" dynamics="22.22">
         <unpitched>
           <display-step>E</display-step>
           <display-octave>4</display-octave>
@@ -291,7 +291,7 @@
         <beam number="1">begin</beam>
         <beam number="2">begin</beam>
         </note>
-      <note default-x="387.48" default-y="0">
+      <note default-x="293.41" default-y="0">
         <unpitched>
           <display-step>E</display-step>
           <display-octave>4</display-octave>
@@ -309,7 +309,7 @@
             </articulations>
           </notations>
         </note>
-      <note default-x="422.7" default-y="0" dynamics="22.22">
+      <note default-x="318.18" default-y="0" dynamics="22.22">
         <unpitched>
           <display-step>E</display-step>
           <display-octave>4</display-octave>
@@ -323,7 +323,7 @@
         <beam number="1">continue</beam>
         <beam number="2">continue</beam>
         </note>
-      <note default-x="457.91" default-y="0">
+      <note default-x="342.95" default-y="0">
         <unpitched>
           <display-step>E</display-step>
           <display-octave>4</display-octave>
@@ -341,7 +341,7 @@
             </articulations>
           </notations>
         </note>
-      <note default-x="493.13" default-y="0">
+      <note default-x="367.71" default-y="0">
         <unpitched>
           <display-step>E</display-step>
           <display-octave>4</display-octave>
@@ -359,7 +359,7 @@
             </articulations>
           </notations>
         </note>
-      <note default-x="528.35" default-y="0" dynamics="22.22">
+      <note default-x="392.48" default-y="0" dynamics="22.22">
         <unpitched>
           <display-step>E</display-step>
           <display-octave>4</display-octave>
@@ -373,7 +373,7 @@
         <beam number="1">continue</beam>
         <beam number="2">continue</beam>
         </note>
-      <note default-x="563.57" default-y="0" dynamics="22.22">
+      <note default-x="417.25" default-y="0" dynamics="22.22">
         <unpitched>
           <display-step>E</display-step>
           <display-octave>4</display-octave>
@@ -387,7 +387,7 @@
         <beam number="1">continue</beam>
         <beam number="2">continue</beam>
         </note>
-      <note default-x="598.79" default-y="0" dynamics="22.22">
+      <note default-x="442.02" default-y="0" dynamics="22.22">
         <unpitched>
           <display-step>E</display-step>
           <display-octave>4</display-octave>
@@ -402,14 +402,258 @@
         <beam number="2">end</beam>
         </note>
       </measure>
-    <measure number="2" width="259.24">
-      <attributes>
-        <time>
-          <beats>2</beats>
-          <beat-type>4</beat-type>
-          </time>
-        </attributes>
-      <note default-x="36.92" default-y="0">
+    <measure number="2" width="418.52">
+      <note default-x="12.5" default-y="0" dynamics="71.11">
+        <unpitched>
+          <display-step>E</display-step>
+          <display-octave>4</display-octave>
+          </unpitched>
+        <duration>1</duration>
+        <instrument id="P1-I39"/>
+        <voice>1</voice>
+        <type>16th</type>
+        <stem>up</stem>
+        <beam number="1">begin</beam>
+        <beam number="2">begin</beam>
+        <notations>
+          <articulations>
+            <accent default-x="-0.72" default-y="-9.32"/>
+            </articulations>
+          </notations>
+        </note>
+      <note default-x="37.27" default-y="0" dynamics="22.22">
+        <unpitched>
+          <display-step>E</display-step>
+          <display-octave>4</display-octave>
+          </unpitched>
+        <duration>1</duration>
+        <instrument id="P1-I39"/>
+        <voice>1</voice>
+        <type>16th</type>
+        <stem>up</stem>
+        <notehead parentheses="yes">normal</notehead>
+        <beam number="1">continue</beam>
+        <beam number="2">continue</beam>
+        </note>
+      <note default-x="62.04" default-y="0" dynamics="22.22">
+        <unpitched>
+          <display-step>E</display-step>
+          <display-octave>4</display-octave>
+          </unpitched>
+        <duration>1</duration>
+        <instrument id="P1-I39"/>
+        <voice>1</voice>
+        <type>16th</type>
+        <stem>up</stem>
+        <notehead parentheses="yes">normal</notehead>
+        <beam number="1">continue</beam>
+        <beam number="2">continue</beam>
+        </note>
+      <note default-x="86.8" default-y="0">
+        <unpitched>
+          <display-step>E</display-step>
+          <display-octave>4</display-octave>
+          </unpitched>
+        <duration>1</duration>
+        <instrument id="P1-I39"/>
+        <voice>1</voice>
+        <type>16th</type>
+        <stem>up</stem>
+        <beam number="1">end</beam>
+        <beam number="2">end</beam>
+        <notations>
+          <articulations>
+            <accent default-x="-0.72" default-y="-9.32"/>
+            </articulations>
+          </notations>
+        </note>
+      <note default-x="111.57" default-y="0">
+        <unpitched>
+          <display-step>E</display-step>
+          <display-octave>4</display-octave>
+          </unpitched>
+        <duration>1</duration>
+        <instrument id="P1-I39"/>
+        <voice>1</voice>
+        <type>16th</type>
+        <stem>up</stem>
+        <beam number="1">begin</beam>
+        <beam number="2">begin</beam>
+        <notations>
+          <articulations>
+            <accent default-x="-0.72" default-y="-9.32"/>
+            </articulations>
+          </notations>
+        </note>
+      <note default-x="136.34" default-y="0" dynamics="22.22">
+        <unpitched>
+          <display-step>E</display-step>
+          <display-octave>4</display-octave>
+          </unpitched>
+        <duration>1</duration>
+        <instrument id="P1-I39"/>
+        <voice>1</voice>
+        <type>16th</type>
+        <stem>up</stem>
+        <notehead parentheses="yes">normal</notehead>
+        <beam number="1">continue</beam>
+        <beam number="2">continue</beam>
+        </note>
+      <note default-x="161.11" default-y="0" dynamics="22.22">
+        <unpitched>
+          <display-step>E</display-step>
+          <display-octave>4</display-octave>
+          </unpitched>
+        <duration>1</duration>
+        <instrument id="P1-I39"/>
+        <voice>1</voice>
+        <type>16th</type>
+        <stem>up</stem>
+        <notehead parentheses="yes">normal</notehead>
+        <beam number="1">continue</beam>
+        <beam number="2">continue</beam>
+        </note>
+      <note default-x="185.87" default-y="0" dynamics="22.22">
+        <unpitched>
+          <display-step>E</display-step>
+          <display-octave>4</display-octave>
+          </unpitched>
+        <duration>1</duration>
+        <instrument id="P1-I39"/>
+        <voice>1</voice>
+        <type>16th</type>
+        <stem>up</stem>
+        <notehead parentheses="yes">normal</notehead>
+        <beam number="1">end</beam>
+        <beam number="2">end</beam>
+        </note>
+      <note default-x="210.64" default-y="0" dynamics="22.22">
+        <unpitched>
+          <display-step>E</display-step>
+          <display-octave>4</display-octave>
+          </unpitched>
+        <duration>1</duration>
+        <instrument id="P1-I39"/>
+        <voice>1</voice>
+        <type>16th</type>
+        <stem>up</stem>
+        <notehead parentheses="yes">normal</notehead>
+        <beam number="1">begin</beam>
+        <beam number="2">begin</beam>
+        </note>
+      <note default-x="235.41" default-y="0">
+        <unpitched>
+          <display-step>E</display-step>
+          <display-octave>4</display-octave>
+          </unpitched>
+        <duration>1</duration>
+        <instrument id="P1-I39"/>
+        <voice>1</voice>
+        <type>16th</type>
+        <stem>up</stem>
+        <beam number="1">continue</beam>
+        <beam number="2">continue</beam>
+        <notations>
+          <articulations>
+            <accent default-x="-0.72" default-y="-9.32"/>
+            </articulations>
+          </notations>
+        </note>
+      <note default-x="260.18" default-y="0" dynamics="22.22">
+        <unpitched>
+          <display-step>E</display-step>
+          <display-octave>4</display-octave>
+          </unpitched>
+        <duration>1</duration>
+        <instrument id="P1-I39"/>
+        <voice>1</voice>
+        <type>16th</type>
+        <stem>up</stem>
+        <notehead parentheses="yes">normal</notehead>
+        <beam number="1">continue</beam>
+        <beam number="2">continue</beam>
+        </note>
+      <note default-x="284.94" default-y="0">
+        <unpitched>
+          <display-step>E</display-step>
+          <display-octave>4</display-octave>
+          </unpitched>
+        <duration>1</duration>
+        <instrument id="P1-I39"/>
+        <voice>1</voice>
+        <type>16th</type>
+        <stem>up</stem>
+        <beam number="1">end</beam>
+        <beam number="2">end</beam>
+        <notations>
+          <articulations>
+            <accent default-x="-0.72" default-y="-9.32"/>
+            </articulations>
+          </notations>
+        </note>
+      <note default-x="309.71" default-y="0">
+        <unpitched>
+          <display-step>E</display-step>
+          <display-octave>4</display-octave>
+          </unpitched>
+        <duration>1</duration>
+        <instrument id="P1-I39"/>
+        <voice>1</voice>
+        <type>16th</type>
+        <stem>up</stem>
+        <beam number="1">begin</beam>
+        <beam number="2">begin</beam>
+        <notations>
+          <articulations>
+            <accent default-x="-0.72" default-y="-9.32"/>
+            </articulations>
+          </notations>
+        </note>
+      <note default-x="334.48" default-y="0" dynamics="22.22">
+        <unpitched>
+          <display-step>E</display-step>
+          <display-octave>4</display-octave>
+          </unpitched>
+        <duration>1</duration>
+        <instrument id="P1-I39"/>
+        <voice>1</voice>
+        <type>16th</type>
+        <stem>up</stem>
+        <notehead parentheses="yes">normal</notehead>
+        <beam number="1">continue</beam>
+        <beam number="2">continue</beam>
+        </note>
+      <note default-x="359.25" default-y="0" dynamics="22.22">
+        <unpitched>
+          <display-step>E</display-step>
+          <display-octave>4</display-octave>
+          </unpitched>
+        <duration>1</duration>
+        <instrument id="P1-I39"/>
+        <voice>1</voice>
+        <type>16th</type>
+        <stem>up</stem>
+        <notehead parentheses="yes">normal</notehead>
+        <beam number="1">continue</beam>
+        <beam number="2">continue</beam>
+        </note>
+      <note default-x="384.01" default-y="0" dynamics="22.22">
+        <unpitched>
+          <display-step>E</display-step>
+          <display-octave>4</display-octave>
+          </unpitched>
+        <duration>1</duration>
+        <instrument id="P1-I39"/>
+        <voice>1</voice>
+        <type>16th</type>
+        <stem>up</stem>
+        <notehead parentheses="yes">normal</notehead>
+        <beam number="1">end</beam>
+        <beam number="2">end</beam>
+        </note>
+      </measure>
+    <measure number="3" width="981.07">
+      <note default-x="48.38" default-y="0">
         <unpitched>
           <display-step>E</display-step>
           <display-octave>4</display-octave>
@@ -426,7 +670,41 @@
             </articulations>
           </notations>
         </note>
-      <note default-x="89.75" default-y="0">
+      <note default-x="147.13" default-y="0">
+        <unpitched>
+          <display-step>E</display-step>
+          <display-octave>4</display-octave>
+          </unpitched>
+        <duration>2</duration>
+        <instrument id="P1-I39"/>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem>up</stem>
+        <beam number="1">continue</beam>
+        <notations>
+          <articulations>
+            <accent default-x="-0.72" default-y="-9.32"/>
+            </articulations>
+          </notations>
+        </note>
+      <note default-x="245.89" default-y="0">
+        <unpitched>
+          <display-step>E</display-step>
+          <display-octave>4</display-octave>
+          </unpitched>
+        <duration>2</duration>
+        <instrument id="P1-I39"/>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem>up</stem>
+        <beam number="1">continue</beam>
+        <notations>
+          <articulations>
+            <accent default-x="-0.72" default-y="-9.32"/>
+            </articulations>
+          </notations>
+        </note>
+      <note default-x="344.64" default-y="0">
         <unpitched>
           <display-step>E</display-step>
           <display-octave>4</display-octave>
@@ -443,39 +721,121 @@
             </articulations>
           </notations>
         </note>
-      <note default-x="142.58" default-y="0">
+      <note default-x="443.39" default-y="0">
+        <rest/>
+        <duration>1</duration>
+        <voice>1</voice>
+        <type>16th</type>
+        </note>
+      <note default-x="509.23" default-y="0">
         <unpitched>
           <display-step>E</display-step>
           <display-octave>4</display-octave>
           </unpitched>
-        <duration>2</duration>
+        <duration>1</duration>
         <instrument id="P1-I39"/>
         <voice>1</voice>
-        <type>eighth</type>
+        <type>16th</type>
         <stem>up</stem>
         <beam number="1">begin</beam>
+        <beam number="2">begin</beam>
         <notations>
           <articulations>
             <accent default-x="-0.72" default-y="-9.32"/>
             </articulations>
           </notations>
         </note>
-      <note default-x="195.41" default-y="0">
+      <note default-x="575.06" default-y="0" dynamics="22.22">
         <unpitched>
           <display-step>E</display-step>
           <display-octave>4</display-octave>
           </unpitched>
-        <duration>2</duration>
+        <duration>1</duration>
         <instrument id="P1-I39"/>
         <voice>1</voice>
-        <type>eighth</type>
+        <type>16th</type>
+        <stem>up</stem>
+        <notehead parentheses="yes">normal</notehead>
+        <beam number="1">continue</beam>
+        <beam number="2">continue</beam>
+        </note>
+      <note default-x="640.9" default-y="0">
+        <unpitched>
+          <display-step>E</display-step>
+          <display-octave>4</display-octave>
+          </unpitched>
+        <duration>1</duration>
+        <instrument id="P1-I39"/>
+        <voice>1</voice>
+        <type>16th</type>
         <stem>up</stem>
         <beam number="1">end</beam>
+        <beam number="2">end</beam>
         <notations>
           <articulations>
             <accent default-x="-0.72" default-y="-9.32"/>
             </articulations>
           </notations>
+        </note>
+      <note default-x="706.73" default-y="0">
+        <unpitched>
+          <display-step>E</display-step>
+          <display-octave>4</display-octave>
+          </unpitched>
+        <duration>1</duration>
+        <instrument id="P1-I39"/>
+        <voice>1</voice>
+        <type>16th</type>
+        <stem>up</stem>
+        <beam number="1">begin</beam>
+        <beam number="2">begin</beam>
+        <notations>
+          <articulations>
+            <accent default-x="-0.72" default-y="-9.32"/>
+            </articulations>
+          </notations>
+        </note>
+      <note default-x="772.56" default-y="0" dynamics="22.22">
+        <unpitched>
+          <display-step>E</display-step>
+          <display-octave>4</display-octave>
+          </unpitched>
+        <duration>1</duration>
+        <instrument id="P1-I39"/>
+        <voice>1</voice>
+        <type>16th</type>
+        <stem>up</stem>
+        <notehead parentheses="yes">normal</notehead>
+        <beam number="1">continue</beam>
+        <beam number="2">continue</beam>
+        </note>
+      <note default-x="838.4" default-y="0" dynamics="22.22">
+        <unpitched>
+          <display-step>E</display-step>
+          <display-octave>4</display-octave>
+          </unpitched>
+        <duration>1</duration>
+        <instrument id="P1-I39"/>
+        <voice>1</voice>
+        <type>16th</type>
+        <stem>up</stem>
+        <notehead parentheses="yes">normal</notehead>
+        <beam number="1">continue</beam>
+        <beam number="2">continue</beam>
+        </note>
+      <note default-x="904.23" default-y="0" dynamics="22.22">
+        <unpitched>
+          <display-step>E</display-step>
+          <display-octave>4</display-octave>
+          </unpitched>
+        <duration>1</duration>
+        <instrument id="P1-I39"/>
+        <voice>1</voice>
+        <type>16th</type>
+        <stem>up</stem>
+        <notehead parentheses="yes">normal</notehead>
+        <beam number="1">end</beam>
+        <beam number="2">end</beam>
         </note>
       <barline location="right">
         <bar-style>light-heavy</bar-style>
@@ -483,10 +843,10 @@
       </measure>
     </part>
   <part id="P2">
-    <measure number="1" width="635.81">
+    <measure number="1" width="476.53">
       <print>
         <staff-layout number="1">
-          <staff-distance>71.22</staff-distance>
+          <staff-distance>79.33</staff-distance>
           </staff-layout>
         </print>
       <attributes>
@@ -506,19 +866,19 @@
           <staff-lines>1</staff-lines>
           </staff-details>
         </attributes>
-      <note default-x="70.5" default-y="-111.22">
+      <note default-x="70.5" default-y="-119.33">
         <rest/>
         <duration>4</duration>
         <voice>1</voice>
         <type>quarter</type>
         </note>
-      <note default-x="211.38" default-y="-111.22">
+      <note default-x="169.57" default-y="-119.33">
         <rest/>
         <duration>1</duration>
         <voice>1</voice>
         <type>16th</type>
         </note>
-      <note default-x="246.6" default-y="-111.22">
+      <note default-x="194.34" default-y="-119.33">
         <unpitched>
           <display-step>E</display-step>
           <display-octave>4</display-octave>
@@ -531,7 +891,7 @@
         <beam number="1">begin</beam>
         <beam number="2">forward hook</beam>
         </note>
-      <note default-x="281.82" default-y="-111.22">
+      <note default-x="219.11" default-y="-119.33">
         <unpitched>
           <display-step>E</display-step>
           <display-octave>4</display-octave>
@@ -543,19 +903,19 @@
         <stem>up</stem>
         <beam number="1">end</beam>
         </note>
-      <note default-x="352.26" default-y="-111.22">
+      <note default-x="268.64" default-y="-119.33">
         <rest/>
         <duration>4</duration>
         <voice>1</voice>
         <type>quarter</type>
         </note>
-      <note default-x="493.13" default-y="-111.22">
+      <note default-x="367.71" default-y="-119.33">
         <rest/>
         <duration>1</duration>
         <voice>1</voice>
         <type>16th</type>
         </note>
-      <note default-x="528.35" default-y="-111.22">
+      <note default-x="392.48" default-y="-119.33">
         <unpitched>
           <display-step>E</display-step>
           <display-octave>4</display-octave>
@@ -568,7 +928,7 @@
         <beam number="1">begin</beam>
         <beam number="2">forward hook</beam>
         </note>
-      <note default-x="563.57" default-y="-111.22">
+      <note default-x="417.25" default-y="-119.33">
         <unpitched>
           <display-step>E</display-step>
           <display-octave>4</display-octave>
@@ -581,26 +941,33 @@
         <beam number="1">end</beam>
         </note>
       </measure>
-    <measure number="2" width="259.24">
-      <attributes>
-        <time>
-          <beats>2</beats>
-          <beat-type>4</beat-type>
-          </time>
-        </attributes>
-      <note default-x="36.92" default-y="-111.22">
+    <measure number="2" width="418.52">
+      <note default-x="12.5" default-y="-119.33">
+        <rest/>
+        <duration>4</duration>
+        <voice>1</voice>
+        <type>quarter</type>
+        </note>
+      <note default-x="111.57" default-y="-119.33">
+        <rest/>
+        <duration>1</duration>
+        <voice>1</voice>
+        <type>16th</type>
+        </note>
+      <note default-x="136.34" default-y="-119.33">
         <unpitched>
           <display-step>E</display-step>
           <display-octave>4</display-octave>
           </unpitched>
-        <duration>2</duration>
+        <duration>1</duration>
         <instrument id="P2-I37"/>
         <voice>1</voice>
-        <type>eighth</type>
+        <type>16th</type>
         <stem>up</stem>
         <beam number="1">begin</beam>
+        <beam number="2">forward hook</beam>
         </note>
-      <note default-x="89.75" default-y="-111.22">
+      <note default-x="161.11" default-y="-119.33">
         <unpitched>
           <display-step>E</display-step>
           <display-octave>4</display-octave>
@@ -612,7 +979,46 @@
         <stem>up</stem>
         <beam number="1">end</beam>
         </note>
-      <note default-x="142.58" default-y="-111.22">
+      <note default-x="210.64" default-y="-119.33">
+        <rest/>
+        <duration>4</duration>
+        <voice>1</voice>
+        <type>quarter</type>
+        </note>
+      <note default-x="309.71" default-y="-119.33">
+        <rest/>
+        <duration>1</duration>
+        <voice>1</voice>
+        <type>16th</type>
+        </note>
+      <note default-x="334.48" default-y="-119.33">
+        <unpitched>
+          <display-step>E</display-step>
+          <display-octave>4</display-octave>
+          </unpitched>
+        <duration>1</duration>
+        <instrument id="P2-I37"/>
+        <voice>1</voice>
+        <type>16th</type>
+        <stem>up</stem>
+        <beam number="1">begin</beam>
+        <beam number="2">forward hook</beam>
+        </note>
+      <note default-x="359.25" default-y="-119.33">
+        <unpitched>
+          <display-step>E</display-step>
+          <display-octave>4</display-octave>
+          </unpitched>
+        <duration>2</duration>
+        <instrument id="P2-I37"/>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem>up</stem>
+        <beam number="1">end</beam>
+        </note>
+      </measure>
+    <measure number="3" width="981.07">
+      <note default-x="48.38" default-y="-119.33">
         <unpitched>
           <display-step>E</display-step>
           <display-octave>4</display-octave>
@@ -624,7 +1030,31 @@
         <stem>up</stem>
         <beam number="1">begin</beam>
         </note>
-      <note default-x="195.41" default-y="-111.22">
+      <note default-x="147.13" default-y="-119.33">
+        <unpitched>
+          <display-step>E</display-step>
+          <display-octave>4</display-octave>
+          </unpitched>
+        <duration>2</duration>
+        <instrument id="P2-I37"/>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem>up</stem>
+        <beam number="1">continue</beam>
+        </note>
+      <note default-x="245.89" default-y="-119.33">
+        <unpitched>
+          <display-step>E</display-step>
+          <display-octave>4</display-octave>
+          </unpitched>
+        <duration>2</duration>
+        <instrument id="P2-I37"/>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem>up</stem>
+        <beam number="1">continue</beam>
+        </note>
+      <note default-x="344.64" default-y="-119.33">
         <unpitched>
           <display-step>E</display-step>
           <display-octave>4</display-octave>
@@ -635,6 +1065,12 @@
         <type>eighth</type>
         <stem>up</stem>
         <beam number="1">end</beam>
+        </note>
+      <note default-x="443.39" default-y="-119.33">
+        <rest/>
+        <duration>8</duration>
+        <voice>1</voice>
+        <type>half</type>
         </note>
       <barline location="right">
         <bar-style>light-heavy</bar-style>

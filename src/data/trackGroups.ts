@@ -146,20 +146,21 @@ sheetScale: 0.6, loop: true },
     title: 'Maracatu',
     tracks: [
       { title: 'Maracatu', src: '/music/maracatu.musicxml',  images: ['/images/maracatu.png'],kickVelocityScale: 1, sheetScale: 0.6, loop: true },
-      { title: 'Cut 2-2 dans Maracatu', src: '/music/2-2maracatu.musicxml', images: ['/images/2-2.png'],  kickVelocityScale: 1, sheetScale: 0.6, loop: false },
-      { title: 'Enchaînement des deux', src: '/music/maracatu-avec-cut22.musicxml', 
+     // { title: 'Cut 2-2 dans Maracatu', src: '/music/2-2maracatu.musicxml', images: ['/images/2-2.png'],  kickVelocityScale: 1, sheetScale: 0.6, loop: false },
+      { title: 'Maracatu + cut 2-2', src: '/music/maracatu-avec-cut22.musicxml', 
+         images: ['/images/maracatu.png', '/images/2-2.png'],
         circularRhythm: [
   { fromMeasure: 1, toMeasure: 1, repeats: 1 },
   { fromMeasure: 2, toMeasure: 2, repeats: 1 }],
    kickVelocityScale: 2, sheetScale: 0.6, loop: true },
-         { title: 'Cut rock', src: '/music/cut-rock-pour-maracatu.musicxml', images: [],  kickVelocityScale: 1, sheetScale: 0.6, loop: false },
-                  { title: 'Enchaînement des deux', src: '/music/maracatu-avec-cut-rock.musicxml', images: [],  kickVelocityScale: 1, sheetScale: 0.6, loop: true },
-                     { title: 'Cut 4', src: '/music/cut4-pour-maracatu.musicxml', images: [],  kickVelocityScale: 1, sheetScale: 0.6, loop: false },
-                  { title: 'Enchaînement des deux', src: '/music/maracatu-avec-cut4.musicxml', images: [],  kickVelocityScale: 1, sheetScale: 0.6, loop: true },
-                   { title: 'Cut 7', src: '/music/cut7-pour-maracatu.musicxml', images: [],  kickVelocityScale: 1, sheetScale: 0.6, loop: false },
-                  { title: 'Enchaînement des deux', src: '/music/maracatu-avec-cut7.musicxml', images: [],  kickVelocityScale: 1, sheetScale: 0.6, loop: true },
-                    { title: 'Cut 10', src: '/music/cut10-pour-maracatu.musicxml', images: [],  kickVelocityScale: 1, sheetScale: 0.6, loop: false },
-                  { title: 'Enchaînement des deux', src: '/music/maracatu-avec-cut10.musicxml', images: [],  kickVelocityScale: 1, sheetScale: 0.6, loop: true },
+         //{ title: 'Cut rock', src: '/music/cut-rock-pour-maracatu.musicxml', images: [],  kickVelocityScale: 1, sheetScale: 0.6, loop: false },
+                  { title: 'Maracatu + cut rock', src: '/music/maracatu-avec-cut-rock.musicxml', images: ['/images/maracatu.png','/images/jesaispas.png'], description: "Jsp c'est quoi le signe", kickVelocityScale: 1, sheetScale: 0.6, loop: true },
+       //              { title: 'Cut 4', src: '/music/cut4-pour-maracatu.musicxml', images: [],  kickVelocityScale: 1, sheetScale: 0.6, loop: false },
+                  { title:'Maracatu + cut 4', src: '/music/maracatu-avec-cut4.musicxml',  images: ['/images/maracatu.png', '/images/jesaispas.png'],  description: "Jsp c'est quoi le signe", kickVelocityScale: 1, sheetScale: 0.6, loop: true },
+         //          { title: 'Cut 7', src: '/music/cut7-pour-maracatu.musicxml', images: [],  kickVelocityScale: 1, sheetScale: 0.6, loop: false },
+                  { title: 'Maracatu + cut 7', src: '/music/maracatu-avec-cut7.musicxml',  images: ['/images/maracatu.png', '/images/7.png'], kickVelocityScale: 1, sheetScale: 0.6, loop: true },
+       //             { title: 'Cut 10', src: '/music/cut10-pour-maracatu.musicxml', images: [],  kickVelocityScale: 1, sheetScale: 0.6, loop: false },
+                  { title: 'Maracatu + cut 10', src: '/music/maracatu-avec-cut10.musicxml',  images: ['/images/maracatu.png', '/images/10.png'],  kickVelocityScale: 1, sheetScale: 0.6, loop: true },
 
 
 
@@ -205,12 +206,12 @@ sheetScale: 0.6, loop: true },
     title: 'Départ rapide',
     tracks: [
       { title: 'Départ rapide', src: '/music/depart-rapide.musicxml',
-        
+         images: ['/images/depart-rapide.jpg' ], 
          circularRhythm: [
   { fromMeasure: 1, toMeasure: 1, repeats: 1 },
   { fromMeasure: 2, toMeasure: 2, repeats: 1 },
   { fromMeasure: 3, toMeasure: 3, repeats: 1 },
-  { fromMeasure: 4, toMeasure: 4, repeats: 1 }], kickVelocityScale: 3, sheetScale: 0.6, loop: true },
+  { fromMeasure: 4, toMeasure: 4, repeats: 1 }], showCircularView: false, kickVelocityScale: 3, sheetScale: 0.6, loop: true },
     ],
   },
    {
