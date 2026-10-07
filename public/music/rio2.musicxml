@@ -8,7 +8,7 @@
     <creator type="composer">Composer / arranger</creator>
     <encoding>
       <software>MuseScore Studio 4.7.5</software>
-      <encoding-date>2026-10-06</encoding-date>
+      <encoding-date>2026-10-07</encoding-date>
       <supports element="accidental" type="yes"/>
       <supports element="beam" type="yes"/>
       <supports element="print" attribute="new-page" type="no"/>
@@ -148,10 +148,10 @@
         <direction-type>
           <metronome parentheses="no" default-x="-37.68" relative-x="2.28" relative-y="51.12">
             <beat-unit>quarter</beat-unit>
-            <per-minute>80</per-minute>
+            <per-minute>90</per-minute>
             </metronome>
           </direction-type>
-        <sound tempo="80"/>
+        <sound tempo="90"/>
         </direction>
       <note default-x="70.5" default-y="0">
         <unpitched>

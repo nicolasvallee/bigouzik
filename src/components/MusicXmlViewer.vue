@@ -32,7 +32,7 @@ const endTick = ref(0)
 const duration = ref(0)
 const selectedTrack = ref<'both' | 'snare' | 'kick'>('both')
 const playbackSpeed = ref(1)
-const playbackSpeedOptions = [0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2]
+const playbackSpeedOptions = [0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3]
 let api: alphaTab.AlphaTabApi | null = null
 let removePlayerReadyListener: (() => void) | null = null
 let removePlayerStateListener: (() => void) | null = null
@@ -437,7 +437,7 @@ function scalePercussionVelocity(
           </p>
         </div>
         <button
-          class="inline-flex h-11 items-center justify-center gap-2 rounded-full bg-accent px-5 text-sm font-semibold text-accent-foreground shadow-lg shadow-accent/20 transition-transform hover:-translate-y-0.5 hover:bg-foreground hover:text-background disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0"
+          class="-mt-1.5 inline-flex h-11 items-center justify-center gap-2 rounded-full bg-accent px-5 text-sm font-semibold text-accent-foreground shadow-lg shadow-accent/20 transition-transform hover:-translate-y-0.5 hover:bg-foreground hover:text-background disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0"
           type="button"
           :disabled="audioState !== 'ready'"
           :aria-label="isPlaying ? `Pause ${title}` : `Play ${title}`"

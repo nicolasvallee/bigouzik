@@ -8,7 +8,7 @@
     <creator type="composer">Composer / arranger</creator>
     <encoding>
       <software>MuseScore Studio 4.7.5</software>
-      <encoding-date>2026-09-30</encoding-date>
+      <encoding-date>2026-10-07</encoding-date>
       <supports element="accidental" type="yes"/>
       <supports element="beam" type="yes"/>
       <supports element="print" attribute="new-page" type="no"/>
@@ -148,10 +148,10 @@
         <direction-type>
           <metronome parentheses="no" default-x="-37.68" relative-x="-9.11" relative-y="56.12">
             <beat-unit>quarter</beat-unit>
-            <per-minute>80</per-minute>
+            <per-minute>90</per-minute>
             </metronome>
           </direction-type>
-        <sound tempo="80"/>
+        <sound tempo="90"/>
         </direction>
       <note default-x="70.5" default-y="0">
         <unpitched>
@@ -167,7 +167,7 @@
         <beam number="2">begin</beam>
         <notations>
           <articulations>
-            <accent default-x="-0.72" default-y="-14"/>
+            <accent default-x="-0.72" default-y="-9.32"/>
             </articulations>
           </notations>
         </note>
@@ -213,7 +213,7 @@
         <beam number="2">end</beam>
         <notations>
           <articulations>
-            <accent default-x="-0.72" default-y="-14"/>
+            <accent default-x="-0.72" default-y="-9.32"/>
             </articulations>
           </notations>
         </note>
@@ -259,7 +259,7 @@
         <beam number="2">continue</beam>
         <notations>
           <articulations>
-            <accent default-x="-0.72" default-y="-14"/>
+            <accent default-x="-0.72" default-y="-9.32"/>
             </articulations>
           </notations>
         </note>
@@ -319,7 +319,7 @@
         <beam number="2">continue</beam>
         <notations>
           <articulations>
-            <accent default-x="-0.72" default-y="-14"/>
+            <accent default-x="-0.72" default-y="-9.32"/>
             </articulations>
           </notations>
         </note>
@@ -351,7 +351,7 @@
         <beam number="2">begin</beam>
         <notations>
           <articulations>
-            <accent default-x="-0.72" default-y="-14"/>
+            <accent default-x="-0.72" default-y="-9.32"/>
             </articulations>
           </notations>
         </note>
@@ -407,7 +407,7 @@
     <measure number="1" width="895.05">
       <print>
         <staff-layout number="1">
-          <staff-distance>80.9</staff-distance>
+          <staff-distance>76.22</staff-distance>
           </staff-layout>
         </print>
       <attributes>
@@ -427,7 +427,7 @@
           <staff-lines>1</staff-lines>
           </staff-details>
         </attributes>
-      <note default-x="70.5" default-y="-120.9">
+      <note default-x="70.5" default-y="-116.22">
         <unpitched>
           <display-step>E</display-step>
           <display-octave>4</display-octave>
@@ -439,7 +439,7 @@
         <stem>up</stem>
         <beam number="1">begin</beam>
         </note>
-      <note default-x="171.21" default-y="-120.9">
+      <note default-x="171.21" default-y="-116.22">
         <unpitched>
           <display-step>E</display-step>
           <display-octave>4</display-octave>
@@ -451,7 +451,7 @@
         <stem>up</stem>
         <beam number="1">end</beam>
         </note>
-      <note default-x="271.92" default-y="-120.9">
+      <note default-x="271.92" default-y="-116.22">
         <unpitched>
           <display-step>E</display-step>
           <display-octave>4</display-octave>
@@ -462,7 +462,7 @@
         <type>quarter</type>
         <stem>up</stem>
         </note>
-      <note default-x="473.35" default-y="-120.9">
+      <note default-x="473.35" default-y="-116.22">
         <unpitched>
           <display-step>E</display-step>
           <display-octave>4</display-octave>
@@ -475,7 +475,7 @@
         <beam number="1">begin</beam>
         <beam number="2">forward hook</beam>
         </note>
-      <note default-x="523.7" default-y="-120.9">
+      <note default-x="523.7" default-y="-116.22">
         <unpitched>
           <display-step>E</display-step>
           <display-octave>4</display-octave>
@@ -487,7 +487,7 @@
         <stem>up</stem>
         <beam number="1">continue</beam>
         </note>
-      <note default-x="624.41" default-y="-120.9">
+      <note default-x="624.41" default-y="-116.22">
         <unpitched>
           <display-step>E</display-step>
           <display-octave>4</display-octave>
@@ -500,7 +500,7 @@
         <beam number="1">end</beam>
         <beam number="2">backward hook</beam>
         </note>
-      <note default-x="674.77" default-y="-120.9">
+      <note default-x="674.77" default-y="-116.22">
         <unpitched>
           <display-step>E</display-step>
           <display-octave>4</display-octave>
