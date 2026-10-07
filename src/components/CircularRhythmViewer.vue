@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
-import type { CircularRhythmSection, SurdoVariant } from '@/data/trackGroups'
+import { SURDO_2_COLOR, SURDO_2_MIDI_NOTE, SURDO_3_COLOR, SURDO_3_MIDI_NOTE } from '@/lib/surdo'
+import type { CircularRhythmSection, SurdoBeat } from '@/data/trackGroups'
 
 type TrackSelection = 'both' | 'snare' | 'kick'
 type RhythmKind = Exclude<TrackSelection, 'both'> | 'other'
@@ -42,7 +43,8 @@ const props = defineProps<{
   src: string
   showCircle: boolean
   circularRhythm?: CircularRhythmSection[]
-  surdoVariants?: SurdoVariant[]
+  surdo2?: SurdoBeat[]
+  surdo3?: SurdoBeat[]
   compound?: boolean
   currentTick: number
   endTick: number
@@ -302,8 +304,13 @@ function parsePart(part: Element, instrumentNames: Map<string, string>) {
 }
 
 function surdoVariantAt(time: number, measures: RhythmMeasure[]) {
-  for (let index = (props.surdoVariants?.length ?? 0) - 1; index >= 0; index -= 1) {
-    const variant = props.surdoVariants![index]
+  const variants = [
+    ...(props.surdo3?.map((beat) => ({ ...beat, midiNote: SURDO_3_MIDI_NOTE })) ?? []),
+    ...(props.surdo2?.map((beat) => ({ ...beat, midiNote: SURDO_2_MIDI_NOTE })) ?? []),
+  ]
+
+  for (let index = variants.length - 1; index >= 0; index -= 1) {
+    const variant = variants[index]
     const measure = measures[variant.measure - 1]
     if (!measure) continue
 
@@ -317,6 +324,11 @@ function surdoVariantAt(time: number, measures: RhythmMeasure[]) {
 
     if (time >= start && time < start + duration) return variant.midiNote
   }
+}
+
+function surdoColor(midiNote?: number) {
+  if (midiNote === SURDO_2_MIDI_NOTE) return `rgb(${SURDO_2_COLOR.join(', ')})`
+  if (midiNote === SURDO_3_MIDI_NOTE) return `rgb(${SURDO_3_COLOR.join(', ')})`
 }
 
 function rhythmKind(label: string): RhythmKind {
@@ -400,9 +412,8 @@ function rhythmKind(label: string): RhythmKind {
                 class="rhythm-hit"
                 :class="[
                   ring.kind === 'snare' ? 'rhythm-hit--snare' : '',
-                  hit.surdoMidiNote === 41 ? 'rhythm-hit--surdo-41' : '',
-                  hit.surdoMidiNote === 43 ? 'rhythm-hit--surdo-43' : '',
                 ]"
+                :style="{ fill: surdoColor(hit.surdoMidiNote) }"
               />
             </template>
           </g>
@@ -453,14 +464,6 @@ function rhythmKind(label: string): RhythmKind {
 
 .rhythm-hit--snare {
   fill: var(--accent);
-}
-
-.rhythm-hit--surdo-41 {
-  fill: #dc2626;
-}
-
-.rhythm-hit--surdo-43 {
-  fill: #16a34a;
 }
 
 .rhythm-stick-hit line {

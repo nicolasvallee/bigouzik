@@ -2,7 +2,8 @@
 import * as alphaTab from '@coderline/alphatab'
 import { nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { normalizeMusicXml } from '@/lib/normalizeMusicXml'
-import type { CircularRhythmSection, SurdoVariant } from '@/data/trackGroups'
+import { MUSIC_XML_SURDO_MIDI_NOTE, SURDO_1_MIDI_NOTE, SURDO_2_COLOR, SURDO_2_MIDI_NOTE, SURDO_3_COLOR, SURDO_3_MIDI_NOTE } from '@/lib/surdo'
+import type { CircularRhythmSection, SurdoBeat } from '@/data/trackGroups'
 import CircularRhythmViewer from './CircularRhythmViewer.vue'
 
 const PARENTHESIZED_SNARE_VELOCITY_SCALE = 0.15
@@ -14,7 +15,8 @@ const props = defineProps<{
   trackLink?: string
   kickVelocityScale?: number
   sideStickVelocityScale?: number
-  surdoVariants?: SurdoVariant[]
+  surdo2?: SurdoBeat[]
+  surdo3?: SurdoBeat[]
   sheetScale?: number
   showSheet: boolean
   showCircle: boolean
@@ -127,7 +129,7 @@ onMounted(() => {
     renderSelectedTracks(currentApi)
   })
   removeMidiLoadListener = currentApi.midiLoad.on((midi) => {
-    const noteKeys = selectedTrack.value === 'snare' ? [37, 38] : selectedTrack.value === 'kick' ? [36] : null
+    const noteKeys = selectedTrack.value === 'snare' ? [37, 38] : selectedTrack.value === 'kick' ? [MUSIC_XML_SURDO_MIDI_NOTE] : null
     const kickVelocityScale = props.kickVelocityScale ?? 1
     const sideStickVelocityScale = props.sideStickVelocityScale ?? 1
     if (noteKeys !== null) {
@@ -150,6 +152,8 @@ onMounted(() => {
       kickVelocityScale !== 1
       || sideStickVelocityScale !== 1
       || parenthesizedSnareTicks.size > 0
+      || surdoVariantRanges.length > 0
+      || Number(SURDO_1_MIDI_NOTE) !== Number(MUSIC_XML_SURDO_MIDI_NOTE)
     ) {
       midi.tracks.forEach((track) => {
         track.events.forEach((event) => {
@@ -298,11 +302,15 @@ function scoreTrackKind(track: alphaTab.model.Track): Exclude<typeof selectedTra
 }
 
 function getSurdoVariantRanges() {
-  if (!props.surdoVariants?.length) return []
+  const variants = [
+    ...(props.surdo3?.map((beat) => ({ ...beat, midiNote: SURDO_3_MIDI_NOTE })) ?? []),
+    ...(props.surdo2?.map((beat) => ({ ...beat, midiNote: SURDO_2_MIDI_NOTE })) ?? []),
+  ]
+  if (!variants.length) return []
 
   const bars = scoreTracks.find((track) => scoreTrackKind(track) === 'kick')?.staves[0]?.bars ?? []
 
-  return props.surdoVariants.flatMap((variant) => {
+  return variants.flatMap((variant) => {
     const bar = bars[variant.measure - 1]
     const barStart = Math.min(...(bar?.voices.flatMap((voice) => voice.beats.map((beat) => beat.absolutePlaybackStart)) ?? []))
     if (!bar || !Number.isFinite(barStart)) return []
@@ -322,8 +330,8 @@ function getSurdoVariantRanges() {
 
 function colorSurdoVariants() {
   const colors = new Map([
-    [41, new alphaTab.model.Color(220, 38, 38)],
-    [43, new alphaTab.model.Color(22, 163, 74)],
+    [SURDO_2_MIDI_NOTE, new alphaTab.model.Color(...SURDO_2_COLOR)],
+    [SURDO_3_MIDI_NOTE, new alphaTab.model.Color(...SURDO_3_COLOR)],
   ])
   scoreTracks
     .filter((track) => scoreTrackKind(track) === 'kick')
@@ -357,10 +365,10 @@ function applySurdoVariants(events: Array<{ tick: number; type: alphaTab.midi.Mi
   const activeNotes: number[] = []
 
   for (const event of events) {
-    if (event.noteKey !== 36) continue
+    if (event.noteKey !== MUSIC_XML_SURDO_MIDI_NOTE) continue
 
     if (event.type === alphaTab.midi.MidiEventType.NoteOn) {
-      let midiNote = 36
+      let midiNote = SURDO_1_MIDI_NOTE
 
       for (let index = surdoVariantRanges.length - 1; index >= 0; index -= 1) {
         const variant = surdoVariantRanges[index]
@@ -406,7 +414,7 @@ function scalePercussionVelocity(
   const parenthesizedSnareScale = noteEvent.noteKey === 38 && parenthesizedSnareTicks.has(tick)
     ? PARENTHESIZED_SNARE_VELOCITY_SCALE
     : 1
-  const scale = noteEvent.noteKey === 36
+  const scale = noteEvent.noteKey === MUSIC_XML_SURDO_MIDI_NOTE
     ? kickScale
     : noteEvent.noteKey === 37
       ? sideStickScale
@@ -488,7 +496,8 @@ function scalePercussionVelocity(
       :src="src"
       :show-circle="showCircle"
       :circular-rhythm="circularRhythm"
-      :surdo-variants="surdoVariants"
+      :surdo2="surdo2"
+      :surdo3="surdo3"
       :compound="compound"
       :current-tick="currentTick"
       :end-tick="endTick"

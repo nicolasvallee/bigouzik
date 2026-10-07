@@ -6,7 +6,8 @@ export interface MusicTrack {
   imageAlt?: string
   kickVelocityScale?: number
   sideStickVelocityScale?: number
-  surdoVariants?: SurdoVariant[]
+  surdo2?: SurdoBeat[]
+  surdo3?: SurdoBeat[]
   sheetScale?: number
   showCircularView?: boolean
   circularRhythm?: CircularRhythmSection[]
@@ -29,10 +30,9 @@ export interface CircularRhythmSection {
   repeats?: number
 }
 
-export interface SurdoVariant {
+export interface SurdoBeat {
   measure: number
   beat?: number
-  midiNote: number
 }
 
 export function trackId(track: Pick<MusicTrack, 'src' | 'title'>) {
@@ -53,14 +53,14 @@ export const trackGroups: MusicTrackGroup[] = [
     tracks: [
       { title: 'Rio 1', description:"", 
          src: '/music/rio1.musicxml', images: ['/images/rio.png', '/images/1.png'],
-         surdoVariants: [
-  { measure: 1, beat: 1, midiNote: 41 },
-    { measure: 1, beat: 1.5, midiNote: 41 },
+         surdo3: [
+  { measure: 1, beat: 1 },
+    { measure: 1, beat: 1.5 },
 
-     { measure: 1, beat: 3, midiNote: 41 },
-  { measure: 1, beat: 3.25, midiNote: 41 },
+     { measure: 1, beat: 3 },
+  { measure: 1, beat: 3.25 },
 
-  { measure: 1, beat: 3.75, midiNote: 41 },
+  { measure: 1, beat: 3.75 },
 ],
 kickVelocityScale: 2, sheetScale: 0.7, loop: true },
       { title: 'Rio 2', src: '/music/rio2.musicxml', images: ['/images/rio.png', '/images/2.png'], 
@@ -68,15 +68,15 @@ kickVelocityScale: 2, sheetScale: 0.7, loop: true },
   { fromMeasure: 1, toMeasure: 1, repeats: 1 },
   { fromMeasure: 2, toMeasure: 2, repeats: 1 },
 ], 
- surdoVariants: [
-    { measure: 1, beat: 1.5, midiNote: 41 },
+ surdo3: [
+    { measure: 1, beat: 1.5 },
 
-     { measure: 1, beat: 3.5, midiNote: 41 },
-  { measure: 2, beat: 1.5, midiNote: 41 },
-  { measure: 2, beat: 2.5, midiNote: 41 },
-  { measure: 2, beat: 3.25, midiNote: 41 },
+     { measure: 1, beat: 3.5 },
+  { measure: 2, beat: 1.5 },
+  { measure: 2, beat: 2.5 },
+  { measure: 2, beat: 3.25 },
 
-  { measure: 2, beat: 3.75, midiNote: 41 },
+  { measure: 2, beat: 3.75 },
 ],
 kickVelocityScale: 2,sheetScale: 0.6, loop: true },
     ],
@@ -145,22 +145,23 @@ sheetScale: 0.6, loop: true },
     tracks: [
       { title: 'Clown (sans intro)', src: '/music/clown.musicxml', 
          images: ['/images/clown.png'], 
-         surdoVariants: [ 
-                     { measure: 2, beat: 1, midiNote: 43 },
+         surdo2: [
+                     { measure: 2, beat: 1 },
 
-           { measure: 2, beat: 2.5, midiNote: 43 },
 
-  { measure: 2, beat: 2.5, midiNote: 41 },
-  { measure: 2, beat: 3, midiNote: 41 },
-  { measure: 2, beat: 3.5, midiNote: 41 },
-    { measure: 2, beat: 4, midiNote: 41 },
-    { measure: 3, beat: 4, midiNote: 43 },
+    { measure: 3, beat: 4 },
 
-       { measure: 4, beat: 1, midiNote: 43 },
-       { measure: 4, beat: 3, midiNote: 41 },
+       { measure: 4, beat: 1 },
 
 
 
+],
+         surdo3: [
+  { measure: 2, beat: 2.5 },
+  { measure: 2, beat: 3 },
+  { measure: 2, beat: 3.5 },
+    { measure: 2, beat: 4 },
+       { measure: 4, beat: 3 },
 ],
          circularRhythm: [
   { fromMeasure: 1, toMeasure: 2, repeats: 1 },
