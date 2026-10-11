@@ -13,7 +13,7 @@ const publicAsset = (path: string) => `${import.meta.env.BASE_URL}${path.replace
 </script>
 
 <template>
-  <div :id="`track-group-${id}`" class="grid justify-items-center gap-6">
+  <div :id="`track-group-${id}`" class="grid justify-items-center gap-10">
     <div
       v-for="track in tracks"
       :key="track.src"
@@ -43,6 +43,8 @@ const publicAsset = (path: string) => `${import.meta.env.BASE_URL}${path.replace
           :track-link="`/back-to-batuk/${id}/${trackId(track)}`"
           :kick-velocity-scale="track.kickVelocityScale"
           :side-stick-velocity-scale="track.sideStickVelocityScale"
+          :timbale-volume="track.timbaleVolume"
+          :surdo1="track.surdo1"
           :surdo2="track.surdo2"
           :surdo3="track.surdo3"
           :sheet-scale="track.sheetScale"

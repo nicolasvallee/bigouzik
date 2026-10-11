@@ -1,3 +1,5 @@
+import { MUSIC_XML_KICK_UNPITCHED, MUSIC_XML_SNARE_UNPITCHED } from './percussion'
+
 export function normalizeMusicXml(xml: string, options: { compoundTempo?: boolean } = {}) {
   const document = new DOMParser().parseFromString(xml, 'application/xml')
   document.querySelectorAll('work-title').forEach((title) => title.remove())
@@ -20,8 +22,8 @@ export function normalizeMusicXml(xml: string, options: { compoundTempo?: boolea
       const midiUnpitched = instrument.querySelector('midi-unpitched')
       if (!midiUnpitched) return
 
-      if (name.includes('snare')) midiUnpitched.textContent = '39'
-      if (name.includes('kick') || name.includes('bass drum')) midiUnpitched.textContent = '37'
+      if (name.includes('snare')) midiUnpitched.textContent = String(MUSIC_XML_SNARE_UNPITCHED)
+      if (name.includes('kick') || name.includes('bass drum')) midiUnpitched.textContent = String(MUSIC_XML_KICK_UNPITCHED)
     })
 
     const part = Array.from(document.querySelectorAll('part')).find(

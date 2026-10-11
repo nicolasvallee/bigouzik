@@ -6,6 +6,8 @@ export interface MusicTrack {
   imageAlt?: string
   kickVelocityScale?: number
   sideStickVelocityScale?: number
+  timbaleVolume?: number
+  surdo1?: SurdoBeat[]
   surdo2?: SurdoBeat[]
   surdo3?: SurdoBeat[]
   sheetScale?: number
@@ -79,8 +81,59 @@ kickVelocityScale: 2, sheetScale: 0.7, loop: true },
   { measure: 2, beat: 3.75 },
 ],
 kickVelocityScale: 2,sheetScale: 0.6, loop: true },
+
+ { title: 'Rio 1 avec Blocage 1', description:"", 
+         src: '/music/rio1-avec-blocage1.musicxml', images: ['/images/blocage1.png'],
+         surdo3: [
+  { measure: 1, beat: 1 },
+    { measure: 1, beat: 1.5 },
+
+     { measure: 1, beat: 3 },
+  { measure: 1, beat: 3.25 },
+
+  { measure: 1, beat: 3.75 },
+
+  { measure: 2, beat: 1 },
+    { measure: 2, beat: 1.5 },
+
+     { measure: 2, beat: 3 },
+  { measure: 2, beat: 3.25 },
+
+  { measure: 2, beat: 3.75 },
+  { measure: 3, beat: 2.5 }
+],
+    surdo1: [{ measure: 3, beat: 2.5 }], 
+    surdo2: [{ measure: 3, beat: 3 }],
+    timbaleVolume:2,
+     sheetScale: 0.6, 
+kickVelocityScale: 2,  loop: true },
+
+
+ { title: 'Rio 2 avec Blocage 1', description:"", 
+         src: '/music/rio2-avec-blocage1.musicxml', images: ['/images/blocage1.png'],
+         surdo3: [
+    { measure: 1, beat: 1.5 },
+
+  { measure: 1, beat: 3.5 },
+
+
+     { measure: 2, beat: 1.5 },
+          { measure: 2, beat: 2.5 },
+
+
+  { measure: 2, beat: 3.25 },
+  { measure: 2, beat: 3.75 },
+
+  { measure: 3, beat: 2.5 }
+],
+    surdo1: [{ measure: 3, beat: 2.5 }], 
+    surdo2: [{ measure: 3, beat: 3 }],
+    timbaleVolume:2,
+     sheetScale: 0.6, 
+kickVelocityScale: 2,  loop: true },
     ],
-    description:""
+    
+        description:""
   },
    {
     id: 'diablo',
@@ -233,6 +286,11 @@ sheetScale: 0.6, loop: true },
          circularRhythm: [
   { fromMeasure: 1, toMeasure: 1, repeats: 1 },
   { fromMeasure: 2, toMeasure: 2, repeats: 1 }], kickVelocityScale: 1.5, sheetScale: 0.6, loop: true },
+  { title: 'Indiens avec blocage 1', src: '/music/indiens-avec-blocage1.musicxml',  images: ['/images/indiens.png', '/images/blocage1.png'],
+        
+         circularRhythm: [
+  { fromMeasure: 1, toMeasure: 1, repeats: 1 },
+  { fromMeasure: 2, toMeasure: 2, repeats: 1 }], kickVelocityScale: 1.5, sheetScale: 0.6, loop: true },
       { title: 'Cowboys (en cours)', src: '',  images: [],
    kickVelocityScale: 3, sheetScale: 0.6, loop: true },
 
@@ -247,6 +305,18 @@ sheetScale: 0.6, loop: true },
     ],
   },
   {
+    id: 'baile-funk',
+    title: 'Baile funk',
+    tracks: [
+            { title: 'Baile funk 1 (en cours)', src: '/music/baile-funk-1.musicxml', images: ['images/jesaispas.png'], kickVelocityScale: 3, sheetScale: 0.6, loop: true },
+            { title: 'Baile funk 2 (en cours)', src: '/music/baile-funk-2.musicxml', images: ['images/jesaispas.png'], kickVelocityScale: 3, sheetScale: 0.6, loop: true },
+            { title: '13 (en cours)', src: '/music/13.musicxml', images: ['images/jesaispas.png'], kickVelocityScale: 3, sheetScale: 0.6, loop: true },
+
+
+
+    ],
+  },
+  {
     id: 'depart-rapide',
     title: 'Départ rapide',
     tracks: [
@@ -256,19 +326,23 @@ sheetScale: 0.6, loop: true },
   { fromMeasure: 1, toMeasure: 1, repeats: 1 },
   { fromMeasure: 2, toMeasure: 2, repeats: 1 },
   { fromMeasure: 3, toMeasure: 3, repeats: 1 },
-  { fromMeasure: 4, toMeasure: 4, repeats: 1 }], showCircularView: false, kickVelocityScale: 3, sheetScale: 0.6, loop: true },
+  { fromMeasure: 4, toMeasure: 4, repeats: 1 }], showCircularView: false, kickVelocityScale: 3, sheetScale: 0.6, loop: false },
     ],
   },
    {
     id: 'cut-arret',
     title: 'Cut et arrêt',
     tracks: [
+      { title: 'Blocage 1', src: '/music/blocage1.musicxml', images: ['/images/blocage1.png'], kickVelocityScale: 1,
+        surdo1: [{ measure: 1, beat: 2.5 }], surdo3: [{ measure: 1, beat: 2.5 }],
+          surdo2: [{ measure: 1, beat: 3 }], sheetScale: 0.6, loop: false },
+
       { title: 'Cut 3 normal', src: '/music/cut3-normal.musicxml',  images: ['/images/cut.png','/images/3.png' ], kickVelocityScale: 1, sheetScale: 0.6, loop: false },
       { title: 'Cut shuffle', src: '/music/cut-shuffle.musicxml',  images: ['/images/shuffle.png'],
           circularRhythm: [
   { fromMeasure: 1, toMeasure: 1, repeats: 3 },
   { fromMeasure: 4, toMeasure: 4, repeats: 1 }],
-   kickVelocityScale: 3, sheetScale: 0.6, loop: true },
+   kickVelocityScale: 3, sheetScale: 0.6, loop: false },
 
     ],
   },

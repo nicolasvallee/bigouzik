@@ -2,11 +2,13 @@
 import * as alphaTab from '@coderline/alphatab'
 import { nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { normalizeMusicXml } from '@/lib/normalizeMusicXml'
-import { MUSIC_XML_SURDO_MIDI_NOTE, SURDO_1_MIDI_NOTE, SURDO_2_COLOR, SURDO_2_MIDI_NOTE, SURDO_3_COLOR, SURDO_3_MIDI_NOTE } from '@/lib/surdo'
+import { MUSIC_XML_SURDO_MIDI_NOTE, SIDE_STICK_MIDI_NOTE, SNARE_MIDI_NOTE, SURDO_1_MIDI_NOTE, SURDO_2_COLOR, SURDO_2_MIDI_NOTE, SURDO_3_COLOR, SURDO_3_MIDI_NOTE, TIMBALE_MIDI_NOTES } from '@/lib/percussion'
 import type { CircularRhythmSection, SurdoBeat } from '@/data/trackGroups'
 import CircularRhythmViewer from './CircularRhythmViewer.vue'
 
 const PARENTHESIZED_SNARE_VELOCITY_SCALE = 0.15
+const GHOST_TIMBALE_VELOCITY_SCALE = 0.4
+const ACCENTED_TIMBALE_VELOCITY_SCALE = 1.2
 
 const props = defineProps<{
   src: string
@@ -15,6 +17,8 @@ const props = defineProps<{
   trackLink?: string
   kickVelocityScale?: number
   sideStickVelocityScale?: number
+  timbaleVolume?: number
+  surdo1?: SurdoBeat[]
   surdo2?: SurdoBeat[]
   surdo3?: SurdoBeat[]
   sheetScale?: number
@@ -50,6 +54,8 @@ const parenthesizedSnareTicks = new Set<number>()
 let hasRenderedAllTracks = false
 let scoreTracks: alphaTab.model.Track[] = []
 let surdoVariantRanges: Array<{ startTick: number; endTick: number; midiNote: number }> = []
+const ghostTimbaleTicks = new Set<number>()
+const accentedTimbaleTicks = new Set<number>()
 let layoutObserver: ResizeObserver | null = null
 let removeWindowResizeListener: (() => void) | null = null
 
@@ -125,13 +131,16 @@ onMounted(() => {
 
     scoreTracks = score.tracks
     surdoVariantRanges = getSurdoVariantRanges()
+    positionStackedSurdos()
+    setTimbaleArticulationTicks()
     colorSurdoVariants()
     renderSelectedTracks(currentApi)
   })
   removeMidiLoadListener = currentApi.midiLoad.on((midi) => {
-    const noteKeys = selectedTrack.value === 'snare' ? [37, 38] : selectedTrack.value === 'kick' ? [MUSIC_XML_SURDO_MIDI_NOTE] : null
+    const noteKeys = selectedTrack.value === 'snare' ? [SIDE_STICK_MIDI_NOTE, SNARE_MIDI_NOTE] : selectedTrack.value === 'kick' ? [MUSIC_XML_SURDO_MIDI_NOTE, SURDO_2_MIDI_NOTE, SURDO_3_MIDI_NOTE] : null
     const kickVelocityScale = props.kickVelocityScale ?? 1
     const sideStickVelocityScale = props.sideStickVelocityScale ?? 1
+    const timbaleVolume = Math.max(1, Math.round(props.timbaleVolume ?? 1))
     if (noteKeys !== null) {
       midi.tracks.forEach((track) => {
         for (let index = track.events.length - 1; index >= 0; index -= 1) {
@@ -145,13 +154,18 @@ onMounted(() => {
           }
 
           scalePercussionVelocity(noteEvent, kickVelocityScale, sideStickVelocityScale, event.tick)
+          if (event.type === alphaTab.midi.MidiEventType.NoteOn) applyTimbaleArticulation(noteEvent, event.tick)
         }
         applySurdoVariants(track.events)
+        boostTimbaleVolume(track.events, timbaleVolume)
       })
     } else if (
       kickVelocityScale !== 1
       || sideStickVelocityScale !== 1
+      || timbaleVolume !== 1
       || parenthesizedSnareTicks.size > 0
+      || ghostTimbaleTicks.size > 0
+      || accentedTimbaleTicks.size > 0
       || surdoVariantRanges.length > 0
       || Number(SURDO_1_MIDI_NOTE) !== Number(MUSIC_XML_SURDO_MIDI_NOTE)
     ) {
@@ -161,8 +175,10 @@ onMounted(() => {
 
           const noteEvent = event as { noteKey: number; noteVelocity?: number }
           scalePercussionVelocity(noteEvent, kickVelocityScale, sideStickVelocityScale, event.tick)
+          if (event.type === alphaTab.midi.MidiEventType.NoteOn) applyTimbaleArticulation(noteEvent, event.tick)
         })
         applySurdoVariants(track.events)
+        boostTimbaleVolume(track.events, timbaleVolume)
       })
     }
 
@@ -207,7 +223,7 @@ onMounted(() => {
 async function loadMusicXml(currentApi: alphaTab.AlphaTabApi) {
   const response = await fetch(publicAsset(props.src))
   const xml = await response.text()
-  const normalizedXml = normalizeMusicXml(xml, { compoundTempo: props.compound })
+  const normalizedXml = normalizeMusicXml(addStackedSurdosToXml(xml), { compoundTempo: props.compound })
   currentApi.load(new TextEncoder().encode(normalizedXml))
 }
 
@@ -294,7 +310,7 @@ function renderSelectedTracks(currentApi: alphaTab.AlphaTabApi) {
 }
 
 function scoreTrackKind(track: alphaTab.model.Track): Exclude<typeof selectedTrack.value, 'both'> | 'other' {
-  const name = `${track.name} ${track.shortName}`.toLowerCase()
+  const name = `${track.name} ${track.shortName}`.toLowerCase().replace(/\s+/g, ' ')
 
   if (name.includes('snare') || name.includes('caisse')) return 'snare'
   if (name.includes('bass drum') || name.includes('kick') || name.includes('surdo') || name.split(/\s+/).includes('bd')) return 'kick'
@@ -303,6 +319,7 @@ function scoreTrackKind(track: alphaTab.model.Track): Exclude<typeof selectedTra
 
 function getSurdoVariantRanges() {
   const variants = [
+    ...(props.surdo1?.map((beat) => ({ ...beat, midiNote: SURDO_1_MIDI_NOTE })) ?? []),
     ...(props.surdo3?.map((beat) => ({ ...beat, midiNote: SURDO_3_MIDI_NOTE })) ?? []),
     ...(props.surdo2?.map((beat) => ({ ...beat, midiNote: SURDO_2_MIDI_NOTE })) ?? []),
   ]
@@ -328,6 +345,90 @@ function getSurdoVariantRanges() {
   })
 }
 
+function addStackedSurdosToXml(xml: string) {
+  const stackedBeats = (props.surdo1 ?? []).filter((surdo1) =>
+    props.surdo3?.some((surdo3) => surdo3.measure === surdo1.measure && surdo3.beat === surdo1.beat),
+  )
+  if (!stackedBeats.length) return xml
+
+  const document = new DOMParser().parseFromString(xml, 'application/xml')
+  const scorePart = Array.from(document.querySelectorAll('score-part')).find((part) =>
+    /bass drum|kick|surdo/i.test(part.querySelector('part-name')?.textContent?.replace(/\s+/g, ' ') ?? ''),
+  )
+  const partId = scorePart?.getAttribute('id')
+  const part = partId ? Array.from(document.querySelectorAll('part')).find((candidate) => candidate.getAttribute('id') === partId) : null
+  if (!scorePart || !part) return xml
+
+  const surdo3Id = `${partId}-surdo3`
+  const scoreInstrument = document.createElement('score-instrument')
+  scoreInstrument.setAttribute('id', surdo3Id)
+  const instrumentName = document.createElement('instrument-name')
+  instrumentName.textContent = 'Surdo 3'
+  scoreInstrument.append(instrumentName)
+  scorePart.append(scoreInstrument)
+  const midiInstrument = document.createElement('midi-instrument')
+  midiInstrument.setAttribute('id', surdo3Id)
+  const midiChannel = document.createElement('midi-channel')
+  midiChannel.textContent = '10'
+  const midiUnpitched = document.createElement('midi-unpitched')
+  midiUnpitched.textContent = '42'
+  midiInstrument.append(midiChannel, midiUnpitched)
+  scorePart.append(midiInstrument)
+
+  let divisions = 1
+  let denominator = 4
+  Array.from(part.querySelectorAll(':scope > measure')).forEach((measure, measureIndex) => {
+    divisions = Number(measure.querySelector('attributes > divisions')?.textContent) || divisions
+    denominator = Number(measure.querySelector('attributes > time > beat-type')?.textContent) || denominator
+    let cursor = 0
+
+    Array.from(measure.querySelectorAll(':scope > note')).forEach((note) => {
+      const duration = Number(note.querySelector('duration')?.textContent) || 0
+      if (note.querySelector('chord')) return
+
+      const isStacked = stackedBeats.some((beat) =>
+        beat.measure === measureIndex + 1 && cursor === (Math.max(1, beat.beat ?? 1) - 1) * divisions * 4 / denominator,
+      )
+      if (isStacked && !note.querySelector('rest')) {
+        const duplicate = note.cloneNode(true) as Element
+        const chord = document.createElement('chord')
+        duplicate.insertBefore(chord, duplicate.querySelector('unpitched'))
+        duplicate.querySelector('display-step')?.replaceChildren('F')
+        duplicate.querySelector('instrument')?.setAttribute('id', surdo3Id)
+        note.after(duplicate)
+      }
+      cursor += duration
+    })
+  })
+
+  return new XMLSerializer().serializeToString(document)
+}
+
+function positionStackedSurdos() {
+  const surdo = scoreTracks.find((track) => scoreTrackKind(track) === 'kick')
+  if (!surdo) return
+
+  const surdo3Color = new alphaTab.model.Color(...SURDO_3_COLOR)
+  surdo.percussionArticulations.forEach((articulation) => {
+    if (articulation.outputMidiNumber === SURDO_1_MIDI_NOTE) articulation.staffLine = 1
+    if (articulation.outputMidiNumber === SURDO_3_MIDI_NOTE) articulation.staffLine = -1
+  })
+  surdo.staves.forEach((staff) => {
+    staff.bars.forEach((bar) => {
+      bar.voices.forEach((voice) => {
+        voice.beats.forEach((beat) => {
+          beat.notes.forEach((note) => {
+            if (surdo.percussionArticulations[note.percussionArticulation]?.outputMidiNumber !== SURDO_3_MIDI_NOTE) return
+
+            note.style ??= new alphaTab.model.NoteStyle()
+            note.style.colors.set(alphaTab.model.NoteSubElement.StandardNotationNoteHead, surdo3Color)
+          })
+        })
+      })
+    })
+  })
+}
+
 function colorSurdoVariants() {
   const colors = new Map([
     [SURDO_2_MIDI_NOTE, new alphaTab.model.Color(...SURDO_2_COLOR)],
@@ -340,6 +441,18 @@ function colorSurdoVariants() {
         staff.bars.forEach((bar) => {
           bar.voices.forEach((voice) => {
             voice.beats.forEach((beat) => {
+              const hasStackedSurdos = surdoVariantRanges.some((surdo1) =>
+                surdo1.midiNote === SURDO_1_MIDI_NOTE
+                && beat.absolutePlaybackStart >= surdo1.startTick
+                && beat.absolutePlaybackStart < surdo1.endTick
+                && surdoVariantRanges.some((surdo3) =>
+                  surdo3.midiNote === SURDO_3_MIDI_NOTE
+                  && surdo3.startTick === surdo1.startTick
+                  && surdo3.endTick === surdo1.endTick,
+                ),
+              )
+              if (hasStackedSurdos) return
+
               let color: alphaTab.model.Color | undefined
               for (let index = surdoVariantRanges.length - 1; index >= 0; index -= 1) {
                 const variant = surdoVariantRanges[index]
@@ -361,30 +474,46 @@ function colorSurdoVariants() {
     })
 }
 
-function applySurdoVariants(events: Array<{ tick: number; type: alphaTab.midi.MidiEventType; noteKey?: number }>) {
+function applySurdoVariants(events: alphaTab.midi.MidiEvent[]) {
   const activeNotes: number[] = []
 
   for (const event of events) {
-    if (event.noteKey !== MUSIC_XML_SURDO_MIDI_NOTE) continue
+    const noteEvent = event as alphaTab.midi.NoteEvent
+    if (noteEvent.noteKey !== MUSIC_XML_SURDO_MIDI_NOTE) continue
 
     if (event.type === alphaTab.midi.MidiEventType.NoteOn) {
       let midiNote = SURDO_1_MIDI_NOTE
 
       for (let index = surdoVariantRanges.length - 1; index >= 0; index -= 1) {
         const variant = surdoVariantRanges[index]
+        if (variant.midiNote === SURDO_1_MIDI_NOTE) continue
         if (event.tick >= variant.startTick && event.tick < variant.endTick) {
+          if (surdoVariantRanges.some((surdo1) => surdo1.midiNote === SURDO_1_MIDI_NOTE && surdo1.startTick === variant.startTick && surdo1.endTick === variant.endTick)) break
           midiNote = variant.midiNote
           break
         }
       }
 
-      event.noteKey = midiNote
+      noteEvent.noteKey = midiNote
       activeNotes.push(midiNote)
     } else if (event.type === alphaTab.midi.MidiEventType.NoteOff) {
       const midiNote = activeNotes.shift()
-      if (midiNote !== undefined) event.noteKey = midiNote
+      if (midiNote !== undefined) noteEvent.noteKey = midiNote
     }
   }
+}
+
+function hasStackedSurdos(tick: number) {
+  return surdoVariantRanges.some((surdo1) =>
+    surdo1.midiNote === SURDO_1_MIDI_NOTE
+    && tick >= surdo1.startTick
+    && tick < surdo1.endTick
+    && surdoVariantRanges.some((surdo3) =>
+      surdo3.midiNote === SURDO_3_MIDI_NOTE
+      && surdo3.startTick === surdo1.startTick
+      && surdo3.endTick === surdo1.endTick,
+    ),
+  )
 }
 
 function seek(event: Event) {
@@ -403,6 +532,64 @@ function scaleVelocity(velocity: number, scale: number) {
   return Math.max(0, Math.min(127, Math.round(velocity * scale)))
 }
 
+function setTimbaleArticulationTicks() {
+  ghostTimbaleTicks.clear()
+  accentedTimbaleTicks.clear()
+
+  scoreTracks.forEach((track) => {
+    const isTimbale = (note: alphaTab.model.Note) => TIMBALE_MIDI_NOTES.some(
+      (key) => key === track.percussionArticulations[note.percussionArticulation]?.outputMidiNumber,
+    )
+
+    track.staves.forEach((staff) => {
+      staff.bars.forEach((bar) => {
+        bar.voices.forEach((voice) => {
+          voice.beats.forEach((beat) => {
+            beat.notes.forEach((note) => {
+              if (!isTimbale(note)) return
+              if (note.isGhost) ghostTimbaleTicks.add(beat.absolutePlaybackStart)
+              if (note.accentuated) accentedTimbaleTicks.add(beat.absolutePlaybackStart)
+            })
+          })
+        })
+      })
+    })
+  })
+}
+
+function boostTimbaleVolume(events: alphaTab.midi.MidiEvent[], volume: number) {
+  if (volume === 1) return
+
+  const duplicates: alphaTab.midi.MidiEvent[] = []
+  for (const event of events) {
+    const noteEvent = event as alphaTab.midi.NoteEvent
+    if (!TIMBALE_MIDI_NOTES.some((key) => key === noteEvent.noteKey)) continue
+
+    if (event.type === alphaTab.midi.MidiEventType.NoteOn) {
+      for (let index = 1; index < volume; index += 1) {
+        duplicates.push(new alphaTab.midi.NoteOnEvent(noteEvent.track, event.tick, noteEvent.channel, noteEvent.noteKey, noteEvent.noteVelocity))
+      }
+    } else if (event.type === alphaTab.midi.MidiEventType.NoteOff) {
+      for (let index = 1; index < volume; index += 1) {
+        duplicates.push(new alphaTab.midi.NoteOffEvent(noteEvent.track, event.tick, noteEvent.channel, noteEvent.noteKey, noteEvent.noteVelocity))
+      }
+    }
+  }
+  events.push(...duplicates)
+  events.sort((a, b) => a.tick - b.tick)
+}
+
+function applyTimbaleArticulation(noteEvent: { noteKey: number; noteVelocity?: number }, tick: number) {
+  if (!TIMBALE_MIDI_NOTES.some((key) => key === noteEvent.noteKey) || noteEvent.noteVelocity === undefined) return
+
+  const articulationScale = ghostTimbaleTicks.has(tick)
+    ? GHOST_TIMBALE_VELOCITY_SCALE
+    : accentedTimbaleTicks.has(tick)
+      ? ACCENTED_TIMBALE_VELOCITY_SCALE
+      : 1
+  if (articulationScale !== 1) noteEvent.noteVelocity = scaleVelocity(noteEvent.noteVelocity, articulationScale)
+}
+
 function scalePercussionVelocity(
   noteEvent: { noteKey: number; noteVelocity?: number },
   kickScale: number,
@@ -411,12 +598,12 @@ function scalePercussionVelocity(
 ) {
   if (noteEvent.noteVelocity === undefined) return
 
-  const parenthesizedSnareScale = noteEvent.noteKey === 38 && parenthesizedSnareTicks.has(tick)
+  const parenthesizedSnareScale = noteEvent.noteKey === SNARE_MIDI_NOTE && parenthesizedSnareTicks.has(tick)
     ? PARENTHESIZED_SNARE_VELOCITY_SCALE
     : 1
   const scale = noteEvent.noteKey === MUSIC_XML_SURDO_MIDI_NOTE
     ? kickScale
-    : noteEvent.noteKey === 37
+    : noteEvent.noteKey === SIDE_STICK_MIDI_NOTE
       ? sideStickScale
       : parenthesizedSnareScale
   if (scale !== 1) noteEvent.noteVelocity = scaleVelocity(noteEvent.noteVelocity, scale)
@@ -427,7 +614,7 @@ function scalePercussionVelocity(
   <div
     class="min-w-0 w-full max-w-full overflow-hidden rounded-2xl border border-border bg-white px-4 py-5 text-foreground shadow-2xl shadow-black/10 sm:px-6"
   >
-    <div class="mb-5 flex flex-wrap items-center justify-between gap-4">
+    <div class="flex flex-wrap items-center justify-between gap-4" :class="src && 'mb-5'">
       <div class="flex min-w-0 items-start gap-4">
         <div class="min-w-0">
           <h2 class="font-serif text-2xl font-bold sm:text-3xl">
@@ -445,6 +632,7 @@ function scalePercussionVelocity(
           </p>
         </div>
         <button
+          v-if="src"
           class="-mt-1.5 inline-flex h-11 items-center justify-center gap-2 rounded-full bg-accent px-5 text-sm font-semibold text-accent-foreground shadow-lg shadow-accent/20 transition-transform hover:-translate-y-0.5 hover:bg-foreground hover:text-background disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0"
           type="button"
           :disabled="audioState !== 'ready'"
@@ -458,7 +646,7 @@ function scalePercussionVelocity(
           <span>{{ audioState === 'ready' ? (isPlaying ? 'Pause' : 'Play') : 'Loading audio' }}</span>
         </button>
       </div>
-      <div class="ml-auto flex flex-wrap items-center justify-end gap-2" aria-label="Track selector" role="group">
+      <div v-if="src" class="ml-auto flex flex-wrap items-center justify-end gap-2" aria-label="Track selector" role="group">
         <label class="inline-flex h-8 items-center gap-2 text-xs font-semibold text-foreground/70">
           <span>Vitesse</span>
           <span class="relative">
@@ -491,11 +679,13 @@ function scalePercussionVelocity(
         </button>
       </div>
     </div>
-    <div v-show="showSheet" ref="scoreElement" class="alpha-tab relative z-0 min-h-32 min-w-0 overflow-hidden" aria-label="Rendered MusicXML score" />
+    <div v-if="src && showSheet" ref="scoreElement" class="alpha-tab relative z-0 min-h-32 min-w-0 overflow-hidden" aria-label="Rendered MusicXML score" />
     <CircularRhythmViewer
+      v-if="src"
       :src="src"
       :show-circle="showCircle"
       :circular-rhythm="circularRhythm"
+      :surdo1="surdo1"
       :surdo2="surdo2"
       :surdo3="surdo3"
       :compound="compound"
@@ -503,7 +693,7 @@ function scalePercussionVelocity(
       :end-tick="endTick"
       :selected-track="selectedTrack"
     />
-    <div v-if="!showSheet && !showCircle" class="mt-2 flex items-center gap-3 text-xs tabular-nums text-foreground/60">
+    <div v-if="src && !showSheet && !showCircle" class="mt-2 flex items-center gap-3 text-xs tabular-nums text-foreground/60">
       <span>{{ formatTime(currentTime) }}</span>
       <input
         class="w-full accent-accent"

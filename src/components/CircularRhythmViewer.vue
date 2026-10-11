@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
-import { SURDO_2_COLOR, SURDO_2_MIDI_NOTE, SURDO_3_COLOR, SURDO_3_MIDI_NOTE } from '@/lib/surdo'
+import { SURDO_2_COLOR, SURDO_2_MIDI_NOTE, SURDO_3_COLOR, SURDO_3_MIDI_NOTE } from '@/lib/percussion'
 import type { CircularRhythmSection, SurdoBeat } from '@/data/trackGroups'
 
 type TrackSelection = 'both' | 'snare' | 'kick'
@@ -43,6 +43,7 @@ const props = defineProps<{
   src: string
   showCircle: boolean
   circularRhythm?: CircularRhythmSection[]
+  surdo1?: SurdoBeat[]
   surdo2?: SurdoBeat[]
   surdo3?: SurdoBeat[]
   compound?: boolean
