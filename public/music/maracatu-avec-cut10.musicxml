@@ -8,7 +8,7 @@
     <creator type="composer">Composer / arranger</creator>
     <encoding>
       <software>MuseScore Studio 4.7.5</software>
-      <encoding-date>2026-10-06</encoding-date>
+      <encoding-date>2026-10-14</encoding-date>
       <supports element="accidental" type="yes"/>
       <supports element="beam" type="yes"/>
       <supports element="print" attribute="new-page" type="no"/>
@@ -167,7 +167,7 @@
         <beam number="2">begin</beam>
         <notations>
           <articulations>
-            <accent default-x="-0.72" default-y="-14"/>
+            <accent default-x="-0.72" default-y="-9.32"/>
             </articulations>
           </notations>
         </note>
@@ -213,7 +213,7 @@
         <beam number="2">end</beam>
         <notations>
           <articulations>
-            <accent default-x="-0.72" default-y="-14"/>
+            <accent default-x="-0.72" default-y="-9.32"/>
             </articulations>
           </notations>
         </note>
@@ -231,7 +231,7 @@
         <beam number="2">begin</beam>
         <notations>
           <articulations>
-            <accent default-x="-0.72" default-y="-14"/>
+            <accent default-x="-0.72" default-y="-9.32"/>
             </articulations>
           </notations>
         </note>
@@ -305,7 +305,7 @@
         <beam number="2">continue</beam>
         <notations>
           <articulations>
-            <accent default-x="-0.72" default-y="-14"/>
+            <accent default-x="-0.72" default-y="-9.32"/>
             </articulations>
           </notations>
         </note>
@@ -337,7 +337,7 @@
         <beam number="2">end</beam>
         <notations>
           <articulations>
-            <accent default-x="-0.72" default-y="-14"/>
+            <accent default-x="-0.72" default-y="-9.32"/>
             </articulations>
           </notations>
         </note>
@@ -355,7 +355,7 @@
         <beam number="2">begin</beam>
         <notations>
           <articulations>
-            <accent default-x="-0.72" default-y="-14"/>
+            <accent default-x="-0.72" default-y="-9.32"/>
             </articulations>
           </notations>
         </note>
@@ -417,7 +417,7 @@
         <beam number="2">begin</beam>
         <notations>
           <articulations>
-            <accent default-x="-0.72" default-y="-14"/>
+            <accent default-x="-0.72" default-y="-9.32"/>
             </articulations>
           </notations>
         </note>
@@ -463,7 +463,7 @@
         <beam number="2">end</beam>
         <notations>
           <articulations>
-            <accent default-x="-0.72" default-y="-14"/>
+            <accent default-x="-0.72" default-y="-9.32"/>
             </articulations>
           </notations>
         </note>
@@ -481,7 +481,7 @@
         <beam number="2">begin</beam>
         <notations>
           <articulations>
-            <accent default-x="-0.72" default-y="-14"/>
+            <accent default-x="-0.72" default-y="-9.32"/>
             </articulations>
           </notations>
         </note>
@@ -555,7 +555,7 @@
         <beam number="2">continue</beam>
         <notations>
           <articulations>
-            <accent default-x="-0.72" default-y="-14"/>
+            <accent default-x="-0.72" default-y="-9.32"/>
             </articulations>
           </notations>
         </note>
@@ -587,7 +587,7 @@
         <beam number="2">end</beam>
         <notations>
           <articulations>
-            <accent default-x="-0.72" default-y="-14"/>
+            <accent default-x="-0.72" default-y="-9.32"/>
             </articulations>
           </notations>
         </note>
@@ -605,7 +605,7 @@
         <beam number="2">begin</beam>
         <notations>
           <articulations>
-            <accent default-x="-0.72" default-y="-14"/>
+            <accent default-x="-0.72" default-y="-9.32"/>
             </articulations>
           </notations>
         </note>
@@ -672,7 +672,7 @@
         <notations>
           <tuplet type="start" bracket="no"/>
           <articulations>
-            <accent default-x="-0.72" default-y="-9.3"/>
+            <accent default-x="-0.72" default-y="-9.32"/>
             </articulations>
           </notations>
         </note>
@@ -694,7 +694,7 @@
         <beam number="2">continue</beam>
         <notations>
           <articulations>
-            <accent default-x="-0.72" default-y="-9.3"/>
+            <accent default-x="-0.72" default-y="-9.32"/>
             </articulations>
           </notations>
         </note>
@@ -716,7 +716,7 @@
         <beam number="2">continue</beam>
         <notations>
           <articulations>
-            <accent default-x="-0.72" default-y="-9.3"/>
+            <accent default-x="-0.72" default-y="-9.32"/>
             </articulations>
           </notations>
         </note>
@@ -738,7 +738,7 @@
         <beam number="2">continue</beam>
         <notations>
           <articulations>
-            <accent default-x="-0.72" default-y="-9.3"/>
+            <accent default-x="-0.72" default-y="-9.32"/>
             </articulations>
           </notations>
         </note>
@@ -760,7 +760,7 @@
         <beam number="2">continue</beam>
         <notations>
           <articulations>
-            <accent default-x="-0.72" default-y="-9.3"/>
+            <accent default-x="-0.72" default-y="-9.32"/>
             </articulations>
           </notations>
         </note>
@@ -783,7 +783,7 @@
         <notations>
           <tuplet type="stop"/>
           <articulations>
-            <accent default-x="-0.72" default-y="-9.3"/>
+            <accent default-x="-0.72" default-y="-9.32"/>
             </articulations>
           </notations>
         </note>
@@ -807,7 +807,7 @@
         <notations>
           <tuplet type="start" bracket="no"/>
           <articulations>
-            <accent default-x="-0.72" default-y="-9.3"/>
+            <accent default-x="-0.72" default-y="-9.32"/>
             </articulations>
           </notations>
         </note>
@@ -830,7 +830,7 @@
         <beam number="2">continue</beam>
         <notations>
           <articulations>
-            <accent default-x="-0.72" default-y="-9.3"/>
+            <accent default-x="-0.72" default-y="-9.32"/>
             </articulations>
           </notations>
         </note>
@@ -854,7 +854,7 @@
         <notations>
           <tuplet type="stop"/>
           <articulations>
-            <accent default-x="-0.72" default-y="-9.3"/>
+            <accent default-x="-0.72" default-y="-9.32"/>
             </articulations>
           </notations>
         </note>
@@ -871,7 +871,7 @@
         <beam number="1">end</beam>
         <notations>
           <articulations>
-            <accent default-x="-0.72" default-y="-9.3"/>
+            <accent default-x="-0.72" default-y="-9.32"/>
             </articulations>
           </notations>
         </note>
@@ -895,7 +895,7 @@
         <beam number="2">begin</beam>
         <notations>
           <articulations>
-            <accent default-x="-0.72" default-y="-9.3"/>
+            <accent default-x="-0.72" default-y="-9.32"/>
             </articulations>
           </notations>
         </note>
@@ -927,7 +927,7 @@
         <beam number="2">end</beam>
         <notations>
           <articulations>
-            <accent default-x="-0.72" default-y="-9.3"/>
+            <accent default-x="-0.72" default-y="-9.32"/>
             </articulations>
           </notations>
         </note>
@@ -945,7 +945,7 @@
         <beam number="2">begin</beam>
         <notations>
           <articulations>
-            <accent default-x="-0.72" default-y="-9.3"/>
+            <accent default-x="-0.72" default-y="-9.32"/>
             </articulations>
           </notations>
         </note>
@@ -1360,9 +1360,40 @@
         </note>
       <note default-x="525.87" default-y="-125.48">
         <rest/>
-        <duration>24</duration>
+        <duration>12</duration>
         <voice>1</voice>
-        <type>half</type>
+        <type>quarter</type>
+        </note>
+      <note default-x="747.97" default-y="-125.48">
+        <rest/>
+        <duration>3</duration>
+        <voice>1</voice>
+        <type>16th</type>
+        </note>
+      <note default-x="803.5" default-y="-125.48">
+        <unpitched>
+          <display-step>E</display-step>
+          <display-octave>4</display-octave>
+          </unpitched>
+        <duration>3</duration>
+        <instrument id="P2-I37"/>
+        <voice>1</voice>
+        <type>16th</type>
+        <stem>up</stem>
+        <beam number="1">begin</beam>
+        <beam number="2">forward hook</beam>
+        </note>
+      <note default-x="859.02" default-y="-125.48">
+        <unpitched>
+          <display-step>E</display-step>
+          <display-octave>4</display-octave>
+          </unpitched>
+        <duration>6</duration>
+        <instrument id="P2-I37"/>
+        <voice>1</voice>
+        <type>eighth</type>
+        <stem>up</stem>
+        <beam number="1">end</beam>
         </note>
       <barline location="right">
         <bar-style>light-heavy</bar-style>
