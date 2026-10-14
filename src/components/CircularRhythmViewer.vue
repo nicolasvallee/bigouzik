@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
-import { SURDO_2_COLOR, SURDO_2_MIDI_NOTE, SURDO_3_COLOR, SURDO_3_MIDI_NOTE } from '@/lib/percussion'
+import { SURDO_1_COLOR, SURDO_1_MIDI_NOTE, SURDO_2_COLOR, SURDO_2_MIDI_NOTE, SURDO_3_COLOR, SURDO_3_MIDI_NOTE } from '@/lib/percussion'
 import type { CircularRhythmSection, SurdoBeat } from '@/data/trackGroups'
 
 type TrackSelection = 'both' | 'snare' | 'kick'
@@ -306,6 +306,7 @@ function parsePart(part: Element, instrumentNames: Map<string, string>) {
 
 function surdoVariantAt(time: number, measures: RhythmMeasure[]) {
   const variants = [
+    ...(props.surdo1?.map((beat) => ({ ...beat, midiNote: SURDO_1_MIDI_NOTE })) ?? []),
     ...(props.surdo3?.map((beat) => ({ ...beat, midiNote: SURDO_3_MIDI_NOTE })) ?? []),
     ...(props.surdo2?.map((beat) => ({ ...beat, midiNote: SURDO_2_MIDI_NOTE })) ?? []),
   ]
@@ -328,6 +329,7 @@ function surdoVariantAt(time: number, measures: RhythmMeasure[]) {
 }
 
 function surdoColor(midiNote?: number) {
+  if (midiNote === SURDO_1_MIDI_NOTE) return `rgb(${SURDO_1_COLOR.join(', ')})`
   if (midiNote === SURDO_2_MIDI_NOTE) return `rgb(${SURDO_2_COLOR.join(', ')})`
   if (midiNote === SURDO_3_MIDI_NOTE) return `rgb(${SURDO_3_COLOR.join(', ')})`
 }

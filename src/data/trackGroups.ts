@@ -4,6 +4,7 @@ export interface MusicTrack {
   src: string
   images?: string[]
   imageAlt?: string
+  experimental?: boolean
   kickVelocityScale?: number
   sideStickVelocityScale?: number
   timbaleVolume?: number
@@ -64,23 +65,13 @@ export const trackGroups: MusicTrackGroup[] = [
 
   { measure: 1, beat: 3.75 },
 ],
-kickVelocityScale: 2, sheetScale: 0.7, loop: true },
-      { title: 'Rio 2', src: '/music/rio2.musicxml', images: ['/images/rio.png', '/images/2.png'], 
-         circularRhythm: [
-  { fromMeasure: 1, toMeasure: 1, repeats: 1 },
-  { fromMeasure: 2, toMeasure: 2, repeats: 1 },
-], 
- surdo3: [
-    { measure: 1, beat: 1.5 },
-
-     { measure: 1, beat: 3.5 },
-  { measure: 2, beat: 1.5 },
-  { measure: 2, beat: 2.5 },
-  { measure: 2, beat: 3.25 },
-
-  { measure: 2, beat: 3.75 },
+surdo1:[  { measure: 1, beat: 1 }, { measure: 1, beat: 3 }],
+  
+surdo2:[  { measure: 1, beat: 2 },
+  { measure: 1, beat: 4 }
 ],
-kickVelocityScale: 2,sheetScale: 0.6, loop: true },
+kickVelocityScale: 2, sheetScale: 0.7, loop: true },
+     
 
  { title: 'Rio 1 avec Blocage 1', description:"", 
          src: '/music/rio1-avec-blocage1.musicxml', images: ['/images/blocage1.png'],
@@ -108,7 +99,70 @@ kickVelocityScale: 2,sheetScale: 0.6, loop: true },
      sheetScale: 0.6, 
 kickVelocityScale: 2,  loop: true },
 
+ { title: 'Rio 1 avec cut', description:"", 
+         src: '/music/rio1-avec-cut.musicxml', images: ['/images/cut.png'],
+         surdo3: [
+  { measure: 1, beat: 1 },
+    { measure: 1, beat: 1.5 },
 
+     { measure: 1, beat: 3 },
+  { measure: 1, beat: 3.25 },
+
+  { measure: 1, beat: 3.75 },
+
+  { measure: 2, beat: 1 },
+    { measure: 2, beat: 1.5 },
+
+     { measure: 2, beat: 3 },
+  { measure: 2, beat: 3.25 },
+
+  { measure: 2, beat: 3.75 },
+],
+    timbaleVolume:2,
+     sheetScale: 0.6, 
+kickVelocityScale: 2,  loop: true },
+
+{ title: 'Rio 1 -> cut 22 -> Funk', description:"Cut 2-2 sert souvent de transition entre Rio et Funk", 
+         src: '/music/rio1-cut22-funk.musicxml',
+         surdo3: [
+  { measure: 1, beat: 1 },
+    { measure: 1, beat: 1.5 },
+
+     { measure: 1, beat: 3 },
+  { measure: 1, beat: 3.25 },
+
+  { measure: 1, beat: 3.75 },
+
+  { measure: 2, beat: 1 },
+    { measure: 2, beat: 1.5 },
+
+     { measure: 2, beat: 3 },
+  { measure: 2, beat: 3.25 },
+
+  { measure: 2, beat: 3.75 },
+],
+    timbaleVolume:2,
+     sheetScale: 0.6, 
+kickVelocityScale: 2,  loop: true },
+
+
+
+ { title: 'Rio 2', src: '/music/rio2.musicxml', images: ['/images/rio.png', '/images/2.png'], 
+         circularRhythm: [
+  { fromMeasure: 1, toMeasure: 1, repeats: 1 },
+  { fromMeasure: 2, toMeasure: 2, repeats: 1 },
+], 
+ surdo3: [
+    { measure: 1, beat: 1.5 },
+
+     { measure: 1, beat: 3.5 },
+  { measure: 2, beat: 1.5 },
+  { measure: 2, beat: 2.5 },
+  { measure: 2, beat: 3.25 },
+
+  { measure: 2, beat: 3.75 },
+],
+kickVelocityScale: 2,sheetScale: 0.6, loop: true },
  { title: 'Rio 2 avec Blocage 1', description:"", 
          src: '/music/rio2-avec-blocage1.musicxml', images: ['/images/blocage1.png'],
          surdo3: [
@@ -141,17 +195,34 @@ kickVelocityScale: 2,  loop: true },
     tracks: [
       { title: 'Diablo 1', src: '/music/diablo1.musicxml', images: ['/images/diablo.png', '/images/1.png'], kickVelocityScale: 1.5,   sideStickVelocityScale: 0.3,
  sheetScale: 0.7, loop: true },
-      { title: 'Diablo 2', src: '/music/diablo2.musicxml', images: ['/images/diablo.png', '/images/2.png'], 
+      
+
+      { title: 'Diablo 1 + Arrêt 5', src: '/music/diablo1-et-arret5.musicxml',  images: ['/images/diablo.png', '/images/1.png', '/images/arret5.png'], showCircularView: false,   kickVelocityScale: 1.5,   sideStickVelocityScale: 0.4,
+sheetScale: 0.6, loop: true },
+ { title: 'Diablo 1 + Arrêt 5 retourné', src: '/music/diablo1-et-arret5-retourne.musicxml',  images: ['/images/diablo.png', '/images/1.png', '/images/arret5.png', '/images/retourne.png'], showCircularView: false,   kickVelocityScale: 1.5,   sideStickVelocityScale: 0.4,
+sheetScale: 0.6, loop: true },
+ {title: 'Diablo 1 + cut', experimental:true, src: '/music/diablo1-avec-cut.musicxml',  images: ['/images/diablo.png', '/images/1.png', '/images/cut.png'], showCircularView: false,   kickVelocityScale: 1.5,   sideStickVelocityScale: 0.4,
+sheetScale: 0.6, loop: true },
+
+ { title: 'Diablo 1 + fade', experimental:true, src: '/music/diablo1-avec-fade.musicxml',  /*images: ['/images/diablo.png', '/images/1.png', '/images/jesaispas.png'],*/ showCircularView: false,   kickVelocityScale: 1.5,   sideStickVelocityScale: 0.4,
+sheetScale: 0.6, loop: true },
+
+ { title: 'Diablo 1 + méchant', experimental:true, src: '/music/diablo1-avec-mechant.musicxml',  /*images: ['/images/diablo.png', '/images/1.png', '/images/jesaispas.png'],*/ showCircularView: false,   kickVelocityScale: 1.5,   sideStickVelocityScale: 0.4,
+sheetScale: 0.6, loop: true },
+
+ { title: 'Diablo 1 + méchant coupé', experimental:true, src: '/music/diablo1-avec-mechant-coupe.musicxml',  /*images: ['/images/diablo.png', '/images/1.png', '/images/jesaispas.png'],*/ showCircularView: false,   kickVelocityScale: 1.5,   sideStickVelocityScale: 0.4,
+sheetScale: 0.6, loop: true },
+
+
+ { title: 'Diablo 1 inversé', experimental:true, src: '/music/diablo1-inverse.musicxml',  images: ['/images/diablo.png', '/images/1.png', '/images/jesaispas.png'], showCircularView: false,   kickVelocityScale: 1,   sideStickVelocityScale: 0.4,
+sheetScale: 0.6, loop: true },
+{ title: 'Diablo 2', src: '/music/diablo2.musicxml', images: ['/images/diablo.png', '/images/2.png'], 
         circularRhythm: [
   { fromMeasure: 1, toMeasure: 2, repeats: 1 },
     { fromMeasure: 3, toMeasure: 3, repeats: 1 },
 
   { fromMeasure: 4, toMeasure: 5, repeats: 1 },
 ], kickVelocityScale: 1.5,   sideStickVelocityScale: 0.3,
-sheetScale: 0.6, loop: true },
-      { title: 'Arrêt 5', src: '/music/arret5.musicxml',  images: ['/images/arret5.png'], kickVelocityScale: 1.5, sheetScale: 0.6, loop: false },
-
-      { title: 'Enchaînement Diablo 1 + Arrêt 5', src: '/music/diablo1-et-arret5.musicxml', showCircularView: false,   kickVelocityScale: 1.5,   sideStickVelocityScale: 0.4,
 sheetScale: 0.6, loop: true },
 
       { title: 'Enchaînement Diablo 2 + Arrêt 5', src: '/music/diablo2-et-arret5.musicxml', showCircularView: false, kickVelocityScale: 1.5,   sideStickVelocityScale: 0.4,
@@ -164,12 +235,12 @@ sheetScale: 0.6, loop: true },
     title: 'Funk',
     tracks: [
       { title: 'Funk', src: '/music/funk.musicxml', images: ['/images/funk.png'], sheetScale: 0.7, loop: true },
-      { title: 'Funk avec 6', src: '/music/funk-avec-6.musicxml', sheetScale: 0.6, loop: true },
-      { title: 'Cut 2-2 dans Funk', src: '/music/2-2.musicxml', images: ['/images/2-2.png'],  kickVelocityScale: 1, sheetScale: 0.6, loop: false },
-      { title: 'Enchaînement des deux', src: '/music/funk-avec-6-et-cut22.musicxml', circularRhythm: [
+      { title: 'Funk avec 6', src: '/music/funk-avec-6.musicxml',  images: ['/images/funk.png', 'images/jesaispas.png'], sheetScale: 0.6, loop: true },
+     // { title: 'Cut 2-2 dans Funk', src: '/music/2-2.musicxml', images: ['/images/2-2.png'],  kickVelocityScale: 1, sheetScale: 0.6, loop: false },
+      { title: 'Funk + cut 2-2', src: '/music/funk-avec-6-et-cut22.musicxml', description: "Il tourne en boucle ici mais en live on ne le joue qu'une fois par signe", circularRhythm: [
   { fromMeasure: 1, toMeasure: 2, repeats: 1 },
   { fromMeasure: 3, toMeasure: 3, repeats: 1 },
-],images: ['/images/2-2.png'],  kickVelocityScale: 1, sheetScale: 0.6, loop: true },
+],images: ['/images/funk.png', '/images/2-2.png'],  kickVelocityScale: 1, sheetScale: 0.6, loop: true },
 
 
     ],
@@ -336,6 +407,8 @@ sheetScale: 0.6, loop: true },
       { title: 'Blocage 1', src: '/music/blocage1.musicxml', images: ['/images/blocage1.png'], kickVelocityScale: 1,
         surdo1: [{ measure: 1, beat: 2.5 }], surdo3: [{ measure: 1, beat: 2.5 }],
           surdo2: [{ measure: 1, beat: 3 }], sheetScale: 0.6, loop: false },
+  { title: 'Arrêt 5', src: '/music/arret5.musicxml',  images: ['/images/arret5.png'], kickVelocityScale: 1.5, sideStickVelocityScale: 0.6, sheetScale: 0.6, loop: false },
+    { title: 'Arrêt 5 retourné', src: '/music/arret5-retourne.musicxml',  images: ['/images/arret5.png', '/images/retourne.png'], sideStickVelocityScale: 0.6, kickVelocityScale: 1.5, sheetScale: 0.6, loop: false },
 
       { title: 'Cut 3 normal', src: '/music/cut3-normal.musicxml',  images: ['/images/cut.png','/images/3.png' ], kickVelocityScale: 1, sheetScale: 0.6, loop: false },
       { title: 'Cut shuffle', src: '/music/cut-shuffle.musicxml',  images: ['/images/shuffle.png'],

@@ -37,6 +37,7 @@ const publicAsset = (path: string) => `${import.meta.env.BASE_URL}${path.replace
           :title="track.title"
           :description="track.description"
           :src="track.src"
+          :experimental="track.experimental"
           :show-sheet="showSheets"
           :show-circle="showCircles && track.showCircularView !== false"
           :circular-rhythm="track.circularRhythm"
