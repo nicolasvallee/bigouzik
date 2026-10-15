@@ -142,7 +142,8 @@ kickVelocityScale: 2,  loop: true },
   { measure: 2, beat: 3.75 },
 ],
     timbaleVolume:2,
-     sheetScale: 0.6, 
+     sheetScale: 0.6,
+     sideStickVelocityScale: 0.4,
 kickVelocityScale: 2,  loop: true },
 
 
