@@ -75,7 +75,7 @@ kickVelocityScale: 2, sheetScale: 0.7, loop: true },
 
  { title: 'Rio 1 avec Blocage 1', description:"", 
          src: '/music/rio1-avec-blocage1.musicxml', images: ['/images/blocage1.png'],
-         surdo3: [
+          surdo3: [
   { measure: 1, beat: 1 },
     { measure: 1, beat: 1.5 },
 
@@ -83,7 +83,6 @@ kickVelocityScale: 2, sheetScale: 0.7, loop: true },
   { measure: 1, beat: 3.25 },
 
   { measure: 1, beat: 3.75 },
-
   { measure: 2, beat: 1 },
     { measure: 2, beat: 1.5 },
 
@@ -91,10 +90,23 @@ kickVelocityScale: 2, sheetScale: 0.7, loop: true },
   { measure: 2, beat: 3.25 },
 
   { measure: 2, beat: 3.75 },
-  { measure: 3, beat: 2.5 }
+    { measure: 3, beat: 2.5 },
+
+
 ],
-    surdo1: [{ measure: 3, beat: 2.5 }], 
-    surdo2: [{ measure: 3, beat: 3 }],
+surdo1:[  { measure: 1, beat: 1 }, { measure: 1, beat: 3 },
+  { measure: 2, beat: 1 }, { measure: 2, beat: 3 },
+      { measure: 3, beat: 2.5 },
+
+],
+  
+surdo2:[  { measure: 1, beat: 2 },
+  { measure: 1, beat: 4 },
+   { measure: 2, beat: 2 },
+  { measure: 2, beat: 4 },
+      { measure: 3, beat: 3 },
+
+],
     timbaleVolume:2,
      sheetScale: 0.6, 
 kickVelocityScale: 2,  loop: true },
@@ -117,6 +129,8 @@ kickVelocityScale: 2,  loop: true },
   { measure: 2, beat: 3.25 },
 
   { measure: 2, beat: 3.75 },
+
+
 ],
     timbaleVolume:2,
      sheetScale: 0.6, 
@@ -144,7 +158,7 @@ kickVelocityScale: 2,  loop: true },
     timbaleVolume:2,
      sheetScale: 0.6,
      sideStickVelocityScale: 0.4,
-kickVelocityScale: 2,  loop: true },
+kickVelocityScale: 2,  loop: false },
 
 
 
@@ -153,6 +167,22 @@ kickVelocityScale: 2,  loop: true },
   { fromMeasure: 1, toMeasure: 1, repeats: 1 },
   { fromMeasure: 2, toMeasure: 2, repeats: 1 },
 ], 
+surdo1:[
+    { measure: 1, beat: 1},
+
+     { measure: 1, beat: 3 },
+  { measure: 2, beat: 1 },
+  { measure: 2, beat: 3 },
+
+],
+surdo2:[
+    { measure: 1, beat: 2},
+
+     { measure: 1, beat: 4},
+  { measure: 2, beat: 2 },
+  { measure: 2, beat: 4 },
+
+],
  surdo3: [
     { measure: 1, beat: 1.5 },
 
@@ -166,23 +196,39 @@ kickVelocityScale: 2,  loop: true },
 kickVelocityScale: 2,sheetScale: 0.6, loop: true },
  { title: 'Rio 2 avec Blocage 1', description:"", 
          src: '/music/rio2-avec-blocage1.musicxml', images: ['/images/blocage1.png'],
-         surdo3: [
+        
+surdo1:[
+    { measure: 1, beat: 1},
+
+     { measure: 1, beat: 3 },
+  { measure: 2, beat: 1 },
+  { measure: 2, beat: 3 },
+      { measure: 3, beat: 2.5 },
+
+
+],
+surdo2:[
+    { measure: 1, beat: 2},
+
+     { measure: 1, beat: 4},
+  { measure: 2, beat: 2 },
+  { measure: 2, beat: 4 },
+      { measure: 3, beat: 3 },
+
+
+],
+ surdo3: [
     { measure: 1, beat: 1.5 },
 
-  { measure: 1, beat: 3.5 },
-
-
-     { measure: 2, beat: 1.5 },
-          { measure: 2, beat: 2.5 },
-
-
+     { measure: 1, beat: 3.5 },
+  { measure: 2, beat: 1.5 },
+  { measure: 2, beat: 2.5 },
   { measure: 2, beat: 3.25 },
-  { measure: 2, beat: 3.75 },
 
-  { measure: 3, beat: 2.5 }
+  { measure: 2, beat: 3.75 },
+      { measure: 3, beat: 2.5 },
+
 ],
-    surdo1: [{ measure: 3, beat: 2.5 }], 
-    surdo2: [{ measure: 3, beat: 3 }],
     timbaleVolume:2,
      sheetScale: 0.6, 
 kickVelocityScale: 2,  loop: true },
@@ -277,6 +323,19 @@ sheetScale: 0.6, loop: true },
     { measure: 3, beat: 4 },
 
        { measure: 4, beat: 1 },
+
+
+
+], surdo1: [
+                     { measure: 1, beat: 1 },
+
+
+    { measure: 1, beat: 2.5 },
+
+      { measure: 3, beat: 1 },
+
+
+    { measure: 3, beat: 2.5 },
 
 
 
