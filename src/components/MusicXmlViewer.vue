@@ -2,6 +2,7 @@
 import * as alphaTab from '@coderline/alphatab'
 import { nextTick, onBeforeUnmount, onMounted, ref, toRefs, watch } from 'vue'
 import { normalizeMusicXml } from '@/lib/normalizeMusicXml'
+import { LOOP_COPIES, repeatMidi } from '@/lib/repeatMidi'
 import { ACCENTED_PERCUSSION_VELOCITY_SCALE, GHOST_PERCUSSION_VELOCITY_SCALE, MUSIC_XML_SURDO_MIDI_NOTE, SIDE_STICK_MIDI_NOTE, SNARE_MIDI_NOTE, SURDO_1_COLOR, SURDO_1_MIDI_NOTE, SURDO_2_COLOR, SURDO_2_MIDI_NOTE, SURDO_3_COLOR, SURDO_3_MIDI_NOTE, TIMBALE_MIDI_NOTES } from '@/lib/percussion'
 import type { CircularRhythmSection, SurdoBeat } from '@/data/trackGroups'
 import CircularRhythmViewer from './CircularRhythmViewer.vue'
@@ -46,7 +47,7 @@ let removePlaybackListener: (() => void) | null = null
 let creditObserver: MutationObserver | null = null
 let pendingTimePosition: number | null = null
 let pendingPlayback = false
-let isWrappingLoop = false
+let playbackCopies = 1
 const ghostPercussionNotes = new Set<string>()
 const accentedPercussionNotes = new Set<string>()
 let hasRenderedAllTracks = false
@@ -183,12 +184,13 @@ onMounted(() => {
       })
     }
 
+    playbackCopies = props.loop && currentApi.tickCache && repeatMidi(midi, currentApi.tickCache) ? LOOP_COPIES : 1
+
     if (pendingTimePosition !== null) {
       const timePosition = pendingTimePosition
       window.setTimeout(() => {
         if (!api) return
         api.timePosition = timePosition
-        currentTime.value = timePosition
         pendingTimePosition = null
         if (pendingPlayback) {
           pendingPlayback = false
@@ -204,18 +206,10 @@ onMounted(() => {
     }
   })
   removePlayerPositionListener = currentApi.playerPositionChanged.on(({ currentTime: position, endTime, currentTick: tick, endTick: finalTick }) => {
-    currentTime.value = position
-    currentTick.value = tick
-    endTick.value = finalTick
-    duration.value = endTime
-
-    const loopBoundary = finalTick - 20
-    if (props.loop && isPlaying.value && !isWrappingLoop && tick >= loopBoundary) {
-      isWrappingLoop = true
-      currentApi.tickPosition = currentApi.playbackRange?.startTick ?? 0
-    } else if (tick < loopBoundary) {
-      isWrappingLoop = false
-    }
+    duration.value = endTime / playbackCopies
+    endTick.value = finalTick / playbackCopies
+    currentTime.value = playbackCopies > 1 && duration.value > 0 ? position % duration.value : position
+    currentTick.value = playbackCopies > 1 && endTick.value > 0 ? tick % endTick.value : tick
   })
 
   void loadMusicXml(currentApi)
@@ -295,7 +289,7 @@ watch(selectedTrack, () => {
   if (!api || !scoreTracks.length) return
 
   renderSelectedTracks(api)
-  pendingTimePosition = currentTime.value
+  pendingTimePosition = api.timePosition
   pendingPlayback = isPlaying.value
   isPlaying.value = false
   api.loadMidiForScore()
@@ -518,7 +512,10 @@ function applySurdoVariants(events: alphaTab.midi.MidiEvent[]) {
 
 function seek(event: Event) {
   if (!api) return
-  api.timePosition = Number((event.target as HTMLInputElement).value)
+  const cycleStart = playbackCopies > 1 && duration.value > 0
+    ? Math.min(playbackCopies - 1, Math.floor(api.timePosition / duration.value)) * duration.value
+    : 0
+  api.timePosition = cycleStart + Number((event.target as HTMLInputElement).value)
 }
 
 function formatTime(milliseconds: number) {
