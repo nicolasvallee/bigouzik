@@ -1,6 +1,6 @@
 import { midi } from '@coderline/alphatab'
 
-export const LOOP_COPIES = 5
+export const LOOP_COPIES = 50
 
 export function repeatMidi(file: midi.MidiFile, lookup: midi.MidiTickLookup) {
   const bars = [...lookup.masterBars]
