@@ -118,13 +118,13 @@ watch(
         </template>
       </div>
     </div>
-    <div class="fixed inset-x-0 bottom-0 z-40 flex flex-wrap items-center justify-center gap-1 border-t border-border bg-background px-1 pt-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] shadow-lg sm:gap-1.5 sm:px-4" aria-label="Réglages de lecture" role="group">
+    <div class="fixed inset-x-0 bottom-0 z-40 flex flex-wrap items-center justify-center gap-1 border-t border-foreground bg-neutral-200 px-1 pt-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] shadow-lg sm:gap-1.5 sm:px-4" aria-label="Réglages de lecture" role="group">
       <label class="inline-flex h-8 items-center gap-1 text-[11px] font-semibold text-foreground">
         <span>Vitesse</span>
         <span class="relative">
           <select
             v-model.number="playbackSpeed"
-            class="h-8 appearance-none rounded-full border border-foreground bg-background px-2 pr-5 text-[11px] font-semibold text-foreground outline-none transition-colors hover:bg-foreground/5 focus-visible:border-accent focus-visible:ring-2 focus-visible:ring-accent/30"
+            class="h-8 appearance-none rounded-full border border-foreground bg-background px-2 pr-5 text-[11px] font-semibold text-foreground outline-none transition-colors hover:bg-background-soft focus-visible:ring-2 focus-visible:ring-foreground/30"
             aria-label="Vitesse de lecture"
           >
             <option v-for="speed in playbackSpeedOptions" :key="speed" :value="speed">
@@ -140,7 +140,7 @@ watch(
         v-for="track in ['both', 'snare', 'kick'] as const"
         :key="track"
         class="inline-flex h-8 items-center gap-1 rounded-full border px-2 text-[11px] font-semibold capitalize transition-colors"
-        :class="selectedInstrument === track ? 'border-foreground bg-foreground text-background' : 'border-foreground text-foreground hover:bg-foreground/5'"
+        :class="selectedInstrument === track ? 'border-foreground bg-foreground text-background' : 'border-foreground bg-background text-foreground hover:bg-background-soft'"
         type="button"
         :aria-pressed="selectedInstrument === track"
         @click="selectedInstrument = track"
