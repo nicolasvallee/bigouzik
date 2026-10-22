@@ -14,3 +14,6 @@ export const SURDO_3_MIDI_NOTE = 41
 export const SURDO_1_COLOR = [22, 163, 74] as const
 export const SURDO_2_COLOR = [234, 179, 8] as const
 export const SURDO_3_COLOR = [220, 38, 38] as const
+
+export const GHOST_PERCUSSION_VELOCITY_SCALE = 0.4
+export const ACCENTED_PERCUSSION_VELOCITY_SCALE = 1.2

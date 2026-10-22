@@ -2,12 +2,9 @@
 import * as alphaTab from '@coderline/alphatab'
 import { nextTick, onBeforeUnmount, onMounted, ref, toRefs, watch } from 'vue'
 import { normalizeMusicXml } from '@/lib/normalizeMusicXml'
-import { MUSIC_XML_SURDO_MIDI_NOTE, SIDE_STICK_MIDI_NOTE, SNARE_MIDI_NOTE, SURDO_1_COLOR, SURDO_1_MIDI_NOTE, SURDO_2_COLOR, SURDO_2_MIDI_NOTE, SURDO_3_COLOR, SURDO_3_MIDI_NOTE, TIMBALE_MIDI_NOTES } from '@/lib/percussion'
+import { ACCENTED_PERCUSSION_VELOCITY_SCALE, GHOST_PERCUSSION_VELOCITY_SCALE, MUSIC_XML_SURDO_MIDI_NOTE, SIDE_STICK_MIDI_NOTE, SNARE_MIDI_NOTE, SURDO_1_COLOR, SURDO_1_MIDI_NOTE, SURDO_2_COLOR, SURDO_2_MIDI_NOTE, SURDO_3_COLOR, SURDO_3_MIDI_NOTE, TIMBALE_MIDI_NOTES } from '@/lib/percussion'
 import type { CircularRhythmSection, SurdoBeat } from '@/data/trackGroups'
 import CircularRhythmViewer from './CircularRhythmViewer.vue'
-
-const GHOST_PERCUSSION_VELOCITY_SCALE = 0.4
-const ACCENTED_PERCUSSION_VELOCITY_SCALE = 1.2
 
 const props = defineProps<{
   src: string

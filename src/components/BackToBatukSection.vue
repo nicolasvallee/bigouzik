@@ -118,20 +118,20 @@ watch(
         </template>
       </div>
     </div>
-    <div class="fixed inset-x-0 bottom-0 z-40 flex flex-wrap items-center justify-center gap-2 border-t border-border bg-background px-4 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] shadow-lg" aria-label="Réglages de lecture" role="group">
-      <label class="inline-flex h-8 items-center gap-2 text-xs font-semibold text-foreground/70">
+    <div class="fixed inset-x-0 bottom-0 z-40 flex flex-wrap items-center justify-center gap-1 border-t border-border bg-background px-1 pt-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] shadow-lg sm:gap-1.5 sm:px-4" aria-label="Réglages de lecture" role="group">
+      <label class="inline-flex h-8 items-center gap-1 text-[11px] font-semibold text-foreground">
         <span>Vitesse</span>
         <span class="relative">
           <select
             v-model.number="playbackSpeed"
-            class="h-8 appearance-none rounded-full border border-border bg-background px-2 pr-6 text-xs font-semibold text-foreground outline-none transition-colors hover:border-foreground/50 focus-visible:border-accent focus-visible:ring-2 focus-visible:ring-accent/30"
+            class="h-8 appearance-none rounded-full border border-foreground bg-background px-2 pr-5 text-[11px] font-semibold text-foreground outline-none transition-colors hover:bg-foreground/5 focus-visible:border-accent focus-visible:ring-2 focus-visible:ring-accent/30"
             aria-label="Vitesse de lecture"
           >
             <option v-for="speed in playbackSpeedOptions" :key="speed" :value="speed">
               {{ speed.toFixed(1) }}x
             </option>
           </select>
-          <svg class="pointer-events-none absolute right-1.5 top-1/2 h-3 w-3 -translate-y-1/2 text-foreground/60" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+          <svg class="pointer-events-none absolute right-1.5 top-1/2 h-2.5 w-2.5 -translate-y-1/2 text-foreground" viewBox="0 0 12 12" fill="none" aria-hidden="true">
             <path d="m3 4.5 3 3 3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
           </svg>
         </span>
@@ -139,12 +139,28 @@ watch(
       <button
         v-for="track in ['both', 'snare', 'kick'] as const"
         :key="track"
-        class="h-8 rounded-full border px-3 text-xs font-semibold capitalize transition-colors"
-        :class="selectedInstrument === track ? 'border-foreground bg-foreground text-background' : 'border-border bg-transparent text-foreground/60 hover:border-foreground/50 hover:text-foreground'"
+        class="inline-flex h-8 items-center gap-1 rounded-full border px-2 text-[11px] font-semibold capitalize transition-colors"
+        :class="selectedInstrument === track ? 'border-foreground bg-foreground text-background' : 'border-foreground text-foreground hover:bg-foreground/5'"
         type="button"
         :aria-pressed="selectedInstrument === track"
         @click="selectedInstrument = track"
       >
+        <svg class="h-3.5 w-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <g v-if="track === 'both'">
+            <path d="M11 4 6 8H3v8h3l5 4Z" />
+            <path d="M15 8a6 6 0 0 1 0 8m3-11a10 10 0 0 1 0 14" />
+          </g>
+          <g v-else-if="track === 'snare'">
+            <path d="m5 2 12 5M19 2 7 7" />
+            <ellipse cx="12" cy="10" rx="9" ry="3" />
+            <path d="M3 10v8c0 1.7 4 3 9 3s9-1.3 9-3v-8M7 13v6m5-5v6m5-7v6" />
+          </g>
+          <g v-else>
+            <path d="M4 21 18 5M20 21 6 5" stroke-width="2" />
+            <circle cx="18" cy="5" r="3.5" fill="currentColor" stroke="none" />
+            <circle cx="6" cy="5" r="3.5" fill="currentColor" stroke="none" />
+          </g>
+        </svg>
         {{ track === 'both' ? 'Tout' : track === 'snare' ? 'Caisse' : 'Surdo' }}
       </button>
     </div>

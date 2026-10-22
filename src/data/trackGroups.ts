@@ -267,13 +267,14 @@ kickVelocityScale: 2,  loop: true },
     id: 'funk',
     title: 'Funk',
     tracks: [
-      { title: 'Funk', src: '/music/funk.musicxml', images: ['/images/funk.png'], sheetScale: 0.7, loop: true },
-      { title: 'Funk avec 6',"description":"Pour les surdos même chose, pour les caisses on ajoute les 6 accents à la fin. ", src: '/music/funk-avec-6.musicxml',  images: ['images/6.jpeg'], sheetScale: 0.6, loop: true },
+      { title: 'Funk', src: '/music/funk.musicxml', images: ['/images/funk.png'], kickVelocityScale: 2.5, sheetScale: 0.7, loop: true },
+      { title: 'Funk avec 6',"description":"Pour les surdos même chose, pour les caisses on ajoute les 6 accents à la fin. ",kickVelocityScale: 2.5, src: '/music/funk-avec-6.musicxml',  images: ['images/6.jpeg'], sheetScale: 0.6, loop: true },
      // { title: 'Cut 2-2 dans Funk', src: '/music/2-2.musicxml', images: ['/images/2-2.png'],  kickVelocityScale: 1, sheetScale: 0.6, loop: false },
-      { title: 'Funk + cut 2-2', src: '/music/funk-avec-6-et-cut22.musicxml',/* description: "Il tourne en boucle ici mais en live on ne joue cut2-2 qu'une fois lorsque le signe est montré.",*/ circularRhythm: [
+      { title: 'Funk + cut 2-2', src: '/music/funk-avec-6-et-cut22.musicxml',kickVelocityScale: 2.5,
+        /* description: "Il tourne en boucle ici mais en live on ne joue cut2-2 qu'une fois lorsque le signe est montré.",*/ circularRhythm: [
   { fromMeasure: 1, toMeasure: 2, repeats: 1 },
   { fromMeasure: 3, toMeasure: 3, repeats: 1 },
-],images: [ '/images/2-2.png'],  kickVelocityScale: 1, sheetScale: 0.6, loop: true },
+],images: [ '/images/2-2.png'],  sheetScale: 0.6, loop: true },
 
 
     ],
@@ -283,7 +284,7 @@ kickVelocityScale: 2,  loop: true },
     id: 'diablo',
     title: 'Diablo',
     tracks: [
-      { title: 'Diablo 1', src: '/music/diablo1.musicxml', images: ['/images/diablo.png', '/images/1.png'], kickVelocityScale: 1.5,   sideStickVelocityScale: 0.3,
+      { title: 'Diablo 1', src: '/music/diablo1.musicxml', images: ['/images/diablo.png', '/images/1.png'], kickVelocityScale: 2.5,   sideStickVelocityScale: 0.3,
  sheetScale: 0.7, loop: true },
       
 
@@ -331,7 +332,8 @@ sheetScale: 0.6, loop: true },
       { title: 'Rockito', src: '/music/rockito.musicxml',  circularRhythm: [
   { fromMeasure: 1, toMeasure: 1, repeats: 2 },
   { fromMeasure: 3, toMeasure: 3, repeats: 2 },
-],   images: ['/images/rockito.png'], sheetScale: 0.6, loop: true },
+  
+], kickVelocityScale: 3,  images: ['/images/rockito.png'], sheetScale: 0.6, loop: true },
       { title: 'Rock 1', src: '/music/rock1.musicxml', circularRhythm: [
   { fromMeasure: 1, toMeasure: 1, repeats: 3 },
   { fromMeasure: 4, toMeasure: 4, repeats: 1 },
@@ -447,7 +449,7 @@ sheetScale: 0.6, loop: true },
         
          circularRhythm: [
   { fromMeasure: 1, toMeasure: 1, repeats: 1 },
-  { fromMeasure: 2, toMeasure: 2, repeats: 1 }], kickVelocityScale: 1.5, sheetScale: 0.6, loop: true },
+  { fromMeasure: 2, toMeasure: 2, repeats: 1 }], kickVelocityScale: 2.5, sheetScale: 0.6, loop: true },
   { title: 'Indiens avec blocage 1', src: '/music/indiens-avec-blocage1.musicxml',  images: ['/images/indiens.png', '/images/blocage1.png'],
         
          circularRhythm: [
