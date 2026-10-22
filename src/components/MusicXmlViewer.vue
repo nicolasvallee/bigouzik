@@ -677,7 +677,7 @@ function scalePercussionVelocity(
         </button>
       </div>
     </div>
-    <div v-if="src && showSheet" ref="scoreElement" class="alpha-tab relative z-0 min-h-32 min-w-0 overflow-hidden" aria-label="Rendered MusicXML score" />
+    <div v-if="src" v-show="showSheet" ref="scoreElement" class="alpha-tab relative z-0 min-h-32 min-w-0 overflow-hidden" aria-label="Rendered MusicXML score" />
     <CircularRhythmViewer
       v-if="src"
       :src="src"
