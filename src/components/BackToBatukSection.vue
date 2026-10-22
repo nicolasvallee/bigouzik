@@ -38,10 +38,10 @@ watch(
 </script>
 
 <template>
-  <section id="back-to-batuk" class="flex min-h-svh items-center bg-background-soft px-5 pb-20 pt-16 scroll-mt-20 sm:px-16 lg:px-36" aria-labelledby="batuk-title">
+  <section id="back-to-batuk" class="flex min-h-svh items-start bg-background-soft px-5 pb-20 pt-6 scroll-mt-20 sm:px-16 lg:px-36" aria-labelledby="batuk-title">
     <div class="mx-auto w-full max-w-6xl">
       <h2 id="batuk-title" class="max-w-[12ch] font-serif text-[clamp(2.75rem,7vw,5.5rem)] font-normal leading-[0.9]">Back to Batuk</h2>
-      <div class="sticky top-0 z-30 isolate mt-8 -mx-5 bg-background-soft/95 px-5 backdrop-blur sm:-mx-16 sm:px-16 lg:-mx-36 lg:px-36">
+      <div class="mt-8 -mx-5 bg-background-soft/95 px-5 sm:-mx-16 sm:px-16 lg:-mx-36 lg:px-36">
         <div class="mx-auto max-w-6xl border-y border-border py-3">
           <div class="flex flex-wrap gap-2" aria-label="Options d'affichage" role="group">
           <button
