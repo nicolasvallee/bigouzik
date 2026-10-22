@@ -273,6 +273,9 @@ function updatePercussionLabels() {
 }
 
 function togglePlayback() {
+  // Let music play through the iOS silent switch when the Audio Session API is available.
+  const audioSession = (navigator as Navigator & { audioSession?: { type: string } }).audioSession
+  if (audioSession) audioSession.type = 'playback'
   api?.playPause()
 }
 
