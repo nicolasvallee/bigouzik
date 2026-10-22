@@ -14,6 +14,9 @@ const selectedGroup = computed(() => {
 const activeGroup = computed(() => trackGroups.find((group) => group.id === selectedGroup.value))
 const showSheets = ref(false)
 const showCircles = ref(false)
+const playbackSpeed = ref(1)
+const playbackSpeedOptions = [0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3]
+const selectedInstrument = ref<'both' | 'snare' | 'kick'>('both')
 
 const selectedTrack = computed(() => {
   const track = String(route.params.trackId || '')
@@ -38,7 +41,7 @@ watch(
 </script>
 
 <template>
-  <section id="back-to-batuk" class="flex min-h-svh items-start bg-background-soft px-5 pb-20 pt-6 scroll-mt-20 sm:px-16 lg:px-36" aria-labelledby="batuk-title">
+  <section id="back-to-batuk" class="flex min-h-svh items-start bg-background-soft px-5 pb-[calc(7rem+env(safe-area-inset-bottom))] pt-6 scroll-mt-20 sm:px-16 lg:px-36" aria-labelledby="batuk-title">
     <div class="mx-auto w-full max-w-6xl">
       <h2 id="batuk-title" class="max-w-[12ch] font-serif text-[clamp(2.75rem,7vw,5.5rem)] font-normal leading-[0.9]">Back to Batuk</h2>
       <div class="mt-8 -mx-5 bg-background-soft/95 px-5 sm:-mx-16 sm:px-16 lg:-mx-36 lg:px-36">
@@ -109,9 +112,41 @@ watch(
             :tracks="group.tracks"
             :show-sheets="showSheets"
             :show-circles="showCircles"
+            :playback-speed="playbackSpeed"
+            :selected-track="selectedInstrument"
           />
         </template>
       </div>
+    </div>
+    <div class="fixed inset-x-0 bottom-0 z-40 flex flex-wrap items-center justify-center gap-2 border-t border-border bg-background px-4 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] shadow-lg" aria-label="Réglages de lecture" role="group">
+      <label class="inline-flex h-8 items-center gap-2 text-xs font-semibold text-foreground/70">
+        <span>Vitesse</span>
+        <span class="relative">
+          <select
+            v-model.number="playbackSpeed"
+            class="h-8 appearance-none rounded-full border border-border bg-background px-2 pr-6 text-xs font-semibold text-foreground outline-none transition-colors hover:border-foreground/50 focus-visible:border-accent focus-visible:ring-2 focus-visible:ring-accent/30"
+            aria-label="Vitesse de lecture"
+          >
+            <option v-for="speed in playbackSpeedOptions" :key="speed" :value="speed">
+              {{ speed.toFixed(1) }}x
+            </option>
+          </select>
+          <svg class="pointer-events-none absolute right-1.5 top-1/2 h-3 w-3 -translate-y-1/2 text-foreground/60" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+            <path d="m3 4.5 3 3 3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </span>
+      </label>
+      <button
+        v-for="track in ['both', 'snare', 'kick'] as const"
+        :key="track"
+        class="h-8 rounded-full border px-3 text-xs font-semibold capitalize transition-colors"
+        :class="selectedInstrument === track ? 'border-foreground bg-foreground text-background' : 'border-border bg-transparent text-foreground/60 hover:border-foreground/50 hover:text-foreground'"
+        type="button"
+        :aria-pressed="selectedInstrument === track"
+        @click="selectedInstrument = track"
+      >
+        {{ track === 'both' ? 'Tout' : track === 'snare' ? 'Caisse' : 'Surdo' }}
+      </button>
     </div>
   </section>
 </template>

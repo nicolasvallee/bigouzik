@@ -7,6 +7,8 @@ defineProps<{
   tracks: MusicTrack[]
   showSheets: boolean
   showCircles: boolean
+  playbackSpeed: number
+  selectedTrack: 'both' | 'snare' | 'kick'
 }>()
 
 const publicAsset = (path: string) => `${import.meta.env.BASE_URL}${path.replace(/^\/+/, '')}`
@@ -39,6 +41,8 @@ const publicAsset = (path: string) => `${import.meta.env.BASE_URL}${path.replace
           :src="track.src"
           :experimental="track.experimental"
           :show-sheet="showSheets"
+          :playback-speed="playbackSpeed"
+          :selected-track="selectedTrack"
           :show-circle="showCircles && track.showCircularView !== false"
           :circular-rhythm="track.circularRhythm"
           :track-link="`/back-to-batuk/${id}/${trackId(track)}`"

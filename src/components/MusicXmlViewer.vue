@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import * as alphaTab from '@coderline/alphatab'
-import { nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { nextTick, onBeforeUnmount, onMounted, ref, toRefs, watch } from 'vue'
 import { normalizeMusicXml } from '@/lib/normalizeMusicXml'
 import { MUSIC_XML_SURDO_MIDI_NOTE, SIDE_STICK_MIDI_NOTE, SNARE_MIDI_NOTE, SURDO_1_COLOR, SURDO_1_MIDI_NOTE, SURDO_2_COLOR, SURDO_2_MIDI_NOTE, SURDO_3_COLOR, SURDO_3_MIDI_NOTE, TIMBALE_MIDI_NOTES } from '@/lib/percussion'
 import type { CircularRhythmSection, SurdoBeat } from '@/data/trackGroups'
@@ -24,6 +24,8 @@ const props = defineProps<{
   sheetScale?: number
   showSheet: boolean
   showCircle: boolean
+  playbackSpeed: number
+  selectedTrack: 'both' | 'snare' | 'kick'
   circularRhythm?: CircularRhythmSection[]
   compound?: boolean
   loop: boolean
@@ -36,9 +38,7 @@ const currentTime = ref(0)
 const currentTick = ref(0)
 const endTick = ref(0)
 const duration = ref(0)
-const selectedTrack = ref<'both' | 'snare' | 'kick'>('both')
-const playbackSpeed = ref(1)
-const playbackSpeedOptions = [0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3]
+const { selectedTrack, playbackSpeed } = toRefs(props)
 let api: alphaTab.AlphaTabApi | null = null
 let removePlayerReadyListener: (() => void) | null = null
 let removePlayerStateListener: (() => void) | null = null
@@ -283,9 +283,9 @@ function togglePlayback() {
   api?.playPause()
 }
 
-function updatePlaybackSpeed() {
-  if (api) api.playbackSpeed = playbackSpeed.value
-}
+watch(playbackSpeed, (speed) => {
+  if (api) api.playbackSpeed = speed
+})
 
 watch(() => props.showSheet, async (show) => {
   if (!show || !api) return
@@ -294,16 +294,15 @@ watch(() => props.showSheet, async (show) => {
   api.render()
 })
 
-function selectTrack(track: 'both' | 'snare' | 'kick') {
-  selectedTrack.value = track
-  if (!api) return
+watch(selectedTrack, () => {
+  if (!api || !scoreTracks.length) return
 
   renderSelectedTracks(api)
   pendingTimePosition = currentTime.value
   pendingPlayback = isPlaying.value
   isPlaying.value = false
   api.loadMidiForScore()
-}
+})
 
 function renderSelectedTracks(currentApi: alphaTab.AlphaTabApi) {
   const tracks = selectedTrack.value === 'both'
@@ -642,38 +641,6 @@ function scalePercussionVelocity(
             <span v-else class="play-icon" />
           </span>
           <span>{{ audioState === 'ready' ? (isPlaying ? 'Pause' : 'Play') : 'Loading audio' }}</span>
-        </button>
-      </div>
-      <div v-if="src" class="ml-auto flex flex-wrap items-center justify-end gap-2" aria-label="Track selector" role="group">
-        <label class="inline-flex h-8 items-center gap-2 text-xs font-semibold text-foreground/70">
-          <span>Vitesse</span>
-          <span class="relative">
-            <select
-              v-model.number="playbackSpeed"
-              class="h-8 appearance-none rounded-full border border-border bg-background px-2 pr-6 text-xs font-semibold text-foreground outline-none transition-colors hover:border-foreground/50 focus-visible:border-accent focus-visible:ring-2 focus-visible:ring-accent/30 disabled:cursor-not-allowed disabled:opacity-40"
-              :disabled="audioState !== 'ready'"
-              aria-label="Vitesse de lecture"
-              @change="updatePlaybackSpeed"
-            >
-              <option v-for="speed in playbackSpeedOptions" :key="speed" :value="speed">
-                {{ speed.toFixed(1) }}x
-              </option>
-            </select>
-            <svg class="pointer-events-none absolute right-1.5 top-1/2 h-3 w-3 -translate-y-1/2 text-foreground/60" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-              <path d="m3 4.5 3 3 3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
-          </span>
-        </label>
-        <button
-          v-for="track in ['both', 'snare', 'kick'] as const"
-          :key="track"
-          class="h-8 rounded-full border px-3 text-xs font-semibold capitalize transition-colors"
-          :class="selectedTrack === track ? 'border-foreground bg-foreground text-background' : 'border-border bg-transparent text-foreground/60 hover:border-foreground/50 hover:text-foreground'"
-          type="button"
-          :aria-pressed="selectedTrack === track"
-          @click="selectTrack(track)"
-        >
-          {{ track === 'both' ? 'Tout' : track === 'snare' ? 'Caisse' : 'Surdo' }}
         </button>
       </div>
     </div>
