@@ -6,11 +6,13 @@ import { LOOP_COPIES, repeatMidi } from '@/lib/repeatMidi'
 import { ACCENTED_PERCUSSION_VELOCITY_SCALE, GHOST_PERCUSSION_VELOCITY_SCALE, MUSIC_XML_SURDO_MIDI_NOTE, SIDE_STICK_MIDI_NOTE, SNARE_MIDI_NOTE, SURDO_1_COLOR, SURDO_1_MIDI_NOTE, SURDO_2_COLOR, SURDO_2_MIDI_NOTE, SURDO_3_COLOR, SURDO_3_MIDI_NOTE, TIMBALE_MIDI_NOTES } from '@/lib/percussion'
 import type { CircularRhythmSection, SurdoBeat } from '@/data/trackGroups'
 import CircularRhythmViewer from './CircularRhythmViewer.vue'
+import DescriptionText from './DescriptionText.vue'
 
 const props = defineProps<{
   src: string
   title: string
   description?: string
+  sheetDescription?: string
   experimental?: boolean
   trackLink?: string
   kickVelocityScale?: number
@@ -588,7 +590,7 @@ function scalePercussionVelocity(
   <div
     class="min-w-0 w-full max-w-full overflow-hidden rounded-2xl border border-border bg-white px-4 py-5 text-foreground shadow-2xl shadow-black/10 sm:px-6"
   >
-    <div class="flex flex-wrap items-center justify-between gap-4" :class="src && 'mb-5'">
+    <div :class="src && 'mb-5'">
       <div class="flex min-w-0 items-start gap-4">
         <div class="min-w-0">
           <h2 class="font-serif text-2xl font-bold sm:text-3xl">
@@ -601,9 +603,6 @@ function scalePercussionVelocity(
             </RouterLink>
             <template v-else>{{ title }}</template>
           </h2>
-          <p v-if="description" class="mt-1 max-w-2xl text-sm leading-relaxed text-foreground/65">
-            {{ description }}
-          </p>
           <div v-if="experimental || (showSheet && (surdo1?.length || surdo2?.length || surdo3?.length))" class="mt-2 flex flex-wrap gap-1.5" aria-label="Track badges">
             <span v-if="experimental" class="inline-flex items-center rounded-full border border-accent bg-accent/10 px-2 py-0.5 text-[11px] font-semibold text-accent">
               Expérimental
@@ -624,7 +623,7 @@ function scalePercussionVelocity(
         </div>
         <button
           v-if="src"
-          class="-mt-1.5 inline-flex h-11 items-center justify-center gap-2 rounded-full bg-accent px-5 text-sm font-semibold text-accent-foreground shadow-lg shadow-accent/20 transition-transform hover:-translate-y-0.5 hover:bg-foreground hover:text-background disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0"
+          class="-mt-1.5 inline-flex h-11 shrink-0 items-center justify-center gap-2 rounded-full bg-accent px-5 text-sm font-semibold text-accent-foreground shadow-lg shadow-accent/20 transition-transform hover:-translate-y-0.5 hover:bg-foreground hover:text-background disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0"
           type="button"
           :disabled="audioState !== 'ready'"
           :aria-label="isPlaying ? `Pause ${title}` : `Play ${title}`"
@@ -637,6 +636,9 @@ function scalePercussionVelocity(
           <span>{{ audioState === 'ready' ? (isPlaying ? 'Pause' : 'Play') : 'Loading audio' }}</span>
         </button>
       </div>
+      <p v-if="description" class="mt-2 text-sm leading-relaxed text-foreground/65">
+        <DescriptionText :text="description" />
+      </p>
     </div>
     <div v-if="src" v-show="showSheet" ref="scoreElement" class="alpha-tab relative z-0 min-h-32 min-w-0 overflow-hidden" aria-label="Rendered MusicXML score" />
     <CircularRhythmViewer
@@ -667,6 +669,9 @@ function scalePercussionVelocity(
       >
       <span>{{ formatTime(duration) }}</span>
     </div>
+    <p v-if="showSheet && sheetDescription" class="mt-3 max-w-2xl text-sm italic leading-relaxed text-foreground/65">
+      <DescriptionText :text="sheetDescription" />
+    </p>
   </div>
 </template>
 

@@ -3,6 +3,7 @@ import { computed, nextTick, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { trackGroups, trackId } from '@/data/trackGroups'
 import MusicTrackGroup from './MusicTrackGroup.vue'
+import DescriptionText from './DescriptionText.vue'
 
 const route = useRoute()
 const defaultGroup = trackGroups[0]?.id ?? ''
@@ -102,7 +103,7 @@ watch(
         </RouterLink>
       </div>
       <p v-if="activeGroup?.description" class="mt-8 max-w-2xl text-base leading-relaxed text-foreground/65">
-        {{ activeGroup.description }}
+        <DescriptionText :text="activeGroup.description" />
       </p>
       <div v-if="selectedGroup" :id="`track-group-panel-${selectedGroup}`" class="mt-5">
         <template v-for="group in trackGroups" :key="group.id">
@@ -118,20 +119,20 @@ watch(
         </template>
       </div>
     </div>
-    <div class="fixed inset-x-0 bottom-0 z-40 flex flex-wrap items-center justify-center gap-1 border-t border-foreground bg-neutral-200 px-1 pt-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] shadow-lg sm:gap-1.5 sm:px-4" aria-label="Réglages de lecture" role="group">
-      <label class="inline-flex h-8 items-center gap-1 text-[11px] font-semibold text-foreground">
+    <div class="fixed inset-x-0 bottom-0 z-40 flex flex-nowrap items-center justify-center gap-[0.3em] whitespace-nowrap text-[min(17px,3.2vw)] border-t border-foreground bg-neutral-200 px-[0.4em] pt-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] shadow-lg" aria-label="Réglages de lecture" role="group">
+      <label class="inline-flex shrink-0 items-center gap-[0.3em] font-semibold text-foreground">
         <span>Vitesse</span>
-        <span class="relative">
+        <span class="relative shrink-0">
           <select
             v-model.number="playbackSpeed"
-            class="h-8 appearance-none rounded-full border border-foreground bg-background px-2 pr-5 text-[11px] font-semibold text-foreground outline-none transition-colors hover:bg-background-soft focus-visible:ring-2 focus-visible:ring-foreground/30"
+            class="h-[2.5em] w-[4.2em] appearance-none rounded-full border border-foreground bg-background pl-[0.6em] pr-[1.2em] text-[inherit] font-semibold text-foreground outline-none transition-colors hover:bg-background-soft focus-visible:ring-2 focus-visible:ring-foreground/30"
             aria-label="Vitesse de lecture"
           >
             <option v-for="speed in playbackSpeedOptions" :key="speed" :value="speed">
               {{ speed.toFixed(1) }}x
             </option>
           </select>
-          <svg class="pointer-events-none absolute right-1.5 top-1/2 h-2.5 w-2.5 -translate-y-1/2 text-foreground" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+          <svg class="pointer-events-none absolute right-[0.4em] top-1/2 h-[0.75em] w-[0.75em] -translate-y-1/2 text-foreground" viewBox="0 0 12 12" fill="none" aria-hidden="true">
             <path d="m3 4.5 3 3 3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
           </svg>
         </span>
@@ -139,19 +140,19 @@ watch(
       <button
         v-for="track in ['both', 'snare', 'kick'] as const"
         :key="track"
-        class="inline-flex h-8 items-center gap-1 rounded-full border px-2 text-[11px] font-semibold capitalize transition-colors"
+        class="inline-flex h-[2.5em] shrink-0 items-center gap-[0.25em] rounded-full border px-[0.6em] text-[inherit] font-semibold capitalize transition-colors"
         :class="selectedInstrument === track ? 'border-foreground bg-foreground text-background' : 'border-foreground bg-background text-foreground hover:bg-background-soft'"
         type="button"
         :aria-pressed="selectedInstrument === track"
         @click="selectedInstrument = track"
       >
-        <svg class="h-3.5 w-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <svg class="h-[1.35em] w-[1.35em] shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <g v-if="track === 'both'">
             <path d="M11 4 6 8H3v8h3l5 4Z" />
             <path d="M15 8a6 6 0 0 1 0 8m3-11a10 10 0 0 1 0 14" />
           </g>
           <g v-else-if="track === 'snare'">
-            <path d="m5 2 12 5M19 2 7 7" />
+            <path d="M5 2 15 10M19 2 9 10" />
             <ellipse cx="12" cy="10" rx="9" ry="3" />
             <path d="M3 10v8c0 1.7 4 3 9 3s9-1.3 9-3v-8M7 13v6m5-5v6m5-7v6" />
           </g>

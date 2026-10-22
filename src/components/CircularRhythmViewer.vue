@@ -10,7 +10,7 @@ interface RhythmHit {
   time: number
   parenthesized: boolean
   drumStick: boolean
-  surdoMidiNote?: number
+  surdoMidiNotes?: number[]
 }
 
 interface RhythmMeasure {
@@ -120,6 +120,7 @@ function isActive(hit: RhythmHit, section: CircleSection) {
 
 function hitSize(hit: RhythmHit, section: CircleSection) {
   if (hit.parenthesized) return isActive(hit, section) ? 4 : 2.5
+  if ((hit.surdoMidiNotes?.length ?? 0) > 1) return isActive(hit, section) ? 8 : 5
   return isActive(hit, section) ? 12 : 7
 }
 
@@ -162,7 +163,7 @@ onMounted(async () => {
       kind,
       ...parsed,
       hits: kind === 'kick'
-        ? parsed.hits.map((hit) => ({ ...hit, surdoMidiNote: surdoVariantAt(hit.time, parsed.measures) }))
+        ? parsed.hits.map((hit) => ({ ...hit, surdoMidiNotes: surdoVariantsAt(hit.time, parsed.measures) }))
         : parsed.hits,
     }
   }).filter((ring) => ring.hits.length > 0)
@@ -304,7 +305,7 @@ function parsePart(part: Element, instrumentNames: Map<string, string>) {
   return { hits, measures, duration: timeline }
 }
 
-function surdoVariantAt(time: number, measures: RhythmMeasure[]) {
+function surdoVariantsAt(time: number, measures: RhythmMeasure[]) {
   const variants = [
     ...(props.surdo1?.map((beat) => ({ ...beat, midiNote: SURDO_1_MIDI_NOTE })) ?? []),
     ...(props.surdo3?.map((beat) => ({ ...beat, midiNote: SURDO_3_MIDI_NOTE })) ?? []),
@@ -324,8 +325,13 @@ function surdoVariantAt(time: number, measures: RhythmMeasure[]) {
     const start = measure.start + (beat - 1) * beatDuration
     const duration = Number.isInteger(beat) ? beatDuration : beatDuration / 4
 
-    if (time >= start && time < start + duration) return variant.midiNote
+    if (time >= start && time < start + duration) {
+      return [...new Set(variants
+        .filter((candidate) => candidate.measure === variant.measure && (candidate.beat ?? 1) === (variant.beat ?? 1))
+        .map((candidate) => candidate.midiNote))]
+    }
   }
+  return []
 }
 
 function surdoColor(midiNote?: number) {
@@ -409,14 +415,16 @@ function rhythmKind(label: string): RhythmKind {
               </g>
               <circle
                 v-else
-                :cx="pointAt(hit.time / section.sourceDuration, radiusFor(index, visibleRings(section).length)).x"
-                :cy="pointAt(hit.time / section.sourceDuration, radiusFor(index, visibleRings(section).length)).y"
+                v-for="(midiNote, stackIndex) in hit.surdoMidiNotes?.length ? hit.surdoMidiNotes : [undefined]"
+                :key="stackIndex"
+                :cx="pointAt(hit.time / section.sourceDuration, radiusFor(index, visibleRings(section).length) + (((hit.surdoMidiNotes?.length || 1) - 1) / 2 - stackIndex) * 18).x"
+                :cy="pointAt(hit.time / section.sourceDuration, radiusFor(index, visibleRings(section).length) + (((hit.surdoMidiNotes?.length || 1) - 1) / 2 - stackIndex) * 18).y"
                 :r="hitSize(hit, section)"
                 class="rhythm-hit"
                 :class="[
                   ring.kind === 'snare' ? 'rhythm-hit--snare' : '',
                 ]"
-                :style="{ fill: surdoColor(hit.surdoMidiNote) }"
+                :style="{ fill: surdoColor(midiNote) }"
               />
             </template>
           </g>

@@ -38,6 +38,7 @@ const publicAsset = (path: string) => `${import.meta.env.BASE_URL}${path.replace
         <MusicXmlViewer
           :title="track.title"
           :description="track.description"
+          :sheet-description="track.sheetDescription"
           :src="track.src"
           :experimental="track.experimental"
           :show-sheet="showSheets"
