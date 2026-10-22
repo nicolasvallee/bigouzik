@@ -611,19 +611,19 @@ function scalePercussionVelocity(
           <p v-if="description" class="mt-1 max-w-2xl text-sm leading-relaxed text-foreground/65">
             {{ description }}
           </p>
-          <div v-if="experimental || surdo1?.length || surdo2?.length || surdo3?.length" class="mt-2 flex flex-wrap gap-1.5" aria-label="Track badges">
+          <div v-if="experimental || (showSheet && (surdo1?.length || surdo2?.length || surdo3?.length))" class="mt-2 flex flex-wrap gap-1.5" aria-label="Track badges">
             <span v-if="experimental" class="inline-flex items-center rounded-full border border-accent bg-accent/10 px-2 py-0.5 text-[11px] font-semibold text-accent">
               Expérimental
             </span>
-            <span v-if="surdo1?.length" class="inline-flex items-center gap-1 rounded-full border border-border px-2 py-0.5 text-[11px] font-semibold" :style="{ color: `rgb(${SURDO_1_COLOR.join(', ')})` }">
+            <span v-if="showSheet && surdo1?.length" class="inline-flex items-center gap-1 rounded-full border border-border px-2 py-0.5 text-[11px] font-semibold" :style="{ color: `rgb(${SURDO_1_COLOR.join(', ')})` }">
               <span class="h-2 w-2 rounded-full" :style="{ backgroundColor: `rgb(${SURDO_1_COLOR.join(', ')})` }" />
               Surdo 1
             </span>
-            <span v-if="surdo2?.length" class="inline-flex items-center gap-1 rounded-full border border-border px-2 py-0.5 text-[11px] font-semibold" :style="{ color: `rgb(${SURDO_2_COLOR.join(', ')})` }">
+            <span v-if="showSheet && surdo2?.length" class="inline-flex items-center gap-1 rounded-full border border-border px-2 py-0.5 text-[11px] font-semibold" :style="{ color: `rgb(${SURDO_2_COLOR.join(', ')})` }">
               <span class="h-2 w-2 rounded-full" :style="{ backgroundColor: `rgb(${SURDO_2_COLOR.join(', ')})` }" />
               Surdo 2
             </span>
-            <span v-if="surdo3?.length" class="inline-flex items-center gap-1 rounded-full border border-border px-2 py-0.5 text-[11px] font-semibold" :style="{ color: `rgb(${SURDO_3_COLOR.join(', ')})` }">
+            <span v-if="showSheet && surdo3?.length" class="inline-flex items-center gap-1 rounded-full border border-border px-2 py-0.5 text-[11px] font-semibold" :style="{ color: `rgb(${SURDO_3_COLOR.join(', ')})` }">
               <span class="h-2 w-2 rounded-full" :style="{ backgroundColor: `rgb(${SURDO_3_COLOR.join(', ')})` }" />
               Surdo 3
             </span>

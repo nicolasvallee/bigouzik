@@ -12,7 +12,7 @@ const selectedGroup = computed(() => {
 })
 
 const activeGroup = computed(() => trackGroups.find((group) => group.id === selectedGroup.value))
-const showSheets = ref(true)
+const showSheets = ref(false)
 const showCircles = ref(false)
 
 const selectedTrack = computed(() => {
