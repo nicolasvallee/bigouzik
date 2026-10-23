@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import MusicXmlViewer from './MusicXmlViewer.vue'
 import { trackId, type MusicTrack } from '@/data/trackGroups'
+import { gestureLabel } from '@/data/gestureLabels'
 
 defineProps<{
   id: string
@@ -23,7 +24,7 @@ const publicAsset = (path: string) => `${import.meta.env.BASE_URL}${path.replace
       class="flex min-w-0 w-full scroll-mt-24 justify-start"
     >
       <div class="min-w-0 w-full max-w-6xl">
-        <figure
+        <div
           v-if="track.images?.length"
           class="mb-4 flex flex-wrap justify-center gap-3"
         >
@@ -32,9 +33,9 @@ const publicAsset = (path: string) => `${import.meta.env.BASE_URL}${path.replace
             :key="image"
             class="aspect-[4/3] w-40 max-w-full border border-border object-cover sm:w-48"
             :src="publicAsset(image)"
-            :alt="track.imageAlt || track.title"
+            :alt="track.imageAlt || gestureLabel(image)"
           >
-        </figure>
+        </div>
         <MusicXmlViewer
           :title="track.title"
           :description="track.description"
