@@ -164,7 +164,7 @@ circularRhythm: [
      sheetScale: 0.6, 
 kickVelocityScale: 2,  loop: true },
 
-{ title: 'Transition Rio 1 --> cut 2-2 --> Funk', description:"Cut 2-2 sert souvent de transition entre Rio et [Funk](/back-to-batuk/funk/funk).", 
+{ title: 'Transition Rio 1 → Cut 2-2 → Funk', description:"Cut 2-2 sert souvent de transition entre Rio et [Funk](/back-to-batuk/funk/funk).", 
          src: '/music/rio1-cut22-funk.musicxml',
          images:['/images/2-2.png', '/images/funk.png'],
          showCircularView:false,

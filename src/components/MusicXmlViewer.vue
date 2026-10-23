@@ -593,9 +593,9 @@ function scalePercussionVelocity(
   <div
     class="min-w-0 w-full max-w-full overflow-hidden rounded-2xl border border-border bg-white px-4 py-5 text-foreground shadow-2xl shadow-black/10 sm:px-6"
   >
-    <div :class="src && 'mb-5'">
+    <div :class="src && (showSheet || showCircle) && 'mb-5'">
       <div class="flex min-w-0 items-start gap-4">
-        <div class="min-w-0">
+        <div class="min-w-0 flex-1">
           <h2 class="font-serif text-2xl font-bold sm:text-3xl">
             <RouterLink
               v-if="trackLink"
@@ -626,7 +626,7 @@ function scalePercussionVelocity(
         </div>
         <button
           v-if="src"
-          class="-mt-1.5 inline-flex h-11 shrink-0 items-center justify-center gap-2 rounded-full bg-accent px-5 text-sm font-semibold text-accent-foreground shadow-lg shadow-accent/20 transition-transform hover:-translate-y-0.5 hover:bg-foreground hover:text-background disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0"
+          class="inline-flex h-11 w-28 shrink-0 items-center justify-center gap-2 rounded-full bg-accent px-3 text-sm font-semibold text-accent-foreground shadow-lg shadow-accent/20 transition-transform hover:-translate-y-0.5 hover:bg-foreground hover:text-background disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0"
           type="button"
           :disabled="audioState !== 'ready'"
           :aria-label="isPlaying ? `Pause ${title}` : `Play ${title}`"
@@ -642,6 +642,21 @@ function scalePercussionVelocity(
       <p v-if="description" class="mt-2 text-sm leading-relaxed text-foreground/65">
         <DescriptionText :text="description" />
       </p>
+      <div v-if="src && !showSheet && !showCircle" class="mt-5 flex min-w-0 items-center gap-2 text-xs tabular-nums text-foreground/60">
+        <span class="shrink-0">{{ formatTime(currentTime) }}</span>
+        <input
+          class="min-w-0 flex-1 accent-accent"
+          type="range"
+          min="0"
+          step="10"
+          :max="duration || 1"
+          :value="currentTime"
+          :disabled="audioState !== 'ready' || duration === 0"
+          :aria-label="`Position dans ${title}`"
+          @input="seek"
+        >
+        <span class="shrink-0">{{ formatTime(duration) }}</span>
+      </div>
     </div>
     <div v-if="src" v-show="showSheet" ref="scoreElement" class="alpha-tab relative z-0 min-h-32 min-w-0 overflow-hidden" aria-label="Rendered MusicXML score" />
     <CircularRhythmViewer
@@ -657,21 +672,6 @@ function scalePercussionVelocity(
       :end-tick="endTick"
       :selected-track="selectedTrack"
     />
-    <div v-if="src && !showSheet && !showCircle" class="mt-2 flex items-center gap-3 text-xs tabular-nums text-foreground/60">
-      <span>{{ formatTime(currentTime) }}</span>
-      <input
-        class="w-full accent-accent"
-        type="range"
-        min="0"
-        step="10"
-        :max="duration || 1"
-        :value="currentTime"
-        :disabled="audioState !== 'ready' || duration === 0"
-        :aria-label="`Position dans ${title}`"
-        @input="seek"
-      >
-      <span>{{ formatTime(duration) }}</span>
-    </div>
     <p v-if="showSheet && sheetDescription" class="mt-3 max-w-2xl text-sm italic leading-relaxed text-foreground/65">
       <DescriptionText :text="sheetDescription" />
     </p>
