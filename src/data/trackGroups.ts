@@ -372,9 +372,57 @@ sheetScale: 0.6, loop: true },
     id: 'clown',
     title: 'Clown',
     tracks: [
-      { title: 'Clown (sans intro)', src: '/music/clown.musicxml', 
-         images: ['/images/clown.png'], 
+            { title: 'Intro de Clown',    images: ['/images/clown.png'], 
+              
          surdo2: [
+                     { measure: 12, beat: 1 },
+                      { measure: 16, beat: 1 },
+
+
+
+
+    { measure: 13, beat: 4 },
+    
+
+       { measure: 14, beat: 1 },
+
+
+
+], surdo1: [
+                     { measure: 11, beat: 1 },
+                     { measure: 15, beat: 1 },
+
+
+    { measure: 11, beat: 2.5 },
+        { measure: 15, beat: 2.5 },
+
+
+      { measure: 13, beat: 1 },
+
+
+    { measure: 13, beat: 2.5 },
+
+
+
+],
+         surdo3: [
+  { measure: 12, beat: 2.5 },
+  { measure: 12, beat: 3 },
+
+  { measure: 16, beat: 2.5 },
+  { measure: 16, beat: 3 },
+  { measure: 12, beat: 3.5 },
+    { measure: 12, beat: 4 },
+
+  { measure: 16, beat: 3.5 },
+    { measure: 16, beat: 4 },
+       { measure: 14, beat: 3 },
+],
+              src: '/music/intro-clown.musicxml',showCircularView: false,  kickVelocityScale: 2, sideStickVelocityScale: 0.5, sheetScale: 0.6, loop: false },
+
+      { title: "Clown",description:"Le rythme de base, sans l'intro.", src: '/music/clown.musicxml', 
+      
+          surdo2: [
                      { measure: 2, beat: 1 },
 
 
@@ -405,13 +453,15 @@ sheetScale: 0.6, loop: true },
     { measure: 2, beat: 4 },
        { measure: 4, beat: 3 },
 ],
-         circularRhythm: [
+ circularRhythm: [
   { fromMeasure: 1, toMeasure: 2, repeats: 1 },
   { fromMeasure: 3, toMeasure: 4, repeats: 1 },
 ], kickVelocityScale: 2, sheetScale: 0.6, loop: true },
-      { title: 'Intro Clown', src: '/music/intro-clown.musicxml',showCircularView: false,  kickVelocityScale: 2, sideStickVelocityScale: 0.5, sheetScale: 0.6, loop: false },
     ],
-  },{
+  },
+  
+  
+  {
     id: 'ternaire',
     title: 'Ternaire',
     tracks: [
