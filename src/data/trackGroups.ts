@@ -467,12 +467,12 @@ sheetScale: 0.6, loop: true },
       { title: 'Ternaire', src: '/music/ternaire.musicxml',  circularRhythm: [
   { fromMeasure: 1, toMeasure: 1, repeats: 3 },
   { fromMeasure: 4, toMeasure: 4, repeats: 1 },
-],  images: ['/images/ternaireA.png','/images/ternaireB.png' ],kickVelocityScale: 2, sideStickVelocityScale: 0.2, sheetScale: 0.6, compound: true, loop: true },
+],  images: ['/images/ternaireA.png','/images/ternaireB.png' ],kickVelocityScale: 2, sideStickVelocityScale: 0.8, sheetScale: 0.6, compound: true, loop: true },
     //  { title: 'Cut 3 ternaire', src: '/music/cut3-ternaire.musicxml',  images: ['/images/cut.png','/images/ternaireC.png' ],kickVelocityScale: 2, sheetScale: 0.6, compound: true, loop: false },
       { title: 'Ternaire + cut 3 (ternaire)', src: '/music/ternaire+cut3ternaire.musicxml', circularRhythm: [
   { fromMeasure: 1, toMeasure: 1, repeats: 3 },
   { fromMeasure: 4, toMeasure: 4, repeats: 1 },
-  { fromMeasure: 5, toMeasure: 5, repeats: 1 }], images: ['/images/cut.png','/images/ternaireC.png' ], sideStickVelocityScale: 0.2,kickVelocityScale: 2, sheetScale: 0.6, compound: true, loop: true },
+  { fromMeasure: 5, toMeasure: 5, repeats: 1 }], images: ['/images/cut.png','/images/ternaireC.png' ], sideStickVelocityScale: 0.8,kickVelocityScale: 2, sheetScale: 0.6, compound: true, loop: true },
 
 
     ],
