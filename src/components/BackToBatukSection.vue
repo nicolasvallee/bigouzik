@@ -124,7 +124,7 @@ watch(
         </template>
       </div>
     </div>
-    <div class="fixed inset-x-0 bottom-0 z-40 flex flex-nowrap items-center justify-center gap-[0.3em] whitespace-nowrap text-[min(17px,3.2vw)] border-t-2 border-foreground bg-background-soft px-[0.4em] pt-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] shadow-lg" aria-label="Réglages de lecture" role="group">
+    <div class="fixed inset-x-0 bottom-0 z-40 flex flex-nowrap items-center justify-center gap-[0.3em] whitespace-nowrap text-[min(17px,3.2vw)] border-t-1 border-foreground bg-background-soft px-[0.4em] pt-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] shadow-lg" aria-label="Réglages de lecture" role="group">
       <label class="inline-flex shrink-0 items-center gap-[0.3em] font-semibold text-foreground">
         <span>Vitesse</span>
         <span class="relative shrink-0">

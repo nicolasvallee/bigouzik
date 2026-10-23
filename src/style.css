@@ -27,13 +27,14 @@
 }
 
 html {
+  background: var(--background-soft);
   scroll-behavior: smooth;
 }
 
 body {
   min-width: 320px;
   margin: 0;
-  background: var(--background);
+  background: var(--background-soft);
   color: var(--foreground);
   font-family: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
 }
