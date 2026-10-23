@@ -613,7 +613,7 @@ function scalePercussionVelocity(
         </div>
         <button
           v-if="src"
-          class="inline-flex h-11 w-28 shrink-0 items-center justify-center gap-2 rounded-full bg-accent px-3 text-sm font-semibold text-accent-foreground shadow-lg shadow-accent/20 transition-transform hover:-translate-y-0.5 hover:bg-foreground hover:text-background disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0"
+          class="inline-flex h-11 shrink-0 items-center justify-center gap-2 rounded-full bg-accent px-3 text-sm font-semibold text-accent-foreground shadow-lg shadow-accent/20 transition-transform hover:-translate-y-0.5 hover:bg-foreground hover:text-background disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0"
           type="button"
           :disabled="audioState !== 'ready'"
           :aria-label="isPlaying ? `Pause ${title}` : `Play ${title}`"
@@ -623,7 +623,10 @@ function scalePercussionVelocity(
             <span v-if="isPlaying" class="pause-icon" />
             <span v-else class="play-icon" />
           </span>
-          <span>{{ audioState === 'ready' ? (isPlaying ? 'Pause' : 'Play') : 'Loading audio' }}</span>
+          <span class="grid">
+            <span v-if="audioState === 'ready'" class="invisible col-start-1 row-start-1" aria-hidden="true">Pause</span>
+            <span class="col-start-1 row-start-1">{{ audioState === 'ready' ? (isPlaying ? 'Pause' : 'Play') : 'Loading audio' }}</span>
+          </span>
         </button>
       </div>
       <p v-if="description" class="mt-2 text-sm leading-relaxed text-foreground/65">
