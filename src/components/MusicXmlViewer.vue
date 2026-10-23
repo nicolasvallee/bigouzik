@@ -3,6 +3,7 @@ import * as alphaTab from '@coderline/alphatab'
 import { nextTick, onBeforeUnmount, onMounted, ref, toRefs, watch } from 'vue'
 import { normalizeMusicXml } from '@/lib/normalizeMusicXml'
 import { LOOP_COPIES, repeatMidi } from '@/lib/repeatMidi'
+import { percussionChannels, separatePercussionChannels, updatePercussionMute } from '@/lib/percussionPlayback'
 import { ACCENTED_PERCUSSION_VELOCITY_SCALE, GHOST_PERCUSSION_VELOCITY_SCALE, MUSIC_XML_SURDO_MIDI_NOTE, SIDE_STICK_MIDI_NOTE, SNARE_MIDI_NOTE, SURDO_1_COLOR, SURDO_1_MIDI_NOTE, SURDO_2_COLOR, SURDO_2_MIDI_NOTE, SURDO_3_COLOR, SURDO_3_MIDI_NOTE, TIMBALE_MIDI_NOTES } from '@/lib/percussion'
 import type { CircularRhythmSection, SurdoBeat } from '@/data/trackGroups'
 import CircularRhythmViewer from './CircularRhythmViewer.vue'
@@ -47,8 +48,6 @@ let removeScoreLoadedListener: (() => void) | null = null
 let removeMidiLoadListener: (() => void) | null = null
 let removePlaybackListener: (() => void) | null = null
 let creditObserver: MutationObserver | null = null
-let pendingTimePosition: number | null = null
-let pendingPlayback = false
 let playbackCopies = 1
 const ghostPercussionNotes = new Set<string>()
 const accentedPercussionNotes = new Set<string>()
@@ -103,6 +102,14 @@ onMounted(() => {
 
   removePlayerReadyListener = currentApi.playerReady.on(() => {
     audioState.value = 'ready'
+    if (currentApi.player) {
+      // Preserve the mix volume alphaTab applies to the original shared drum channel.
+      const tracks = currentApi.tracks ?? []
+      const volume = (tracks[tracks.length - 1]?.playbackInfo.volume ?? 16) / 16
+      currentApi.player.setChannelVolume(percussionChannels.snare, volume)
+      currentApi.player.setChannelVolume(percussionChannels.kick, volume)
+      updatePercussionMute(currentApi.player, selectedTrack.value)
+    }
   })
   removeScoreLoadedListener = currentApi.scoreLoaded.on((score) => {
     if (hasRenderedAllTracks) return
@@ -142,29 +149,10 @@ onMounted(() => {
     renderSelectedTracks(currentApi)
   })
   removeMidiLoadListener = currentApi.midiLoad.on((midi) => {
-    const noteKeys = selectedTrack.value === 'snare' ? [SIDE_STICK_MIDI_NOTE, SNARE_MIDI_NOTE] : selectedTrack.value === 'kick' ? [MUSIC_XML_SURDO_MIDI_NOTE, SURDO_2_MIDI_NOTE, SURDO_3_MIDI_NOTE] : null
     const kickVelocityScale = props.kickVelocityScale ?? 1
     const sideStickVelocityScale = props.sideStickVelocityScale ?? 1
     const timbaleVolume = Math.max(1, Math.round(props.timbaleVolume ?? 1))
-    if (noteKeys !== null) {
-      midi.tracks.forEach((track) => {
-        for (let index = track.events.length - 1; index >= 0; index -= 1) {
-          const event = track.events[index]
-          if (!('noteKey' in event)) continue
-
-          const noteEvent = event as { noteKey: number; noteVelocity?: number }
-          if (!noteKeys.includes(noteEvent.noteKey)) {
-            track.events.splice(index, 1)
-            continue
-          }
-
-          scalePercussionVelocity(noteEvent, kickVelocityScale, sideStickVelocityScale, event.tick)
-          if (event.type === alphaTab.midi.MidiEventType.NoteOn) applyPercussionArticulation(noteEvent, event.tick)
-        }
-        applySurdoVariants(track.events)
-        boostTimbaleVolume(track.events, timbaleVolume)
-      })
-    } else if (
+    if (
       kickVelocityScale !== 1
       || sideStickVelocityScale !== 1
       || timbaleVolume !== 1
@@ -186,20 +174,8 @@ onMounted(() => {
       })
     }
 
+    separatePercussionChannels(midi)
     playbackCopies = props.loop && currentApi.tickCache && repeatMidi(midi, currentApi.tickCache) ? LOOP_COPIES : 1
-
-    if (pendingTimePosition !== null) {
-      const timePosition = pendingTimePosition
-      window.setTimeout(() => {
-        if (!api) return
-        api.timePosition = timePosition
-        pendingTimePosition = null
-        if (pendingPlayback) {
-          pendingPlayback = false
-          api.play()
-        }
-      })
-    }
   })
   removePlayerStateListener = currentApi.playerStateChanged.on(({ state }) => {
     isPlaying.value = state === alphaTab.synth.PlayerState.Playing
@@ -287,17 +263,14 @@ watch(() => props.showSheet, async (show) => {
   if (!show || !api) return
 
   await nextTick()
-  api.render()
+  if (api) renderSelectedTracks(api)
 })
 
 watch(selectedTrack, () => {
-  if (!api || !scoreTracks.length) return
+  if (!api) return
 
-  renderSelectedTracks(api)
-  pendingTimePosition = api.timePosition
-  pendingPlayback = isPlaying.value
-  isPlaying.value = false
-  api.loadMidiForScore()
+  if (api.player) updatePercussionMute(api.player, selectedTrack.value)
+  if (props.showSheet && scoreTracks.length) renderSelectedTracks(api)
 })
 
 function renderSelectedTracks(currentApi: alphaTab.AlphaTabApi) {
