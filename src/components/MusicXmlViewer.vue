@@ -2,6 +2,7 @@
 import * as alphaTab from '@coderline/alphatab'
 import { nextTick, onBeforeUnmount, onMounted, ref, toRefs, watch } from 'vue'
 import { normalizeMusicXml } from '@/lib/normalizeMusicXml'
+import { observeNearViewport } from '@/lib/observeNearViewport'
 import { LOOP_COPIES, repeatMidi } from '@/lib/repeatMidi'
 import { percussionChannels, separatePercussionChannels, updatePercussionMute } from '@/lib/percussionPlayback'
 import { ACCENTED_PERCUSSION_VELOCITY_SCALE, GHOST_PERCUSSION_VELOCITY_SCALE, MUSIC_XML_SURDO_MIDI_NOTE, SIDE_STICK_MIDI_NOTE, SNARE_MIDI_NOTE, SURDO_1_COLOR, SURDO_1_MIDI_NOTE, SURDO_2_COLOR, SURDO_2_MIDI_NOTE, SURDO_3_COLOR, SURDO_3_MIDI_NOTE, TIMBALE_MIDI_NOTES } from '@/lib/percussion'
@@ -32,6 +33,7 @@ const props = defineProps<{
   loop: boolean
 }>()
 
+const cardElement = ref<HTMLElement | null>(null)
 const scoreElement = ref<HTMLElement | null>(null)
 const audioState = ref<'loading' | 'ready'>('loading')
 const isPlaying = ref(false)
@@ -56,13 +58,21 @@ let scoreTracks: alphaTab.model.Track[] = []
 let surdoVariantRanges: Array<{ startTick: number; endTick: number; midiNote: number }> = []
 let layoutObserver: ResizeObserver | null = null
 let removeWindowResizeListener: (() => void) | null = null
+let stopObservingViewport: (() => void) | null = null
+let disposed = false
 
 const publicAsset = (path: string) => `${import.meta.env.BASE_URL}${path.replace(/^\/+/, '')}`
 const playbackEventName = 'music-track-playing'
 const viewerId = Symbol('music-track-viewer')
 
 onMounted(() => {
-  if (!scoreElement.value) return
+  if (props.src && cardElement.value) {
+    stopObservingViewport = observeNearViewport(cardElement.value, initializePlayer)
+  }
+})
+
+function initializePlayer() {
+  if (disposed || api || !scoreElement.value) return
 
   const currentApi = new alphaTab.AlphaTabApi(scoreElement.value, {
     core: { engine: 'svg', fontDirectory: publicAsset('font/'), useWorkers: false },
@@ -191,16 +201,19 @@ onMounted(() => {
   })
 
   void loadMusicXml(currentApi)
-})
+}
 
 async function loadMusicXml(currentApi: alphaTab.AlphaTabApi) {
   const response = await fetch(publicAsset(props.src))
   const xml = await response.text()
+  if (disposed) return
   const normalizedXml = normalizeMusicXml(addStackedSurdosToXml(xml), { compoundTempo: props.compound })
   currentApi.load(new TextEncoder().encode(normalizedXml))
 }
 
 onBeforeUnmount(() => {
+  disposed = true
+  stopObservingViewport?.()
   layoutObserver?.disconnect()
   creditObserver?.disconnect()
   removePlayerReadyListener?.()
@@ -564,6 +577,7 @@ function scalePercussionVelocity(
 
 <template>
   <div
+    ref="cardElement"
     class="min-w-0 w-full max-w-full overflow-hidden rounded-2xl border border-border bg-white px-4 py-5 text-foreground shadow-2xl shadow-black/10 sm:px-6"
   >
     <div :class="src && (showSheet || showCircle) && 'mb-5'">
