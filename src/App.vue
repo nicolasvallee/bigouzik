@@ -4,7 +4,7 @@ import { RouterLink, RouterView } from 'vue-router'
 </script>
 
 <template>
-  <header class="flex items-center justify-between gap-8 border-b border-border bg-background px-5 py-4 sm:px-10 lg:px-16">
+  <header class="flex items-center justify-between gap-8 border-b border-border bg-background px-5 py-2 sm:px-10 lg:px-16">
     <RouterLink class="inline-flex items-center gap-3 text-xs font-bold uppercase tracking-[0.08em]" to="/" aria-label="Bigouzik home">
       <span>Bigouzik</span>
     </RouterLink>

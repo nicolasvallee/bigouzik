@@ -47,10 +47,10 @@ watch(
 </script>
 
 <template>
-  <section id="back-to-batuk" class="flex min-h-svh items-start bg-background-soft px-5 pb-[calc(7rem+env(safe-area-inset-bottom))] pt-6 scroll-mt-20 sm:px-16 lg:px-36" aria-labelledby="batuk-title">
+  <section id="back-to-batuk" class="flex min-h-svh items-start bg-background-soft px-5 pb-[calc(7rem+env(safe-area-inset-bottom))] pt-3 scroll-mt-20 sm:px-16 lg:px-36" aria-labelledby="batuk-title">
     <div class="mx-auto w-full max-w-6xl">
       <h2 id="batuk-title" class="max-w-[12ch] font-serif text-[clamp(2.75rem,7vw,5.5rem)] font-normal leading-[0.9]">Back to Batuk</h2>
-      <div class="mt-8 -mx-5 bg-background-soft/95 px-5 sm:-mx-16 sm:px-16 lg:-mx-36 lg:px-36">
+      <div class="mt-4 -mx-5 bg-background-soft/95 px-5 sm:-mx-16 sm:px-16 lg:-mx-36 lg:px-36">
         <div class="mx-auto max-w-6xl border-y border-border py-3">
           <div class="flex flex-wrap gap-2" aria-label="Options d'affichage" role="group">
           <button
@@ -98,7 +98,7 @@ watch(
           v-for="group in trackGroups"
           :key="group.id"
           :to="`/back-to-batuk/${group.id}`"
-          class="inline-flex h-9 items-center rounded-full border px-4 text-left text-sm font-semibold capitalize transition-colors"
+          class="inline-flex h-9 items-center rounded-full border px-2.5 text-left text-sm font-semibold capitalize transition-colors"
           :class="selectedGroup === group.id ? 'border-foreground bg-foreground text-background' : 'border-foreground text-foreground hover:bg-foreground/5'"
           role="tab"
           :aria-selected="selectedGroup === group.id"
