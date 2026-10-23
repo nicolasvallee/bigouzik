@@ -124,13 +124,13 @@ watch(
         </template>
       </div>
     </div>
-    <div class="fixed inset-x-0 bottom-0 z-40 flex flex-nowrap items-center justify-center gap-[0.3em] whitespace-nowrap text-[min(17px,3.2vw)] border-t-1 border-foreground bg-background-soft px-[0.4em] pt-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] shadow-lg" aria-label="Réglages de lecture" role="group">
+    <div class="fixed inset-x-0 bottom-0 z-40 flex flex-nowrap items-center justify-center gap-1 whitespace-nowrap text-xs sm:gap-[0.3em] sm:text-[17px] border-t-1 border-foreground bg-background-soft px-2 sm:px-[0.4em] pt-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] shadow-lg" aria-label="Réglages de lecture" role="group">
       <label class="inline-flex shrink-0 items-center gap-[0.3em] font-semibold text-foreground">
         <span>Vitesse</span>
         <span class="relative shrink-0">
           <select
             v-model.number="playbackSpeed"
-            class="h-[2.5em] w-[4.2em] appearance-none rounded-full border border-foreground bg-background pl-[0.6em] pr-[1.2em] text-[inherit] font-semibold text-foreground outline-none transition-colors hover:bg-background-soft focus-visible:ring-2 focus-visible:ring-foreground/30"
+            class="h-10 w-[4.2em] sm:h-[2.5em] appearance-none rounded-full border border-foreground bg-background pl-[0.6em] pr-[1.2em] text-[inherit] font-semibold text-foreground outline-none transition-colors hover:bg-background-soft focus-visible:ring-2 focus-visible:ring-foreground/30"
             aria-label="Vitesse de lecture"
           >
             <option v-for="speed in playbackSpeedOptions" :key="speed" :value="speed">
@@ -145,13 +145,13 @@ watch(
       <button
         v-for="track in ['both', 'snare', 'kick'] as const"
         :key="track"
-        class="inline-flex h-[2.5em] shrink-0 items-center gap-[0.25em] rounded-full border px-[0.6em] text-[inherit] font-semibold capitalize transition-colors"
+        class="inline-flex h-10 min-w-0 flex-1 flex-row items-center justify-center gap-0.5 rounded-full border px-1 sm:h-[2.5em] sm:flex-none sm:flex-row sm:gap-[0.25em] sm:px-[0.6em] text-[inherit] font-semibold capitalize transition-colors"
         :class="selectedInstrument === track ? 'border-foreground bg-foreground text-background' : 'border-foreground bg-background text-foreground hover:bg-background-soft'"
         type="button"
         :aria-pressed="selectedInstrument === track"
         @click="selectedInstrument = track"
       >
-        <svg class="h-[1.35em] w-[1.35em] shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <svg class="h-[18px] w-[18px] shrink-0 sm:h-[1.35em] sm:w-[1.35em]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <g v-if="track === 'both'">
             <path d="M11 4 6 8H3v8h3l5 4Z" />
             <path d="M15 8a6 6 0 0 1 0 8m3-11a10 10 0 0 1 0 14" />
