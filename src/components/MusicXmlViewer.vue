@@ -3,6 +3,7 @@ import * as alphaTab from '@coderline/alphatab'
 import { nextTick, onBeforeUnmount, onMounted, ref, toRefs, watch } from 'vue'
 import { normalizeMusicXml } from '@/lib/normalizeMusicXml'
 import { observeNearViewport } from '@/lib/observeNearViewport'
+import { pauseOnPageHidden } from '@/lib/pauseOnPageHidden'
 import { LOOP_COPIES, repeatMidi } from '@/lib/repeatMidi'
 import { percussionChannels, separatePercussionChannels, updatePercussionMute } from '@/lib/percussionPlayback'
 import { ACCENTED_PERCUSSION_VELOCITY_SCALE, GHOST_PERCUSSION_VELOCITY_SCALE, MUSIC_XML_SURDO_MIDI_NOTE, SIDE_STICK_MIDI_NOTE, SNARE_MIDI_NOTE, SURDO_1_COLOR, SURDO_1_MIDI_NOTE, SURDO_2_COLOR, SURDO_2_MIDI_NOTE, SURDO_3_COLOR, SURDO_3_MIDI_NOTE, TIMBALE_MIDI_NOTES } from '@/lib/percussion'
@@ -49,6 +50,7 @@ let removePlayerPositionListener: (() => void) | null = null
 let removeScoreLoadedListener: (() => void) | null = null
 let removeMidiLoadListener: (() => void) | null = null
 let removePlaybackListener: (() => void) | null = null
+let removeVisibilityListener: (() => void) | null = null
 let creditObserver: MutationObserver | null = null
 let playbackCopies = 1
 const ghostPercussionNotes = new Set<string>()
@@ -86,6 +88,7 @@ function initializePlayer() {
     },
   })
   api = currentApi
+  removeVisibilityListener = pauseOnPageHidden(() => currentApi.pause())
   currentApi.masterVolume = 5
   currentApi.playbackSpeed = playbackSpeed.value
   currentApi.isLooping = props.loop
@@ -222,6 +225,7 @@ onBeforeUnmount(() => {
   removeScoreLoadedListener?.()
   removeMidiLoadListener?.()
   removePlaybackListener?.()
+  removeVisibilityListener?.()
   removeWindowResizeListener?.()
   api?.destroy()
 })
