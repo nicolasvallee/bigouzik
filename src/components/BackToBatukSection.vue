@@ -19,6 +19,11 @@ const playbackSpeed = ref(1)
 const playbackSpeedOptions = [0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3]
 const selectedInstrument = ref<'both' | 'snare' | 'kick'>('both')
 
+watch(selectedGroup, () => {
+  playbackSpeed.value = 1
+  selectedInstrument.value = 'both'
+})
+
 const selectedTrack = computed(() => {
   const track = String(route.params.trackId || '')
   const group = trackGroups.find((item) => item.id === selectedGroup.value)
