@@ -68,7 +68,7 @@ onMounted(() => {
     core: { engine: 'svg', fontDirectory: publicAsset('font/'), useWorkers: false },
     display: { layoutMode: 'page', scale: props.sheetScale ?? 1, padding: [5, 0], stretchForce: 0.5 },
     player: {
-      soundFont: publicAsset('soundfont/GeneralUser-GS.sf2'),
+      soundFont: publicAsset('soundfont/batuk-percussion.sf2'),
       enableCursor: true,
       enableAnimatedBeatCursor: true,
       scrollMode: alphaTab.ScrollMode.Off,
