@@ -111,8 +111,7 @@ surdo2:[  { measure: 1, beat: 2 },
 
 ],
 circularRhythm: [
-  { fromMeasure: 1, toMeasure: 1, repeats: 1 },
-  { fromMeasure: 2, toMeasure: 2, repeats: 1 },
+  { fromMeasure: 1, toMeasure: 1, repeats: 2 },
 
   { fromMeasure: 3, toMeasure: 3, repeats: 1 }],
     timbaleVolume:2,
