@@ -330,7 +330,7 @@ sheetScale: 0.6, loop: true },
 sheetScale: 0.6, loop: true },
 
 
- { title: 'Diablo 1 inversé', experimental:false, src: '/music/diablo1-inverse.musicxml',  images: ['/images/diablo-inverse.jpeg'], showCircularView: false,   kickVelocityScale: 2,   sideStickVelocityScale: 0.4,
+ { title: 'Diablo 1 inversé', description:"Les caisses jouent la phrase de surdo, et inversement!", experimental:false, src: '/music/diablo1-inverse.musicxml',  images: ['/images/diablo-inverse.jpeg'], showCircularView: false,   kickVelocityScale: 2,   sideStickVelocityScale: 0.4,
 sheetScale: 0.6, loop: true },
 
 { title: 'Diablo 2', src: '/music/diablo2.musicxml', images: ['/images/diablo.png', '/images/2.png'], 
