@@ -54,7 +54,7 @@ export const trackGroups: MusicTrackGroup[] = [
   {
     id: 'rio',
     title: 'Rio',
-    description:"Dans les rythmes de Rio, on separe les surdos en trois groupes.",
+    description:"Dans les rythmes de Rio, on sépare les surdos en trois groupes.",
     tracks: [
       { title: 'Rio 1', description:"", 
          src: '/music/rio1.musicxml', images: ['/images/rio.png', '/images/1.png'],
@@ -75,7 +75,7 @@ surdo2:[  { measure: 1, beat: 2 },
 kickVelocityScale: 2, sheetScale: 0.7, loop: true },
      
 
- { title: 'Rio 1 avec Blocage 1', description:"Pour marquer une coupure. S'il n'est suivi d'aucun autre signe, on reprend le rythme Rio 1 juste après (même principe pour tous les cuts/arrêts)", 
+ { title: 'Rio 1 avec Blocage 1', description:"Pour marquer une coupure. S’il n’est suivi d’aucun autre signe, on reprend le rythme Rio 1 juste après (même principe pour tous les cuts/arrêts).",
          src: '/music/rio1-avec-blocage1.musicxml', images: ['/images/blocage1.png'],
          
           surdo3: [
@@ -290,7 +290,7 @@ kickVelocityScale: 2,  loop: true },
     title: 'Funk',
     tracks: [
       { title: 'Funk', src: '/music/funk.musicxml', images: ['/images/funk.png'], kickVelocityScale: 2.5, sheetScale: 0.7, loop: true },
-      { title: 'Funk avec 6',"description":"Pour les surdos même chose, pour les caisses on ajoute les 6 accents à la fin. ",kickVelocityScale: 2.5, src: '/music/funk-avec-6.musicxml',  images: ['images/6.jpeg'], sheetScale: 0.6, loop: true },
+      { title: 'Funk avec 6',"description":"Pour les surdos, même chose ; pour les caisses, on ajoute les 6 accents à la fin.",kickVelocityScale: 2.5, src: '/music/funk-avec-6.musicxml',  images: ['images/6.jpeg'], sheetScale: 0.6, loop: true },
      // { title: 'Cut 2-2 dans Funk', src: '/music/2-2.musicxml', images: ['/images/2-2.png'],  kickVelocityScale: 1, sheetScale: 0.6, loop: false },
       { title: 'Funk + cut 2-2', src: '/music/funk-avec-6-et-cut22.musicxml',kickVelocityScale: 2.5,
          circularRhythm: [
@@ -338,7 +338,7 @@ sheetScale: 0.6, loop: true },
 ],
   images: ['/images/arret5.png', '/images/retourne.png'], showCircularView: true,   kickVelocityScale: 1.5,   sideStickVelocityScale: 0.4,
 sheetScale: 0.6, loop: true },
-{ title: 'Diablo 1 + Cut 3 "ternaire"', description: "Même idée que le cut ternaire dans le [rythme Ternaire](/back-to-batuk/ternaire/ternaire-cut3ternaire)", sheetDescription:"En vérité, dans le contexte de Diablo, c'est plutôt un rythme binaire + 2 temps à la fin", src: '/music/diablo1-avec-cut-ternaire.musicxml',  images: ['/images/cut.png', 'images/ternaireC.png'], showCircularView: false,   kickVelocityScale: 1.5,   sideStickVelocityScale: 0.4,
+{ title: 'Diablo 1 + Cut 3 « ternaire »', description: "Même idée que le cut ternaire dans le [rythme Ternaire](/back-to-batuk/ternaire/ternaire-cut3ternaire).", sheetDescription:"En vérité, dans le contexte de Diablo, c’est plutôt un rythme binaire + 2 temps à la fin.", src: '/music/diablo1-avec-cut-ternaire.musicxml',  images: ['/images/cut.png', 'images/ternaireC.png'], showCircularView: false,   kickVelocityScale: 1.5,   sideStickVelocityScale: 0.4,
 sheetScale: 0.6, loop: true },
  {title: 'Diablo 1 + le truc avec la vague avec les mains', experimental:false, src: '/music/diablo1-avec-cut.musicxml',  images: [ '/images/diablo-vague.jpeg'], showCircularView: false,   kickVelocityScale: 1.5,   sideStickVelocityScale: 0.4,
 sheetScale: 0.6, loop: true },
@@ -346,7 +346,7 @@ sheetScale: 0.6, loop: true },
 //  { title: 'Diablo 1 + fade', experimental:true, src: '/music/diablo1-avec-fade.musicxml',  /*images: ['/images/diablo.png', '/images/1.png', '/images/jesaispas.png'],*/ showCircularView: false,   kickVelocityScale: 1.5,   sideStickVelocityScale: 0.4,
 // sheetScale: 0.6, loop: true },
 
- { title: 'Diablo 1 + "cut 4"', experimental:false, src: '/music/diablo1-avec-mechant.musicxml', 
+ { title: 'Diablo 1 + « cut 4 »', experimental:false, src: '/music/diablo1-avec-mechant.musicxml',
     circularRhythm: [
   { fromMeasure: 1, toMeasure: 1, repeats: 1 },
   { fromMeasure: 2, toMeasure: 2, repeats: 1 },
@@ -358,7 +358,7 @@ sheetScale: 0.6, loop: true },
  images: ['/images/diablo-cut4.jpeg'], showCircularView: true,   kickVelocityScale: 1.5,   sideStickVelocityScale: 0.4,
 sheetScale: 0.6, loop: true },
 
- { title: 'Diablo 1 + "cut 4" et la main bouge de haut en bas', "description": "Même chose qu'avant + une mesure de silence",
+ { title: 'Diablo 1 + « cut 4 » et la main bouge de haut en bas', "description": "Même chose qu’avant + une mesure de silence.",
     circularRhythm: [
   { fromMeasure: 1, toMeasure: 1, repeats: 1 },
   { fromMeasure: 2, toMeasure: 2, repeats: 1 },
@@ -374,7 +374,7 @@ experimental:false, src: '/music/diablo1-avec-cut4-et-silence.musicxml',   image
 sheetScale: 0.6, loop: true },
 
 
- { title: 'Diablo 1 inversé', description:"Les caisses jouent la phrase de surdo, et inversement!", 
+ { title: 'Diablo 1 inversé', description:"Les caisses jouent la phrase de surdo, et inversement !",
    circularRhythm: [
   { fromMeasure: 1, toMeasure: 1, repeats: 1 },
   { fromMeasure: 2, toMeasure: 2, repeats: 1 },
@@ -475,7 +475,7 @@ sheetScale: 0.6, loop: true },
 ],
               src: '/music/intro-clown.musicxml',showCircularView: false,  kickVelocityScale: 2, sideStickVelocityScale: 0.5, sheetScale: 0.6, loop: false },
 
-      { title: "Clown",description:"Le rythme de base, sans l'intro.", src: '/music/clown.musicxml', 
+      { title: "Clown",description:"Le rythme de base, sans l’intro.", src: '/music/clown.musicxml',
       
           surdo2: [
                      { measure: 2, beat: 1 },
@@ -539,7 +539,7 @@ sheetScale: 0.6, loop: true },
     tracks: [
       { title: 'Maracatu', src: '/music/maracatu.musicxml',  images: ['/images/maracatu.png'],kickVelocityScale: 2, sheetScale: 0.6, loop: true },
      // { title: 'Cut 2-2 dans Maracatu', src: '/music/2-2maracatu.musicxml', images: ['/images/2-2.png'],  kickVelocityScale: 1, sheetScale: 0.6, loop: false },
-      { title: 'Maracatu + cut 2-2', "description":"Attention! C'est le même signe (et même nom) que le [cut2-2 pour Funk](/back-to-batuk/funk/funk-avec-6-et-cut22), mais c'est pas le même rythme (quoique similiaire...)!",  src: '/music/maracatu-avec-cut22.musicxml', 
+      { title: 'Maracatu + cut 2-2', "description":"Attention ! C’est le même signe (et le même nom) que le [cut 2-2 pour Funk](/back-to-batuk/funk/funk-avec-6-et-cut22), mais ce n’est pas le même rythme (quoique similaire…) !",  src: '/music/maracatu-avec-cut22.musicxml',
          images: [ '/images/cut.png', '/images/2-2.png'],
         circularRhythm: [
   { fromMeasure: 1, toMeasure: 1, repeats: 1 },
@@ -628,7 +628,7 @@ circularRhythm: [
   { fromMeasure: 3, toMeasure: 4, repeats: 1 },
 ],
    images: ['images/bailey-funk.jpeg',  '/images/1.png'], kickVelocityScale: 3, sheetScale: 0.6, loop: true },
-            { title: 'Baile funk 1 + cut 13',"description":"cut '13' parce qu'on joue ensemble 13 coups (si on oublie les 4 plus rapides à la fin...)", 
+            { title: 'Baile funk 1 + cut 13',"description":"Cut « 13 » parce qu’on joue ensemble 13 coups (si on oublie les 4 plus rapides à la fin…).",
                      
 circularRhythm: [
   { fromMeasure: 1, toMeasure: 2, repeats: 1 },
@@ -687,7 +687,7 @@ images: ['/images/13.jpeg'], kickVelocityScale: 3, sideStickVelocityScale: 0.5, 
    {
     id: 'cut-arret',
     title: 'Cut et arrêt',
-    description:"Un nouveau cut (shuffle) + quelques cuts/arrêts qu'on a vu dans les autres sections, isolément.",
+    description:"Un nouveau cut (shuffle) + quelques cuts/arrêts qu’on a vus dans les autres sections, isolément.",
     tracks: [
       { title: 'Cut shuffle', src: '/music/cut-shuffle.musicxml',  images: ['/images/shuffle.png'],
           circularRhythm: [

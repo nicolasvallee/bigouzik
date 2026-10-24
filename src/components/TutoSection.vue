@@ -30,14 +30,16 @@ const dottedNoteValues = noteValues.filter((note) => note.dottedBeats)
         </summary>
         <div class="mt-5 space-y-4 text-base leading-relaxed text-foreground">
           <p>
-            Dans la plupart des rythmes qu'on joue, les surdos jouent ensemble la même phrase, sauf pour <strong>Rio</strong> et <strong>Clown</strong> 
-            où les surdos sont répartis en trois groupes (parfois pour d'autres aussi comme <strong>Maracatu</strong>, ça depend des variantes... et de l'humeur!).
+            Dans la plupart des rythmes qu’on joue, les surdos jouent ensemble la même phrase, sauf pour <strong>Rio</strong> et <strong>Clown</strong>,
+            où les surdos sont répartis en trois groupes (parfois pour d’autres aussi, comme <strong>Maracatu</strong> : ça dépend des variantes… et de l’humeur !).
           </p>
 
-            <p>Dans ces derniers cas, les surdos sont nommes dans l'ordre du
+          <p>
+            Dans ces derniers cas, les surdos sont nommés dans l’ordre,
             du plus grave au plus aigu : <strong class="text-foreground">surdo 1</strong>,
-            <strong class="text-foreground">surdo 2</strong> et <strong class="text-foreground">surdo 3</strong> et chaque groupe joue un rythme différent.
-            </p>
+            <strong class="text-foreground">surdo 2</strong> et <strong class="text-foreground">surdo 3</strong>.
+            Chaque groupe joue un rythme différent.
+          </p>
           <div class="overflow-x-auto rounded-2xl border border-border">
             <table class="w-full text-left text-sm sm:text-base">
               <caption class="px-3 py-3 text-left font-semibold text-foreground sm:px-5">Règle générale</caption>
@@ -63,14 +65,13 @@ const dottedNoteValues = noteValues.filter((note) => note.dottedBeats)
               </tbody>
             </table>
           </div>
-            <p><strong>Mais cette regle ne tient plus du tout pour Clown attention!</strong>
-            </p>
-            <p>            J'ai essayé au maximum de trouver des sons qui soient fideles a la realite, mais ce n'est peut etre pas evident de savoir
-               qui est qui a l'ecoute ! 
-              Dans ce cas, vous pouvez essayer d'activer le mode <strong>Partoches</strong> ou <strong>Cercles</strong> 
-              pour voir les notes colorees. Ici l'exemple avec <strong>Rio 1</strong>
-</p>
-        
+          <p><strong>Mais cette règle ne tient plus du tout pour Clown, attention !</strong></p>
+          <p>
+            J’ai essayé au maximum de trouver des sons qui soient fidèles à la réalité, mais ce n’est peut-être pas évident de savoir
+            qui est qui à l’écoute !
+            Dans ce cas, vous pouvez essayer d’activer le mode <strong>Partoches</strong> ou <strong>Cercles</strong>
+            pour voir les notes colorées. Voici l’exemple avec <strong>Rio 1</strong>.
+          </p>
         </div>
         <div class="mt-6">
           <MusicTrackGroup
@@ -92,10 +93,9 @@ const dottedNoteValues = noteValues.filter((note) => note.dottedBeats)
           <h2 id="notes-title" class="min-w-0 font-serif text-3xl font-semibold sm:text-4xl">Comprendre les partoches</h2>
         </summary>
         <p class="mt-5 text-base leading-relaxed text-foreground">
-          Il n'est pas du tout necessaire d'apprendre les partitions pour jouer ensemble, notre Batuk a longtemps existe sans! :) 
-           Mais ca reste un outil assez puissant pour transmettre des idees musicales alors voici brievement quelques infos si vous souhaitez les comprendre.
-
-          </p>
+          Il n’est pas du tout nécessaire d’apprendre les partitions pour jouer ensemble : notre Batuk a longtemps existé sans ! :)
+          Mais ça reste un outil assez puissant pour transmettre des idées musicales, alors voici brièvement quelques infos si vous souhaitez les comprendre.
+        </p>
 
         <p class="mt-4">
           La forme d’une note indique sa durée. Pour commencer, prenons la noire comme unité :
@@ -133,7 +133,7 @@ const dottedNoteValues = noteValues.filter((note) => note.dottedBeats)
           <p>
             Chaque valeur se divise en deux : une blanche vaut deux noires, une noire vaut deux croches,
             et une croche vaut deux doubles croches. Dans une mesure à 4/4, on peut donc placer
-            4 noires, 8 croches ou 16 doubles croches, ou mélanger ces valeurs pour remplir les 4 temps...
+            4 noires, 8 croches ou 16 doubles croches, ou mélanger ces valeurs pour remplir les 4 temps…
           </p>
           <p>
             Quand plusieurs croches ou doubles croches se suivent, leurs petits crochets peuvent être
@@ -170,7 +170,7 @@ const dottedNoteValues = noteValues.filter((note) => note.dottedBeats)
           Un point placé à droite d’une note <strong>ajoute la moitié de sa durée</strong>.
           Par exemple, une noire pointée vaut une noire plus une croche :
           <strong>1 temps + ½ temps = 1 temps et demi</strong>.
-          Les points sont le plus couramment utilise pour les noires et les croches.
+          Les points sont le plus couramment utilisés pour les noires et les croches.
         </p>
         <div class="mt-6 overflow-x-auto rounded-2xl border border-border">
           <table class="w-full text-left text-sm sm:text-base">
