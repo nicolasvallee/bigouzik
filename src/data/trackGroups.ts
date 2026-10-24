@@ -428,7 +428,7 @@ sheetScale: 0.6, loop: true },
     title: 'Clown',
     tracks: [
             { title: 'Intro de Clown',    images: ['/images/clown.png'], 
-                            description:"Dans Clown, on sépare les surdos en trois groupes, voir le [tutoriel](/tuto) pour plus d'infos.",
+                            description:"Dans Clown, on sépare les surdos en trois groupes, voir le [tuto](/tuto) pour plus d'infos.",
 
               
          surdo2: [
