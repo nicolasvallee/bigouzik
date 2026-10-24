@@ -54,6 +54,7 @@ export const trackGroups: MusicTrackGroup[] = [
   {
     id: 'rio',
     title: 'Rio',
+    description:"Dans les rythmes de Rio, on separe les surdos en trois groupes.",
     tracks: [
       { title: 'Rio 1', description:"", 
          src: '/music/rio1.musicxml', images: ['/images/rio.png', '/images/1.png'],
@@ -283,8 +284,6 @@ circularRhythm: [
      sheetScale: 0.6, 
 kickVelocityScale: 2,  loop: true },
     ],
-    
-        description:""
   },
   {
     id: 'funk',
@@ -307,13 +306,37 @@ kickVelocityScale: 2,  loop: true },
     id: 'diablo',
     title: 'Diablo',
     tracks: [
-      { title: 'Diablo 1', src: '/music/diablo1.musicxml', images: ['/images/diablo.png', '/images/1.png'], kickVelocityScale: 2.5,   sideStickVelocityScale: 0.3,
+      { title: 'Diablo 1', src: '/music/diablo1.musicxml', images: ['/images/diablo.png', '/images/1.png'],
+         circularRhythm: [
+  { fromMeasure: 1, toMeasure: 1, repeats: 1 },
+  { fromMeasure: 2, toMeasure: 2, repeats: 1 },
+],
+ kickVelocityScale: 2.5,   sideStickVelocityScale: 0.3,
  sheetScale: 0.7, loop: true },
       
 
-      { title: 'Diablo 1 + Arrêt 5', src: '/music/diablo1-et-arret5.musicxml',  images: ['/images/arret5.png'], showCircularView: false,   kickVelocityScale: 1.5,   sideStickVelocityScale: 0.4,
+      { title: 'Diablo 1 + Arrêt 5', src: '/music/diablo1-et-arret5.musicxml',  
+         circularRhythm: [
+  { fromMeasure: 1, toMeasure: 1, repeats: 1 },
+  { fromMeasure: 2, toMeasure: 2, repeats: 1 },
+    { fromMeasure: 3, toMeasure: 4, repeats: 1 },
+
+    //  { fromMeasure: 4, toMeasure: 4, repeats: 1 },
+
+],
+images: ['/images/arret5.png'], showCircularView: true,   kickVelocityScale: 1.5,   sideStickVelocityScale: 0.4,
 sheetScale: 0.6, loop: true },
- { title: 'Diablo 1 + Arrêt 5 retourné', src: '/music/diablo1-et-arret5-retourne.musicxml',  images: ['/images/arret5.png', '/images/retourne.png'], showCircularView: false,   kickVelocityScale: 1.5,   sideStickVelocityScale: 0.4,
+
+ { title: 'Diablo 1 + Arrêt 5 retourné', src: '/music/diablo1-et-arret5-retourne.musicxml',
+      circularRhythm: [
+  { fromMeasure: 1, toMeasure: 1, repeats: 1 },
+  { fromMeasure: 2, toMeasure: 2, repeats: 1 },
+    { fromMeasure: 3, toMeasure: 4, repeats: 1 },
+
+    //  { fromMeasure: 4, toMeasure: 4, repeats: 1 },
+
+],
+  images: ['/images/arret5.png', '/images/retourne.png'], showCircularView: true,   kickVelocityScale: 1.5,   sideStickVelocityScale: 0.4,
 sheetScale: 0.6, loop: true },
 { title: 'Diablo 1 + Cut 3 "ternaire"', description: "Même idée que le cut ternaire dans le [rythme Ternaire](/back-to-batuk/ternaire/ternaire-cut3ternaire)", sheetDescription:"En vérité, dans le contexte de Diablo, c'est plutôt un rythme binaire + 2 temps à la fin", src: '/music/diablo1-avec-cut-ternaire.musicxml',  images: ['/images/cut.png', 'images/ternaireC.png'], showCircularView: false,   kickVelocityScale: 1.5,   sideStickVelocityScale: 0.4,
 sheetScale: 0.6, loop: true },
@@ -323,19 +346,50 @@ sheetScale: 0.6, loop: true },
 //  { title: 'Diablo 1 + fade', experimental:true, src: '/music/diablo1-avec-fade.musicxml',  /*images: ['/images/diablo.png', '/images/1.png', '/images/jesaispas.png'],*/ showCircularView: false,   kickVelocityScale: 1.5,   sideStickVelocityScale: 0.4,
 // sheetScale: 0.6, loop: true },
 
- { title: 'Diablo 1 + "cut 4"', experimental:false, src: '/music/diablo1-avec-mechant.musicxml',  images: ['/images/diablo-cut4.jpeg'], showCircularView: false,   kickVelocityScale: 1.5,   sideStickVelocityScale: 0.4,
+ { title: 'Diablo 1 + "cut 4"', experimental:false, src: '/music/diablo1-avec-mechant.musicxml', 
+    circularRhythm: [
+  { fromMeasure: 1, toMeasure: 1, repeats: 1 },
+  { fromMeasure: 2, toMeasure: 2, repeats: 1 },
+    { fromMeasure: 3, toMeasure: 3, repeats: 1 },
+
+      { fromMeasure: 4, toMeasure: 4, repeats: 1 },
+
+],
+ images: ['/images/diablo-cut4.jpeg'], showCircularView: true,   kickVelocityScale: 1.5,   sideStickVelocityScale: 0.4,
 sheetScale: 0.6, loop: true },
 
- { title: 'Diablo 1 + "cut 4" et la main bouge de haut en bas', "description": "Même chose qu'avant + une mesure de silence",experimental:false, src: '/music/diablo1-avec-cut4-et-silence.musicxml',   images: ['/images/diablo-cut4-fleche.jpeg'],showCircularView: false,   kickVelocityScale: 1.5,   sideStickVelocityScale: 0.4,
+ { title: 'Diablo 1 + "cut 4" et la main bouge de haut en bas', "description": "Même chose qu'avant + une mesure de silence",
+    circularRhythm: [
+  { fromMeasure: 1, toMeasure: 1, repeats: 1 },
+  { fromMeasure: 2, toMeasure: 2, repeats: 1 },
+    { fromMeasure: 3, toMeasure: 3, repeats: 1 },
+
+      { fromMeasure: 4, toMeasure: 4, repeats: 1 },
+            { fromMeasure: 5, toMeasure: 5, repeats: 1 },
+
+
+],
+experimental:false, src: '/music/diablo1-avec-cut4-et-silence.musicxml',   images: ['/images/diablo-cut4-fleche.jpeg'],showCircularView: true, 
+  kickVelocityScale: 1.5,   sideStickVelocityScale: 0.4,
 sheetScale: 0.6, loop: true },
 
 
- { title: 'Diablo 1 inversé', description:"Les caisses jouent la phrase de surdo, et inversement!", experimental:false, src: '/music/diablo1-inverse.musicxml',  images: ['/images/diablo-inverse.jpeg'], showCircularView: false,   kickVelocityScale: 2,   sideStickVelocityScale: 0.4,
+ { title: 'Diablo 1 inversé', description:"Les caisses jouent la phrase de surdo, et inversement!", 
+   circularRhythm: [
+  { fromMeasure: 1, toMeasure: 1, repeats: 1 },
+  { fromMeasure: 2, toMeasure: 2, repeats: 1 },
+
+
+],
+src: '/music/diablo1-inverse.musicxml',  images: ['/images/diablo-inverse.jpeg'], showCircularView: true,
+   kickVelocityScale: 2,   sideStickVelocityScale: 0.4,
 sheetScale: 0.6, loop: true },
 
 { title: 'Diablo 2', src: '/music/diablo2.musicxml', images: ['/images/diablo.png', '/images/2.png'], 
         circularRhythm: [
-  { fromMeasure: 1, toMeasure: 2, repeats: 1 },
+  { fromMeasure: 1, toMeasure: 1, repeats: 1 },
+    { fromMeasure: 2, toMeasure: 2, repeats: 1 },
+
     { fromMeasure: 3, toMeasure: 3, repeats: 1 },
 
   { fromMeasure: 4, toMeasure: 5, repeats: 1 },
@@ -633,6 +687,7 @@ images: ['/images/13.jpeg'], kickVelocityScale: 3, sideStickVelocityScale: 0.5, 
    {
     id: 'cut-arret',
     title: 'Cut et arrêt',
+    description:"Un nouveau cut (shuffle) + quelques cuts/arrêts qu'on a vu dans les autres sections, isolément.",
     tracks: [
       { title: 'Cut shuffle', src: '/music/cut-shuffle.musicxml',  images: ['/images/shuffle.png'],
           circularRhythm: [
