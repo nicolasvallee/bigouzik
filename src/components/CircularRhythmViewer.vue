@@ -60,6 +60,7 @@ const publicAsset = (path: string) => `${import.meta.env.BASE_URL}${path.replace
 const progress = computed(() => props.endTick > 0 ? props.currentTick / props.endTick : 0)
 const currentQuarter = computed(() => progress.value * cycleDuration.value)
 const isCompound = computed(() => props.compound || hasCompoundMeter.value)
+const hasColoredSurdos = computed(() => Boolean(props.surdo1?.length || props.surdo2?.length || props.surdo3?.length))
 
 function visibleRings(section: CircleSection) {
   return section.rings.filter(
@@ -422,7 +423,7 @@ function rhythmKind(label: string): RhythmKind {
                 :r="hitSize(hit, section)"
                 class="rhythm-hit"
                 :class="[
-                  ring.kind === 'snare' ? 'rhythm-hit--snare' : '',
+                  ring.kind === 'snare' && !hasColoredSurdos ? 'rhythm-hit--snare' : '',
                 ]"
                 :style="{ fill: surdoColor(midiNote) }"
               />
