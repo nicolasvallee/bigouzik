@@ -361,7 +361,9 @@ sheetScale: 0.6, loop: true },
   { fromMeasure: 1, toMeasure: 1, repeats: 3 },
   { fromMeasure: 4, toMeasure: 4, repeats: 1 },
 ], images: ['/images/rock.png', '/images/1.png'], kickVelocityScale: 3,sheetScale: 0.6, loop: true },
-      { title: 'Rock 2', src: '/music/rock2.musicxml', images: ['/images/rock.png', '/images/2.png'], kickVelocityScale: 3,sheetScale: 0.6, loop: true },
+      { title: 'Rock 2', src: '/music/rock2.musicxml', 
+        description:"Pour les caisses, c’est le même rythme que Rock 1.",
+        images: ['/images/rock.png', '/images/2.png'], kickVelocityScale: 3,sheetScale: 0.6, loop: true },
 
 
     ],
