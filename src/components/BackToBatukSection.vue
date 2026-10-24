@@ -50,7 +50,7 @@ watch(
 <template>
   <section id="back-to-batuk" class="flex min-h-svh items-start bg-background-soft px-5 pb-[calc(7rem+env(safe-area-inset-bottom))] pt-3 scroll-mt-20 sm:px-16 lg:px-36" aria-labelledby="batuk-title">
     <div class="mx-auto w-full max-w-3xl">
-      <h2 id="batuk-title" class="max-w-[12ch] font-serif text-[clamp(2.75rem,7vw,5.5rem)] font-normal leading-[0.9]">Back to Batuk</h2>
+      <h2 id="batuk-title" class="max-w-[12ch] font-serif text-[clamp(2.75rem,7vw,5.5rem)] font-semibold leading-[0.9]">Back to Batuk</h2>
       <div class="mt-4 -mx-5 bg-background-soft/95 px-5 sm:-mx-16 sm:px-16 lg:-mx-36 lg:px-36">
         <div class="mx-auto max-w-3xl border-y border-border py-3">
           <div class="flex flex-wrap gap-2" aria-label="Options d'affichage" role="group">

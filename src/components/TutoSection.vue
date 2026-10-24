@@ -20,7 +20,7 @@ const dottedNoteValues = noteValues.filter((note) => note.dottedBeats)
 </script>
 
 <template>
-  <section id="tuto" class="min-h-svh bg-background px-5 pb-20 pt-6 scroll-mt-20 sm:px-16 lg:px-36 [&_p]:text-justify" aria-labelledby="tuto-title">
+  <section id="tuto" class="min-h-svh bg-background-soft px-5 pb-20 pt-6 scroll-mt-20 sm:px-16 lg:px-36 [&_p]:text-justify" aria-labelledby="tuto-title">
     <div class="mx-auto w-full min-w-0 max-w-3xl">
       <h1 id="tuto-title" class="font-serif text-[clamp(2.75rem,7vw,5.5rem)] font-semibold leading-[0.9]">Tuto</h1>
 
@@ -44,10 +44,10 @@ const dottedNoteValues = noteValues.filter((note) => note.dottedBeats)
             <strong class="text-foreground">surdo 2</strong> et <strong class="text-foreground">surdo 3</strong>
             et chacun joue un rythme différent.
           </p>
-          <div class="overflow-x-auto rounded-2xl border border-border">
+          <div class="overflow-x-auto rounded-2xl border border-border bg-background">
             <table class="w-full text-left text-sm sm:text-base">
               <caption class="px-3 py-3 text-left font-semibold text-foreground sm:px-5">Règle générale</caption>
-              <thead class="border-y border-border bg-background-soft text-foreground">
+              <thead class="border-y border-border bg-background text-foreground">
                 <tr>
                   <th scope="col" class="px-3 py-3 sm:px-5">Surdo</th>
                   <th scope="col" class="px-3 py-3 sm:px-5">Partie jouée</th>
@@ -70,7 +70,7 @@ const dottedNoteValues = noteValues.filter((note) => note.dottedBeats)
             </table>
           </div>
           <p><strong>Attention, cette règle ne tient plus du tout pour Clown.</strong></p>
-          <p class="rounded-xl border border-border bg-background-soft p-4 text-sm leading-relaxed">
+          <p class="rounded-xl border border-border bg-background p-4 text-sm leading-relaxed">
             <strong class="text-red-700">Disclaimer :</strong>
             Je ne suis pas du tout un spécialiste de la musique brésilienne,
             donc je ne m’aventurerai pas davantage dans les affirmations.
@@ -116,10 +116,10 @@ const dottedNoteValues = noteValues.filter((note) => note.dottedBeats)
           <strong class="text-foreground">une noire vaut un temps</strong>, c’est-à-dire une pulsation
           régulière que l’on peut suivre du pied.
         </p>
-        <div class="mt-6 overflow-x-auto rounded-2xl border border-border">
+        <div class="mt-6 overflow-x-auto rounded-2xl border border-border bg-background">
           <table class="w-full text-left text-sm sm:text-base">
             <caption class="sr-only">Valeurs des notes lorsque la noire vaut un temps</caption>
-            <thead class="border-b border-border bg-background-soft">
+            <thead class="border-b border-border bg-background">
               <tr>
                 <th scope="col" class="px-3 py-3 sm:px-5">Note</th>
                 <th scope="col" class="px-3 py-3 sm:px-5">Durée</th>
@@ -186,10 +186,10 @@ const dottedNoteValues = noteValues.filter((note) => note.dottedBeats)
           <strong>1 temps + ½ temps = 1 temps et demi</strong>.
           Les points sont le plus couramment utilisés pour les noires et les croches.
         </p>
-        <div class="mt-6 overflow-x-auto rounded-2xl border border-border">
+        <div class="mt-6 overflow-x-auto rounded-2xl border border-border bg-background">
           <table class="w-full text-left text-sm sm:text-base">
             <caption class="sr-only">Durée des notes pointées lorsque la noire vaut un temps</caption>
-            <thead class="border-b border-border bg-background-soft">
+            <thead class="border-b border-border bg-background">
               <tr>
                 <th scope="col" class="px-3 py-3 sm:px-5">Note pointée</th>
                 <th scope="col" class="px-3 py-3 sm:px-5">Durée + sa moitié</th>
@@ -219,10 +219,10 @@ const dottedNoteValues = noteValues.filter((note) => note.dottedBeats)
           Les silences indiquent une durée pendant laquelle <strong>on ne joue pas</strong>,
           mais on continue de compter les temps.
         </p>
-        <div class="mt-6 overflow-x-auto rounded-2xl border border-border">
+        <div class="mt-6 overflow-x-auto rounded-2xl border border-border bg-background">
           <table class="w-full text-left text-sm sm:text-base">
             <caption class="sr-only">Durée des silences lorsque la noire vaut un temps</caption>
-            <thead class="border-b border-border bg-background-soft">
+            <thead class="border-b border-border bg-background">
               <tr>
                 <th scope="col" class="px-3 py-3 sm:px-5">Silence</th>
                 <th scope="col" class="px-3 py-3 sm:px-5">Durée</th>
