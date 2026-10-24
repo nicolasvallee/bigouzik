@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { trackGroups } from '@/data/trackGroups'
+import { SURDO_1_COLOR, SURDO_2_COLOR, SURDO_3_COLOR } from '@/lib/percussion'
 import MusicTrackGroup from './MusicTrackGroup.vue'
 
 const rioExample = trackGroups.find((group) => group.id === 'rio')?.tracks
-  .filter((track) => track.src === '/music/rio1.musicxml') ?? []
+  .filter((track) => track.src === '/music/rio1.musicxml')
+  .map((track) => ({ ...track, description: '' })) ?? []
 
 const noteValues = [
   { name: 'Ronde', beats: '4 temps', restName: 'Pause', restSymbol: '\uE4E3', hollow: true, stem: false, flags: 0 },
@@ -30,15 +32,16 @@ const dottedNoteValues = noteValues.filter((note) => note.dottedBeats)
         </summary>
         <div class="mt-5 space-y-4 text-base leading-relaxed text-foreground">
           <p>
-            Dans la plupart des rythmes qu’on joue, les surdos jouent ensemble la même phrase, sauf pour <strong>Rio</strong> et <strong>Clown</strong>,
-            où les surdos sont répartis en trois groupes (parfois pour d’autres aussi, comme <strong>Maracatu</strong> : ça dépend des variantes… et de l’humeur !).
+            Dans la plupart des rythmes qu’on joue, les surdos jouent ensemble la même phrase.
+            Mais dans d’autres rythmes, comme <strong>Rio</strong> et <strong>Clown</strong>, les surdos sont répartis en trois groupes
+            (parfois pour d’autres aussi, comme <strong>Maracatu</strong> : ça dépend des variantes… et de l’humeur !).
           </p>
 
           <p>
             Dans ces derniers cas, les surdos sont nommés dans l’ordre,
             du plus grave au plus aigu : <strong class="text-foreground">surdo 1</strong>,
-            <strong class="text-foreground">surdo 2</strong> et <strong class="text-foreground">surdo 3</strong>.
-            Chaque groupe joue un rythme différent.
+            <strong class="text-foreground">surdo 2</strong> et <strong class="text-foreground">surdo 3</strong>
+            et chacun joue un rythme différent.
           </p>
           <div class="overflow-x-auto rounded-2xl border border-border">
             <table class="w-full text-left text-sm sm:text-base">
@@ -65,12 +68,23 @@ const dottedNoteValues = noteValues.filter((note) => note.dottedBeats)
               </tbody>
             </table>
           </div>
-          <p><strong>Mais cette règle ne tient plus du tout pour Clown, attention !</strong></p>
+          <p><strong>Attention cette règle ne tient plus du tout pour Clown.</strong></p>
+          <p class="rounded-xl border border-border bg-background-soft p-4 text-sm leading-relaxed">
+            <strong class="text-red-700">Disclaimer :</strong>
+            Je ne suis pas du tout un specialiste de la musique bresilienne
+            donc je ne m'aventurerai pas plus en termes d'affirmations.
+            Cependant d'après mes quelques recherches (par exemple <a href="https://en.wikipedia.org/wiki/Surdo" class="underline underline-offset-4">wikipedia</a>), il semblerait que la règle présentée ci-dessus peut être inversée:
+            le surdo 1 (le plus grave) joue le temps 2 alors que le surdo 2 joue le temps 1. C'est peut être un biais occidental que de mettre
+            le temps grave sur le temps 1! 
+            De plus, traditionnellement, la samba (donc le rythme <strong>Rio</strong> ici) se pense en 2 temps (noté «2/4») mais j'ai prvilégié
+            une écriture en 4 temps («4/4») sur le site par habitude (ça fonctionne quand même).
+            
+          </p>
           <p>
             J’ai essayé au maximum de trouver des sons qui soient fidèles à la réalité, mais ce n’est peut-être pas évident de savoir
             qui est qui à l’écoute !
             Dans ce cas, vous pouvez essayer d’activer le mode <strong>Partoches</strong> ou <strong>Cercles</strong>
-            pour voir les notes colorées. Voici l’exemple avec <strong>Rio 1</strong>.
+            pour voir les notes <span class="whitespace-nowrap font-semibold"><span :style="{ color: `rgb(${SURDO_1_COLOR.join(', ')})` }">co</span><span :style="{ color: `rgb(${SURDO_2_COLOR.join(', ')})` }">lo</span><span :style="{ color: `rgb(${SURDO_3_COLOR.join(', ')})` }">rées</span></span>. Voici l’exemple avec <strong>Rio 1</strong>.
           </p>
         </div>
         <div class="mt-6">
@@ -93,8 +107,8 @@ const dottedNoteValues = noteValues.filter((note) => note.dottedBeats)
           <h2 id="notes-title" class="min-w-0 font-serif text-3xl font-semibold sm:text-4xl">Comprendre les partoches</h2>
         </summary>
         <p class="mt-5 text-base leading-relaxed text-foreground">
-          Il n’est pas du tout nécessaire d’apprendre les partitions pour jouer ensemble : notre Batuk a longtemps existé sans ! :)
-          Mais ça reste un outil assez puissant pour transmettre des idées musicales, alors voici brièvement quelques infos si vous souhaitez les comprendre.
+          Il n’est pas du tout nécessaire d’apprendre les partitions pour faire de la batuk, mais ça reste un outil assez 
+          puissant pour transmettre des idées musicales, alors voici brièvement quelques infos si vous souhaitez les comprendre sur ce site.
         </p>
 
         <p class="mt-4">
