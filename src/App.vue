@@ -11,7 +11,6 @@ import { RouterLink, RouterView } from 'vue-router'
       </RouterLink>
 
       <nav class="flex items-center gap-2 sm:gap-6" aria-label="Main navigation">
-        <Button :as="RouterLink" to="/" variant="ghost" size="sm">Home</Button>
         <Button :as="RouterLink" to="/tuto" variant="ghost" size="sm">Tuto</Button>
         <Button :as="RouterLink" to="/back-to-batuk">Back to Batuk</Button>
       </nav>
