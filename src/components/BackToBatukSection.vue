@@ -3,6 +3,7 @@ import { computed, nextTick, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { trackGroups, trackId } from '@/data/trackGroups'
 import MusicTrackGroup from './MusicTrackGroup.vue'
+import RhythmViewControl from './RhythmViewControl.vue'
 import DescriptionText from './DescriptionText.vue'
 
 const route = useRoute()
@@ -53,43 +54,8 @@ watch(
       <div class="mt-4 -mx-5 bg-background-soft/95 px-5 sm:-mx-16 sm:px-16 lg:-mx-36 lg:px-36">
         <div class="mx-auto max-w-3xl border-y border-border py-3">
           <div class="flex flex-wrap gap-2" aria-label="Options d'affichage" role="group">
-          <button
-            class="inline-flex h-9 items-center gap-2 rounded-full border px-4 text-sm font-semibold transition-colors"
-            :class="showSheets ? 'border-foreground bg-foreground text-background' : 'border-foreground text-foreground hover:bg-foreground/5'"
-            type="button"
-            :aria-pressed="showSheets"
-            @click="showSheets = !showSheets"
-          >
-            <svg class="h-5 w-8" viewBox="0 0 32 24" aria-hidden="true">
-              <g :fill="showSheets ? 'currentColor' : '#101010'" :stroke="showSheets ? 'currentColor' : '#101010'" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-                      <path d="M7.5 17V5l10-2v12" fill="none" />
-                      <path d="M7.5 6l10-2" fill="none" />
-                <ellipse cx="6" cy="17" rx="2.5" ry="1.75" transform="rotate(-20 6 17)" stroke="none" />
-                <ellipse cx="16" cy="15" rx="2.5" ry="1.75" transform="rotate(-20 16 15)" stroke="none" />
-              </g>
-              <g fill="var(--accent)" stroke="var(--accent)" stroke-width="1.75" stroke-linecap="round">
-                      <path d="M27.5 17V4" fill="none" />
-                <ellipse cx="26" cy="17" rx="2.5" ry="1.75" transform="rotate(-20 26 17)" stroke="none" />
-              </g>
-            </svg>
-            Partoches
-          </button>
-          <button
-            class="inline-flex h-9 items-center gap-2 rounded-full border px-4 text-sm font-semibold transition-colors"
-            :class="showCircles ? 'border-foreground bg-foreground text-background' : 'border-foreground text-foreground hover:bg-foreground/5'"
-            type="button"
-            :aria-pressed="showCircles"
-            @click="showCircles = !showCircles"
-          >
-                      <svg class="h-5 w-5" viewBox="0 0 24 24" aria-hidden="true">
-                        <circle cx="12" cy="12" r="9" fill="none" stroke="#a3a3a3" stroke-width="1.5" />
-                        <circle cx="12" cy="12" r="5" fill="none" stroke="#a3a3a3" stroke-width="1.5" />
-                        <circle cx="12" cy="3" r="1.7" :fill="showCircles ? 'currentColor' : '#101010'" />
-                        <circle cx="19.8" cy="7.5" r="1.7" :fill="showCircles ? 'currentColor' : '#101010'" />
-                        <circle cx="12" cy="17" r="1.7" fill="var(--accent)" />
-                      </svg>
-            Cercles
-          </button>
+          <RhythmViewControl mode="sheet" :active="showSheets" @click="showSheets = !showSheets" />
+          <RhythmViewControl mode="circle" :active="showCircles" @click="showCircles = !showCircles" />
           </div>
         </div>
       </div>

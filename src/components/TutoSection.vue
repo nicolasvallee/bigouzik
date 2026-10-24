@@ -2,6 +2,7 @@
 import { trackGroups } from '@/data/trackGroups'
 import { SURDO_1_COLOR, SURDO_2_COLOR, SURDO_3_COLOR } from '@/lib/percussion'
 import MusicTrackGroup from './MusicTrackGroup.vue'
+import RhythmViewControl from './RhythmViewControl.vue'
 
 const rioExample = trackGroups.find((group) => group.id === 'rio')?.tracks
   .filter((track) => track.src === '/music/rio1.musicxml')
@@ -75,14 +76,14 @@ const dottedNoteValues = noteValues.filter((note) => note.dottedBeats)
             donc je ne m’aventurerai pas davantage dans les affirmations.
             Cependant, d’après mes quelques recherches (par exemple sur <a href="https://en.wikipedia.org/wiki/Surdo" class="underline underline-offset-4">Wikipédia</a>), il semblerait que la règle présentée ci-dessus puisse être inversée :
             le surdo 1 (le plus grave) joue le temps 2, alors que le surdo 2 joue le temps 1. C’est peut-être un biais occidental que de mettre
-            le son grave sur le temps 1 !
+            le son grave sur le temps 1 ! Dans tous les cas, ce qu'on fait nous ça sonne bien aussi !
             De plus, traditionnellement, la samba (donc le rythme <strong>Rio</strong> ici) se pense en deux temps (notés « 2/4 »), mais j’ai privilégié
             une écriture en quatre temps (« 4/4 ») sur le site, par habitude (ça fonctionne quand même).
           </p>
           <p>
             J’ai essayé au maximum de trouver des sons qui soient fidèles à la réalité, mais ce n’est peut-être pas évident de savoir
             qui est qui à l’écoute !
-            Dans ce cas, vous pouvez essayer d’activer le mode <strong>Partoches</strong> ou <strong>Cercles</strong>
+            Dans ce cas, vous pouvez essayer d’activer le mode <RhythmViewControl as="span" mode="sheet" compact /> ou <RhythmViewControl as="span" mode="circle" compact />
             pour voir les notes <span class="whitespace-nowrap font-semibold"><span :style="{ color: `rgb(${SURDO_1_COLOR.join(', ')})` }">co</span><span :style="{ color: `rgb(${SURDO_2_COLOR.join(', ')})` }">lo</span><span :style="{ color: `rgb(${SURDO_3_COLOR.join(', ')})` }">rées</span></span>. Voici l’exemple avec <strong>Rio 1</strong>.
           </p>
         </div>
