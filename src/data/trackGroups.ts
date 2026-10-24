@@ -54,9 +54,9 @@ export const trackGroups: MusicTrackGroup[] = [
   {
     id: 'rio',
     title: 'Rio',
-    description:"Dans les rythmes de Rio, on sépare les surdos en trois groupes.",
     tracks: [
-      { title: 'Rio 1', description:"", 
+      { title: 'Rio 1',     description:"Dans les rythmes de Rio, les surdos sont répartis en trois groupes. Voir le [tutoriel](/tuto) pour plus d'infos.",
+ 
          src: '/music/rio1.musicxml', images: ['/images/rio.png', '/images/1.png'],
          surdo3: [
   { measure: 1, beat: 1 },
@@ -428,6 +428,8 @@ sheetScale: 0.6, loop: true },
     title: 'Clown',
     tracks: [
             { title: 'Intro de Clown',    images: ['/images/clown.png'], 
+                            description:"Dans Clown, on sépare les surdos en trois groupes, voir le [tutoriel](/tuto) pour plus d'infos.",
+
               
          surdo2: [
                      { measure: 12, beat: 1 },
