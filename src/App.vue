@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { Button } from '@/components/ui'
-import { RouterLink, RouterView } from 'vue-router'
+import { RouterLink, RouterView, useRoute } from 'vue-router'
+
+const route = useRoute()
 </script>
 
 <template>
@@ -11,8 +13,8 @@ import { RouterLink, RouterView } from 'vue-router'
       </RouterLink>
 
       <nav class="flex items-center gap-2 sm:gap-6" aria-label="Main navigation">
-        <Button :as="RouterLink" to="/tuto" variant="ghost" size="sm">Tuto</Button>
-        <Button :as="RouterLink" to="/back-to-batuk">Back to Batuk</Button>
+        <Button :as="RouterLink" to="/tuto" :variant="route.path === '/tuto' ? 'default' : 'ghost'">Tuto</Button>
+        <Button :as="RouterLink" to="/back-to-batuk" :variant="route.path.startsWith('/back-to-batuk') ? 'default' : 'ghost'">Back to Batuk</Button>
       </nav>
     </div>
   </header>
