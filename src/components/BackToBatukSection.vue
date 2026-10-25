@@ -2,6 +2,7 @@
 import { computed, nextTick, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { trackGroups, trackId } from '@/data/trackGroups'
+import { trackEvent } from '@/lib/analytics'
 import MusicTrackGroup from './MusicTrackGroup.vue'
 import RhythmViewControl from './RhythmViewControl.vue'
 import DescriptionText from './DescriptionText.vue'
@@ -19,6 +20,18 @@ const showCircles = ref(false)
 const playbackSpeed = ref(1)
 const playbackSpeedOptions = [0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3]
 const selectedInstrument = ref<'both' | 'snare' | 'kick'>('both')
+
+function toggleView(mode: 'sheet' | 'circle') {
+  const visible = mode === 'sheet' ? showSheets : showCircles
+  visible.value = !visible.value
+  trackEvent('view_toggle', { group: selectedGroup.value, view: mode, enabled: visible.value })
+}
+
+function changeInstrument(instrument: typeof selectedInstrument.value) {
+  if (instrument === selectedInstrument.value) return
+  selectedInstrument.value = instrument
+  trackEvent('instrument_change', { group: selectedGroup.value, instrument })
+}
 
 watch(selectedGroup, () => {
   playbackSpeed.value = 1
@@ -54,8 +67,8 @@ watch(
       <div class="mt-4 -mx-5 bg-background-soft/95 px-5 sm:-mx-16 sm:px-16 lg:-mx-36 lg:px-36">
         <div class="mx-auto max-w-3xl border-y border-border py-3">
           <div class="flex flex-wrap gap-2" aria-label="Options d'affichage" role="group">
-          <RhythmViewControl mode="sheet" :active="showSheets" @click="showSheets = !showSheets" />
-          <RhythmViewControl mode="circle" :active="showCircles" @click="showCircles = !showCircles" />
+          <RhythmViewControl mode="sheet" :active="showSheets" @click="toggleView('sheet')" />
+          <RhythmViewControl mode="circle" :active="showCircles" @click="toggleView('circle')" />
           </div>
         </div>
       </div>
@@ -96,6 +109,7 @@ watch(
         <span class="relative shrink-0">
           <select
             v-model.number="playbackSpeed"
+            @change="trackEvent('speed_change', { group: selectedGroup, speed: playbackSpeed })"
             class="h-10 w-[4.2em] sm:h-[2.5em] appearance-none rounded-full border border-foreground bg-background pl-[0.6em] pr-[1.2em] text-[inherit] font-semibold text-foreground outline-none transition-colors hover:bg-background-soft focus-visible:ring-2 focus-visible:ring-foreground/30"
             aria-label="Vitesse de lecture"
           >
@@ -115,7 +129,7 @@ watch(
         :class="selectedInstrument === track ? 'border-foreground bg-foreground text-background' : 'border-foreground bg-background text-foreground hover:bg-background-soft'"
         type="button"
         :aria-pressed="selectedInstrument === track"
-        @click="selectedInstrument = track"
+        @click="changeInstrument(track)"
       >
         <svg class="h-[18px] w-[18px] shrink-0 sm:h-[1.35em] sm:w-[1.35em]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <g v-if="track === 'both'">

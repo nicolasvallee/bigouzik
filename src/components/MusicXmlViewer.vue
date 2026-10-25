@@ -2,6 +2,7 @@
 import * as alphaTab from '@coderline/alphatab'
 import { nextTick, onBeforeUnmount, onMounted, ref, toRefs, watch } from 'vue'
 import { normalizeMusicXml } from '@/lib/normalizeMusicXml'
+import { trackEvent } from '@/lib/analytics'
 import { observeNearViewport } from '@/lib/observeNearViewport'
 import { pauseOnPageHidden } from '@/lib/pauseOnPageHidden'
 import { LOOP_COPIES, repeatMidi } from '@/lib/repeatMidi'
@@ -62,6 +63,7 @@ let layoutObserver: ResizeObserver | null = null
 let removeWindowResizeListener: (() => void) | null = null
 let stopObservingViewport: (() => void) | null = null
 let disposed = false
+let hasTrackedPlay = false
 
 const publicAsset = (path: string) => `${import.meta.env.BASE_URL}${path.replace(/^\/+/, '')}`
 const playbackEventName = 'music-track-playing'
@@ -194,6 +196,15 @@ function initializePlayer() {
     isPlaying.value = state === alphaTab.synth.PlayerState.Playing
     if (isPlaying.value) {
       window.dispatchEvent(new CustomEvent(playbackEventName, { detail: viewerId }))
+      if (!hasTrackedPlay) {
+        hasTrackedPlay = true
+        trackEvent('track_play', {
+          track: props.trackLink || props.src,
+          title: props.title,
+          speed: playbackSpeed.value,
+          instrument: selectedTrack.value,
+        })
+      }
     }
   })
   removePlayerPositionListener = currentApi.playerPositionChanged.on(({ currentTime: position, endTime, currentTick: tick, endTick: finalTick }) => {
