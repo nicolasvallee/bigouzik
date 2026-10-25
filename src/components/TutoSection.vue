@@ -72,11 +72,12 @@ const dottedNoteValues = noteValues.filter((note) => note.dottedBeats)
           <p><strong>Attention, cette règle ne tient plus du tout pour Clown.</strong></p>
           <p class="rounded-xl border border-border bg-background p-4 text-sm leading-relaxed">
             <strong class="text-red-700">Disclaimer :</strong>
-            Je ne suis pas du tout un spécialiste de la musique brésilienne,
-            donc je ne m’aventurerai pas davantage dans les affirmations.
-            Cependant, d’après mes quelques recherches (par exemple sur <a href="https://en.wikipedia.org/wiki/Surdo" class="underline underline-offset-4">Wikipédia</a>), il semblerait que la règle présentée ci-dessus puisse être inversée :
+            Je ne suis pas du tout un spécialiste de la musique brésilienne
+            donc je ne m’aventurerai pas davantage dans la théorie des surdos.
+            Cependant, d’après quelques recherches (par exemple sur <a href="https://en.wikipedia.org/wiki/Surdo" class="underline underline-offset-4">Wikipédia</a>), 
+            il semblerait que la règle présentée ci-dessus soit en général inversée :
             le surdo 1 (le plus grave) joue le temps 2, alors que le surdo 2 joue le temps 1. C’est peut-être un biais occidental que de mettre
-            le son grave sur le temps 1 ! Dans tous les cas, ce qu'on fait nous ça sonne bien aussi !
+            le son grave sur le temps 1 :) Dans tous les cas, ce qu'on fait nous ça sonne bien aussi !
             De plus, traditionnellement, la samba (donc le rythme <strong>Rio</strong> ici) se pense en deux temps (notés « 2/4 »), mais j’ai privilégié
             une écriture en quatre temps (« 4/4 ») sur le site, par habitude (ça fonctionne quand même).
           </p>
