@@ -208,7 +208,9 @@ kickVelocityScale: 2,  loop: false },
 
 
 
- { title: 'Rio 2', src: '/music/rio2.musicxml', images: ['/images/rio.png', '/images/2.png'], 
+ { title: 'Rio 2', src: '/music/rio2.musicxml',
+  description:"Pour les caisses, c’est le même rythme que Rio 1.",
+   images: ['/images/rio.png', '/images/2.png'], 
          circularRhythm: [
   { fromMeasure: 1, toMeasure: 1, repeats: 1 },
   { fromMeasure: 2, toMeasure: 2, repeats: 1 },
