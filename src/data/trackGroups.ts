@@ -292,12 +292,22 @@ kickVelocityScale: 2,  loop: true },
     id: 'funk',
     title: 'Funk',
     tracks: [
-      { title: 'Funk', src: '/music/funk.musicxml', images: ['/images/funk.png'], kickVelocityScale: 2.5, sheetScale: 0.7, loop: true },
-      { title: 'Funk avec 6',"description":"Pour les surdos, même chose ; pour les caisses, on ajoute les 6 accents à la fin.",kickVelocityScale: 2.5, src: '/music/funk-avec-6.musicxml',  images: ['images/6.jpeg'], sheetScale: 0.6, loop: true },
+      { title: 'Funk', src: '/music/funk.musicxml', images: ['/images/funk.png'], kickVelocityScale: 2.5, sheetScale: 0.7, loop: true ,
+      circularRhythm: [
+  { fromMeasure: 1, toMeasure: 1, repeats: 1 },
+  { fromMeasure: 2, toMeasure: 2, repeats: 1 },
+]},
+      { title: 'Funk avec 6',"description":"Pour les surdos, même chose ; pour les caisses, on ajoute les 6 accents à la fin.",kickVelocityScale: 2.5, 
+           circularRhythm: [
+  { fromMeasure: 1, toMeasure: 1, repeats: 1 },
+  { fromMeasure: 2, toMeasure: 2, repeats: 1 },
+],
+src: '/music/funk-avec-6.musicxml',  images: ['images/6.jpeg'], sheetScale: 0.6, loop: true },
      // { title: 'Cut 2-2 dans Funk', src: '/music/2-2.musicxml', images: ['/images/2-2.png'],  kickVelocityScale: 1, sheetScale: 0.6, loop: false },
       { title: 'Funk + cut 2-2', src: '/music/funk-avec-6-et-cut22.musicxml',kickVelocityScale: 2.5,
          circularRhythm: [
-  { fromMeasure: 1, toMeasure: 2, repeats: 1 },
+  { fromMeasure: 1, toMeasure: 1, repeats: 1 },
+    { fromMeasure: 2, toMeasure: 2, repeats: 1 },
   { fromMeasure: 3, toMeasure: 3, repeats: 1 },
 ],images: [ '/images/2-2.png'],  sheetScale: 0.6, loop: true },
 
