@@ -634,6 +634,139 @@ sheetScale: 0.6, loop: true },
     ],
   },
   {
+    id: 'truc-sans-nom',
+    title: 'Truc sans nom',
+    tracks: [
+            { title: 'Truc sans nom', src: '/music/truc-sans-nom.musicxml', images: [], kickVelocityScale: 2, sheetScale: 0.6, loop: true },
+
+    ],
+  },
+  {
+    id: 'techno',
+    title: 'Techno',
+    tracks: [
+            { title: 'Techno 1 intro', src: '/music/techno1-intro.musicxml', 
+              description: "Avec l'appel du répik.",
+              showCircularView:false,
+              surdo1: [{ measure: 6, beat: 1 },
+                { measure: 6, beat: 3 },
+                { measure: 7, beat: 1 },
+                { measure: 7, beat: 3 },
+                { measure: 8, beat: 1 },
+                { measure: 8, beat: 3 },
+                { measure: 9, beat: 1 },
+                { measure: 9, beat: 3 },
+                { measure: 10, beat: 1 },
+                { measure: 10, beat: 3 },
+                { measure: 11, beat: 1 },
+                { measure: 11, beat: 3 },
+
+                { measure: 11, beat: 3.5 },
+
+              ]
+              ,
+
+               surdo3: [
+                { measure: 8, beat: 1.5 },
+                { measure: 8, beat: 2.5 },
+                { measure: 8, beat: 3.5 },
+                { measure: 8, beat: 4.5 },
+                { measure: 9, beat: 1.5 },
+                { measure: 9, beat: 2.5 },
+                { measure: 9, beat: 3.5 },
+                { measure: 9, beat: 4.5 },
+                { measure: 10, beat: 1.5 },
+                { measure: 10, beat: 2.5 },
+                { measure: 10, beat: 3.5 },
+                { measure: 10, beat: 4.5 },
+                { measure: 11, beat: 1.5 },
+                { measure: 11, beat: 2.5 },
+                { measure: 11, beat: 3.5 },
+                { measure: 11, beat: 4.5 },
+                
+
+              ]
+              ,
+              surdo2: [{ measure: 6, beat: 2 },
+                { measure: 6, beat: 4 },
+                { measure: 7, beat: 2 },
+                { measure: 7, beat: 4 },
+                { measure: 8, beat: 2 },
+                { measure: 8, beat: 4 },
+                { measure: 9, beat: 2 },
+                { measure: 9, beat: 4 },
+                { measure: 10, beat: 2 },
+                { measure: 10, beat: 4 },
+                { measure: 11, beat: 2 },
+                { measure: 11, beat: 4 },
+                { measure: 11, beat: 4.5 },
+                { measure: 11, beat: 4.5 },
+
+
+
+              ]
+              ,
+images: [  ], kickVelocityScale: 2, sheetScale: 0.6, loop: false },
+  { title: 'Techno 1', 
+    description:"Le rythme qu'on joue en boucle.",src: '/music/techno1.musicxml', 
+              surdo1: [
+                { measure: 1, beat: 1 },
+                { measure: 1, beat: 3 },
+                { measure: 2, beat: 1 },
+                { measure: 2, beat: 3 },
+                { measure: 3, beat: 1 },
+                { measure: 3, beat: 3 },
+                { measure: 4, beat: 1 },
+                { measure: 4, beat: 3 },
+                { measure: 4, beat: 3.5 },
+              ]
+              ,
+
+               surdo3: [
+                { measure: 1, beat: 1.5 },
+                { measure: 1, beat: 2.5 },
+                { measure: 1, beat: 3.5 },
+                { measure: 1, beat: 4.5 },
+                { measure: 2, beat: 1.5 },
+                { measure: 2, beat: 2.5 },
+                { measure: 2, beat: 3.5 },
+                { measure: 2, beat: 4.5 },
+                { measure: 3, beat: 1.5 },
+                { measure: 3, beat: 2.5 },
+                { measure: 3, beat: 3.5 },
+                { measure: 3, beat: 4.5 },
+                { measure: 4, beat: 1.5 },
+                { measure: 4, beat: 2.5 },
+                { measure: 4, beat: 3.5 },
+                { measure: 4, beat: 4.5 },
+                
+
+              ]
+              ,
+              surdo2: [
+                  { measure: 1, beat: 2 },
+                { measure: 1, beat: 4 },
+                { measure: 2, beat: 2 },
+                { measure: 2, beat: 4 },
+                { measure: 3, beat: 2 },
+                { measure: 3, beat: 4 },
+                { measure: 4, beat: 2 },
+                { measure: 4, beat: 4 },
+                { measure: 4, beat: 4.5 },
+
+
+              ]
+              ,
+
+circularRhythm: [
+  { fromMeasure: 1, toMeasure: 1, repeats: 3 },
+  { fromMeasure: 4, toMeasure: 4, repeats: 1 },
+],
+images: [  ], kickVelocityScale: 1.3, sheetScale: 0.6, loop: true }
+
+    ],
+  },
+  {
     id: 'baile-funk',
     title: 'Baile funk',
     tracks: [

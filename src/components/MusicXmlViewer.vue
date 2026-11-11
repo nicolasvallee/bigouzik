@@ -349,9 +349,14 @@ function getSurdoVariantRanges() {
 }
 
 function addStackedSurdosToXml(xml: string) {
-  const stackedBeats = (props.surdo1 ?? []).filter((surdo1) =>
-    props.surdo3?.some((surdo3) => surdo3.measure === surdo1.measure && surdo3.beat === surdo1.beat),
-  )
+  const variants = [props.surdo1 ?? [], props.surdo2 ?? [], props.surdo3 ?? []]
+  const stackedBeats = variants.flatMap((beats, index) => beats.flatMap((beat) => {
+    const surdos = variants.flatMap((candidates, candidateIndex) =>
+      candidates.some((candidate) => candidate.measure === beat.measure && (candidate.beat ?? 1) === (beat.beat ?? 1))
+        ? [candidateIndex + 1] : [],
+    )
+    return surdos.length > 1 && surdos[0] === index + 1 ? [{ ...beat, surdos }] : []
+  }))
   if (!stackedBeats.length) return xml
 
   const document = new DOMParser().parseFromString(xml, 'application/xml')
@@ -362,21 +367,23 @@ function addStackedSurdosToXml(xml: string) {
   const part = partId ? Array.from(document.querySelectorAll('part')).find((candidate) => candidate.getAttribute('id') === partId) : null
   if (!scorePart || !part) return xml
 
-  const surdo3Id = `${partId}-surdo3`
-  const scoreInstrument = document.createElement('score-instrument')
-  scoreInstrument.setAttribute('id', surdo3Id)
-  const instrumentName = document.createElement('instrument-name')
-  instrumentName.textContent = 'Surdo 3'
-  scoreInstrument.append(instrumentName)
-  scorePart.append(scoreInstrument)
-  const midiInstrument = document.createElement('midi-instrument')
-  midiInstrument.setAttribute('id', surdo3Id)
-  const midiChannel = document.createElement('midi-channel')
-  midiChannel.textContent = '10'
-  const midiUnpitched = document.createElement('midi-unpitched')
-  midiUnpitched.textContent = '42'
-  midiInstrument.append(midiChannel, midiUnpitched)
-  scorePart.append(midiInstrument)
+  for (const [surdo, midiNote] of [[2, SURDO_2_MIDI_NOTE], [3, SURDO_3_MIDI_NOTE]] as const) {
+    const id = `${partId}-surdo${surdo}`
+    const scoreInstrument = document.createElement('score-instrument')
+    scoreInstrument.setAttribute('id', id)
+    const instrumentName = document.createElement('instrument-name')
+    instrumentName.textContent = `Surdo ${surdo}`
+    scoreInstrument.append(instrumentName)
+    scorePart.append(scoreInstrument)
+    const midiInstrument = document.createElement('midi-instrument')
+    midiInstrument.setAttribute('id', id)
+    const midiChannel = document.createElement('midi-channel')
+    midiChannel.textContent = '10'
+    const midiUnpitched = document.createElement('midi-unpitched')
+    midiUnpitched.textContent = String(midiNote + 1)
+    midiInstrument.append(midiChannel, midiUnpitched)
+    scorePart.append(midiInstrument)
+  }
 
   let divisions = 1
   let denominator = 4
@@ -389,16 +396,18 @@ function addStackedSurdosToXml(xml: string) {
       const duration = Number(note.querySelector('duration')?.textContent) || 0
       if (note.querySelector('chord')) return
 
-      const isStacked = stackedBeats.some((beat) =>
+      const stacked = stackedBeats.find((beat) =>
         beat.measure === measureIndex + 1 && cursor === (Math.max(1, beat.beat ?? 1) - 1) * divisions * 4 / denominator,
       )
-      if (isStacked && !note.querySelector('rest')) {
-        const duplicate = note.cloneNode(true) as Element
-        const chord = document.createElement('chord')
-        duplicate.insertBefore(chord, duplicate.querySelector('unpitched'))
-        duplicate.querySelector('display-step')?.replaceChildren('F')
-        duplicate.querySelector('instrument')?.setAttribute('id', surdo3Id)
-        note.after(duplicate)
+      if (stacked && !note.querySelector('rest')) {
+        for (const surdo of stacked.surdos.slice(1)) {
+          const duplicate = note.cloneNode(true) as Element
+          const chord = document.createElement('chord')
+          duplicate.insertBefore(chord, duplicate.querySelector('unpitched'))
+          duplicate.querySelector('display-step')?.replaceChildren(surdo === 3 ? 'F' : 'E')
+          duplicate.querySelector('instrument')?.setAttribute('id', `${partId}-surdo${surdo}`)
+          note.after(duplicate)
+        }
       }
       cursor += duration
     })
@@ -411,25 +420,20 @@ function positionStackedSurdos() {
   const surdo = scoreTracks.find((track) => scoreTrackKind(track) === 'kick')
   if (!surdo) return
 
-  const surdo3Color = new alphaTab.model.Color(...SURDO_3_COLOR)
   surdo.percussionArticulations.forEach((articulation) => {
     if (articulation.outputMidiNumber === SURDO_1_MIDI_NOTE) articulation.staffLine = 1
     if (articulation.outputMidiNumber === SURDO_3_MIDI_NOTE) articulation.staffLine = -1
   })
-  surdo.staves.forEach((staff) => {
-    staff.bars.forEach((bar) => {
-      bar.voices.forEach((voice) => {
-        voice.beats.forEach((beat) => {
-          beat.notes.forEach((note) => {
-            if (surdo.percussionArticulations[note.percussionArticulation]?.outputMidiNumber !== SURDO_3_MIDI_NOTE) return
+}
 
-            note.style ??= new alphaTab.model.NoteStyle()
-            note.style.colors.set(alphaTab.model.NoteSubElement.StandardNotationNoteHead, surdo3Color)
-          })
-        })
-      })
-    })
-  })
+function surdoMidiNotesAt(tick: number) {
+  const variant = [...surdoVariantRanges].reverse().find((range) => tick >= range.startTick && tick < range.endTick)
+  if (!variant) return []
+
+  const notes = new Set(surdoVariantRanges
+    .filter((range) => range.startTick === variant.startTick && range.endTick === variant.endTick)
+    .map((range) => range.midiNote))
+  return [SURDO_1_MIDI_NOTE, SURDO_2_MIDI_NOTE, SURDO_3_MIDI_NOTE].filter((note) => notes.has(note))
 }
 
 function colorSurdoVariants() {
@@ -445,38 +449,13 @@ function colorSurdoVariants() {
         staff.bars.forEach((bar) => {
           bar.voices.forEach((voice) => {
             voice.beats.forEach((beat) => {
-              const hasStackedSurdos = surdoVariantRanges.some((surdo1) =>
-                surdo1.midiNote === SURDO_1_MIDI_NOTE
-                && beat.absolutePlaybackStart >= surdo1.startTick
-                && beat.absolutePlaybackStart < surdo1.endTick
-                && surdoVariantRanges.some((surdo3) =>
-                  surdo3.midiNote === SURDO_3_MIDI_NOTE
-                  && surdo3.startTick === surdo1.startTick
-                  && surdo3.endTick === surdo1.endTick,
-                ),
-              )
-              if (hasStackedSurdos) {
-                const color = colors.get(SURDO_1_MIDI_NOTE)
-                beat.notes
-                  .filter((note) => track.percussionArticulations[note.percussionArticulation]?.outputMidiNumber === SURDO_1_MIDI_NOTE)
-                  .forEach((note) => {
-                    note.style ??= new alphaTab.model.NoteStyle()
-                    note.style.colors.set(alphaTab.model.NoteSubElement.StandardNotationNoteHead, color!)
-                  })
-                return
-              }
-
-              let color: alphaTab.model.Color | undefined
-              for (let index = surdoVariantRanges.length - 1; index >= 0; index -= 1) {
-                const variant = surdoVariantRanges[index]
-                if (beat.absolutePlaybackStart >= variant.startTick && beat.absolutePlaybackStart < variant.endTick) {
-                  color = colors.get(variant.midiNote)
-                  break
-                }
-              }
-              if (!color) return
-
+              const midiNotes = surdoMidiNotesAt(beat.absolutePlaybackStart)
               beat.notes.forEach((note) => {
+                const output = track.percussionArticulations[note.percussionArticulation]?.outputMidiNumber
+                const midiNote = midiNotes.length > 1 && output !== MUSIC_XML_SURDO_MIDI_NOTE ? output : midiNotes[0]
+                const color = colors.get(midiNote!)
+                if (!color) return
+
                 note.style ??= new alphaTab.model.NoteStyle()
                 note.style.colors.set(alphaTab.model.NoteSubElement.StandardNotationNoteHead, color)
               })
@@ -495,17 +474,7 @@ function applySurdoVariants(events: alphaTab.midi.MidiEvent[]) {
     if (noteEvent.noteKey !== MUSIC_XML_SURDO_MIDI_NOTE) continue
 
     if (event.type === alphaTab.midi.MidiEventType.NoteOn) {
-      let midiNote = SURDO_1_MIDI_NOTE
-
-      for (let index = surdoVariantRanges.length - 1; index >= 0; index -= 1) {
-        const variant = surdoVariantRanges[index]
-        if (variant.midiNote === SURDO_1_MIDI_NOTE) continue
-        if (event.tick >= variant.startTick && event.tick < variant.endTick) {
-          if (surdoVariantRanges.some((surdo1) => surdo1.midiNote === SURDO_1_MIDI_NOTE && surdo1.startTick === variant.startTick && surdo1.endTick === variant.endTick)) break
-          midiNote = variant.midiNote
-          break
-        }
-      }
+      const midiNote = surdoMidiNotesAt(event.tick)[0] ?? SURDO_1_MIDI_NOTE
 
       noteEvent.noteKey = midiNote
       activeNotes.push(midiNote)

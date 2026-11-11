@@ -313,6 +313,9 @@ function surdoVariantsAt(time: number, measures: RhythmMeasure[]) {
     ...(props.surdo2?.map((beat) => ({ ...beat, midiNote: SURDO_2_MIDI_NOTE })) ?? []),
   ]
 
+  let match: typeof variants[number] | undefined
+  let latestStart = -Infinity
+
   for (let index = variants.length - 1; index >= 0; index -= 1) {
     const variant = variants[index]
     const measure = measures[variant.measure - 1]
@@ -326,13 +329,16 @@ function surdoVariantsAt(time: number, measures: RhythmMeasure[]) {
     const start = measure.start + (beat - 1) * beatDuration
     const duration = Number.isInteger(beat) ? beatDuration : beatDuration / 4
 
-    if (time >= start && time < start + duration) {
-      return [...new Set(variants
-        .filter((candidate) => candidate.measure === variant.measure && (candidate.beat ?? 1) === (variant.beat ?? 1))
-        .map((candidate) => candidate.midiNote))]
+    if (time >= start && time < start + duration && start > latestStart) {
+      match = variant
+      latestStart = start
     }
   }
-  return []
+  if (!match) return []
+
+  return [...new Set(variants
+    .filter((candidate) => candidate.measure === match.measure && (candidate.beat ?? 1) === (match.beat ?? 1))
+    .map((candidate) => candidate.midiNote))]
 }
 
 function surdoColor(midiNote?: number) {
